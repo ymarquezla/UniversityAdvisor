@@ -3,501 +3,1261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>University Shortlist Explorer - Sophia's AI/Data Science Programs</title>
+    <title>European AI/Data Science University Shortlist</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+        .sticky-header {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: linear-gradient(to bottom right, rgb(239 246 255), rgb(224 231 255));
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .sticky-controls {
+            position: sticky;
+            top: 0;
+            z-index: 30;
+            background: linear-gradient(to bottom right, rgb(239 246 255), rgb(224 231 255));
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .scrollable-content {
+            padding-top: 1rem;
+        }
+    </style>
 </head>
 <body>
     <div id="root"></div>
-    
     <script type="text/babel">
         const { useState, useMemo } = React;
 
+        // University database with all 38 universities
         const universities = [
-            // GERMANY
-            { id: 1, name: "University of Passau", country: "Germany", program: "BSc Artificial Intelligence", language: "English", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Match", fitScore: 5, citySize: "50k", highlights: ["Dedicated AI program", "English-taught", "Small city charm", "Native German advantage"], new: false, url: "https://www.uni-passau.de/en/bachelor-artificial-intelligence/" },
-            { id: 2, name: "University of Bayreuth", country: "Germany", program: "BSc Data Science & AI", language: "English", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Match", fitScore: 5, citySize: "75k", highlights: ["Data Science focus", "English-taught", "Research-oriented"], new: false, url: "https://www.uni-bayreuth.de/en/study/degree-programs/bsc-data-science" },
-            { id: 3, name: "TH Deggendorf", country: "Germany", program: "BSc Applied AI", language: "English", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Safety", fitScore: 4, citySize: "35k", highlights: ["Applied/practical focus", "English-taught", "Easy admission"], new: false, url: "https://www.th-deg.de/en/applied-ai-b-sc" },
-            { id: 4, name: "Saarland University", country: "Germany", program: "BSc CS + AI", language: "English", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Match", fitScore: 4, citySize: "180k", highlights: ["Strong CS + AI", "Research excellence", "French border"], new: false, url: "https://www.uni-saarland.de/en/study/programmes/bachelor/computer-science.html" },
-            { id: 5, name: "University of Tübingen", country: "Germany", program: "BSc Computer Science", language: "German-heavy", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Reach", fitScore: 3, citySize: "90k", highlights: ["Prestigious", "Strong research", "Requires German"], new: false, url: "https://uni-tuebingen.de/en/faculties/faculty-of-science/departments/computer-science/studies/degree-programs/computer-science-bsc/" },
-            
-            // NETHERLANDS
-            { id: 6, name: "Maastricht University", country: "Netherlands", program: "BSc Data Science & AI", language: "English", cost: "€80-87k", costMin: 80000, costMax: 87000, classification: "Match", fitScore: 5, citySize: "120k", highlights: ["Problem-based learning", "International environment", "Border city"], new: false, url: "https://www.maastrichtuniversity.nl/education/bachelor/data-science-and-artificial-intelligence" },
-            { id: 7, name: "VU Amsterdam", country: "Netherlands", program: "BSc Artificial Intelligence", language: "English", cost: "€80-87k", costMin: 80000, costMax: 87000, classification: "Reach", fitScore: 5, citySize: "900k", highlights: ["Top-tier AI program", "Amsterdam lifestyle", "Research excellence"], new: false, url: "https://vu.nl/en/education/bachelor/artificial-intelligence" },
-            { id: 8, name: "University of Groningen", country: "Netherlands", program: "BSc Artificial Intelligence", language: "English", cost: "€80-87k", costMin: 80000, costMax: 87000, classification: "Safety", fitScore: 4, citySize: "230k", highlights: ["Student city", "Accessible admission", "Good AI program"], new: false, url: "https://www.rug.nl/bachelors/artificial-intelligence/" },
-            { id: 9, name: "Leiden University", country: "Netherlands", program: "BSc Data Science & AI", language: "English", cost: "€80-87k", costMin: 80000, costMax: 87000, classification: "Match", fitScore: 5, citySize: "125k", highlights: ["Oldest Dutch university", "Near The Hague", "Data Science focus"], new: false, url: "https://www.universiteitleiden.nl/en/education/study-programmes/bachelor/data-science-and-artificial-intelligence" },
-            { id: 10, name: "Breda University", country: "Netherlands", program: "BSc Applied Data Science & AI", language: "English", cost: "€80-87k", costMin: 80000, costMax: 87000, classification: "Safety", fitScore: 4, citySize: "185k", highlights: ["Applied focus", "Gaming/creative industries", "Practical approach"], new: false, url: "https://www.buas.nl/en/programmes/applied-data-science-and-artificial-intelligence" },
-            { id: 11, name: "Zuyd University", country: "Netherlands", program: "BSc Applied Data Science & AI", language: "English", cost: "€80-87k", costMin: 80000, costMax: 87000, classification: "Safety", fitScore: 4, citySize: "120k", highlights: ["Applied sciences", "Maastricht area", "Practical training"], new: false, url: "https://www.zuyd.nl/en/study/bachelor/applied-data-science-and-ai" },
-            
-            // SPAIN
-            { id: 12, name: "UPM Madrid", country: "Spain", program: "BSc Data Science & AI", language: "Spanish", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Reach", fitScore: 5, citySize: "3.2M", highlights: ["Top Spanish tech", "Capital city", "C1 Spanish advantage"], new: false, url: "https://www.upm.es/Estudiantes/Estudios_Titulaciones/EstudiosOficiales?id=1802&fmt=detail" },
-            { id: 13, name: "UC3M Madrid", country: "Spain", program: "BSc Data Science & Engineering", language: "Spanish/English", cost: "€55-65k", costMin: 55000, costMax: 65000, classification: "Match/Reach", fitScore: 5, citySize: "3.2M", highlights: ["Excellent reputation", "Bilingual option", "New AI program 2025"], new: false, url: "https://www.uc3m.es/bachelor-degree/data-science" },
-            { id: 14, name: "University of Barcelona", country: "Spain", program: "BSc Data Science", language: "Spanish/Catalan", cost: "€48-55k", costMin: 48000, costMax: 55000, classification: "Match", fitScore: 4, citySize: "1.6M", highlights: ["Barcelona location", "Data Science", "Catalan consideration"], new: false, url: "https://www.ub.edu/web/portal/en/estudis/oferta-formativa/graus/fitxa/G1G0M1013/" },
-            { id: 15, name: "University of Valencia", country: "Spain", program: "BSc Data Science", language: "Spanish", cost: "€40-48k", costMin: 40000, costMax: 48000, classification: "Match", fitScore: 4, citySize: "800k", highlights: ["Mediterranean coast", "Affordable", "C1 Spanish advantage"], new: false, url: "https://www.uv.es/uvweb/college/en/undergraduate-degree/undergraduate-degrees/undergraduate-degree-data-science-1285846094474/Titulacio.html" },
-            { id: 16, name: "UPC Barcelona", country: "Spain", program: "BSc CS (AI/Data)", language: "Spanish/Catalan", cost: "€48-55k", costMin: 48000, costMax: 55000, classification: "Reach", fitScore: 4, citySize: "1.6M", highlights: ["Strong engineering", "Barcelona tech hub", "Catalan required"], new: false, url: "https://www.fib.upc.edu/en/studies/bachelors-degrees" },
-            { id: 17, name: "IE University", country: "Spain", program: "BSc CS & AI", language: "English", cost: "€100k+", costMin: 100000, costMax: 120000, classification: "Reach", fitScore: 3, citySize: "Madrid", highlights: ["Private/expensive", "Business focus", "International"], new: false, url: "https://www.ie.edu/university/studies/academic-programs/bachelor-computer-science-artificial-intelligence/" },
-            { id: 18, name: "UPNA Pamplona", country: "Spain", program: "BSc Computer Science", language: "English", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Safety", fitScore: 5, citySize: "200k", highlights: ["English-taught!", "Excellent value", "Basque Country", "Guaranteed safety"], new: false, url: "https://www.unavarra.es/sites/grados/informatica.html" },
-            { id: 19, name: "UPV Valencia", country: "Spain", program: "BSc Data Science", language: "Spanish/English", cost: "€48-56k", costMin: 48000, costMax: 56000, classification: "Match", fitScore: 5, citySize: "800k", highlights: ["Bilingual program", "Data Science focus", "Great city", "Good value"], new: false, url: "https://www.upv.es/titulaciones/GCD/index-en.html" },
-            { id: 20, name: "UAB Barcelona", country: "Spain", program: "BSc Artificial Intelligence", language: "English", cost: "€68-70k", costMin: 68000, costMax: 70000, classification: "Reach", fitScore: 5, citySize: "1.6M", highlights: ["Only English AI in Barcelona", "Competitive", "Research university"], new: false, url: "https://www.uab.cat/web/estudiar/official-undergraduate-degrees/general-information/artificial-intelligence-1345467765430.html" },
-            { id: 21, name: "TECNUN San Sebastián", country: "Spain", program: "BSc AI Engineering", language: "Bilingual", cost: "€60-70k", costMin: 60000, costMax: 70000, classification: "Reach", fitScore: 4, citySize: "185k", highlights: ["Private university", "Engineering focus", "Basque Country"], new: false, url: "https://www.tecnun.es/en/bachelor-degree-artificial-intelligence" },
-            { id: 22, name: "Universidad de Zaragoza", country: "Spain", program: "BSc Computer Science", language: "Spanish", cost: "€40-45k", costMin: 40000, costMax: 45000, classification: "Safety", fitScore: 3.5, citySize: "675k", highlights: ["Affordable", "Traditional program", "C1 Spanish advantage"], new: false, url: "https://estudios.unizar.es/estudio/ver?id=148" },
-            
-            // BELGIUM
-            { id: 23, name: "KdG Antwerp", country: "Belgium", program: "BSc Applied CS (AI Specialization)", language: "English", cost: "€34-38k", costMin: 34000, costMax: 38000, classification: "Safety/Match", fitScore: 5, citySize: "500k", highlights: ["Super affordable", "English-taught", "Practical focus", "Cool city"], new: false, url: "https://www.kdg.be/en/applied-computer-science" },
-            
-            // FRANCE
-            { id: 24, name: "PSL Paris", country: "France", program: "International BSc in AI", language: "English", cost: "€65k", costMin: 65000, costMax: 65000, classification: "Reach", fitScore: 5, citySize: "2.2M", highlights: ["Elite university", "Paris location", "Prestigious", "Competitive"], new: false, url: "https://psl.eu/en/education/undergraduate" },
-            { id: 25, name: "Paris-Saclay", country: "France", program: "BSc CS + AI", language: "French/English", cost: "€45-50k", costMin: 45000, costMax: 50000, classification: "Match", fitScore: 4, citySize: "2.2M", highlights: ["Top research", "Paris area", "Some French needed"], new: false, url: "https://www.universite-paris-saclay.fr/en/education/undergraduate" },
-            
-            // AUSTRIA
-            { id: 26, name: "JKU Linz", country: "Austria", program: "BSc Artificial Intelligence", language: "English", cost: "€50-55k", costMin: 50000, costMax: 55000, classification: "Match", fitScore: 5, citySize: "200k", highlights: ["First AI bachelor in Europe", "Pure AI focus", "Theory-heavy"], new: false, url: "https://www.jku.at/en/degree-programs/types-of-degree-programs/bachelors-and-diploma-programs/ba-artificial-intelligence/" },
-            { id: 27, name: "University of Klagenfurt", country: "Austria", program: "BSc Robotics & AI", language: "English", cost: "€25-32k", costMin: 25000, costMax: 32000, classification: "Safety", fitScore: 5, citySize: "100k", highlights: ["CHEAPEST OVERALL!", "Robotics+AI combo", "Lakeside campus", "Hands-on"], new: false, url: "https://www.aau.at/en/studies/bachelor-robotics-and-artificial-intelligence/" },
-            
-            // ITALY
-            { id: 28, name: "University of Milan", country: "Italy", program: "BSc Artificial Intelligence", language: "English", cost: "€48-52k", costMin: 48000, costMax: 52000, classification: "Match", fitScore: 4, citySize: "1.4M", highlights: ["Milan fashion capital", "English-taught", "Italian lifestyle"], new: false, url: "https://www.unimi.it/en/education/artificial-intelligence" },
-            { id: 29, name: "University of Pavia", country: "Italy", program: "BSc Artificial Intelligence", language: "English", cost: "€48-52k", costMin: 48000, costMax: 52000, classification: "Match", fitScore: 4, citySize: "73k", highlights: ["Historic university", "Small city", "Near Milan"], new: false, url: "https://web.unipv.it/artificial-intelligence/" },
-            { id: 30, name: "H-FARM College", country: "Italy", program: "BSc AI & Data Science", language: "English", cost: "€60-65k", costMin: 60000, costMax: 65000, classification: "Safety", fitScore: 3, citySize: "Venice area", highlights: ["Private", "Startup focus", "Innovation hub"], new: false, url: "https://www.h-farmcollege.com/undergraduate/artificial-intelligence-data-science/" },
-            
-            // SWEDEN
-            { id: 31, name: "Karlstad University", country: "Sweden", program: "BSc CS (AI & ML track)", language: "English", cost: "€29-32k", costMin: 29000, costMax: 32000, classification: "Safety", fitScore: 4, citySize: "65k", highlights: ["Free tuition", "Small city", "Good value"], new: false, url: "https://www.kau.se/en/education/programmes-and-courses/programmes/TGKAI" },
-            
-            // DENMARK
-            { id: 32, name: "IT University Copenhagen", country: "Denmark", program: "BSc Data Science", language: "English", cost: "€36-43k", costMin: 36000, costMax: 43000, classification: "Match", fitScore: 5, citySize: "600k", highlights: ["Free tuition", "Capital city", "Data Science focus", "Tech specialization"], new: false, url: "https://en.itu.dk/Programmes/BSc-Programmes/Data-Science" },
-            { id: 33, name: "SDU Vejle", country: "Denmark", program: "BSc Artificial Intelligence", language: "English", cost: "€29-36k", costMin: 29000, costMax: 36000, classification: "Match/Safety", fitScore: 5, citySize: "60k", highlights: ["BRAND NEW 2026!", "Free tuition", "First cohort advantage", "Dedicated AI"], new: true, url: "https://www.sdu.dk/en/uddannelse/bachelor/artificial-intelligence-vejle" },
-            { id: 34, name: "SDU Vejle", country: "Denmark", program: "BSc Computer Science", language: "English", cost: "€29-36k", costMin: 29000, costMax: 36000, classification: "Match/Safety", fitScore: 4.5, citySize: "60k", highlights: ["BRAND NEW 2026!", "Free tuition", "First cohort advantage", "Versatile CS+AI"], new: true, url: "https://www.sdu.dk/en/uddannelse/bachelor/computer-science-vejle" },
+            // GERMANY (9 universities)
+            {
+                id: 1,
+                name: "University of Passau",
+                country: "Germany",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "advice@uni-passau.de",
+                openHouseDates: "March 21, 2026",
+                visitInfo: "Campus tours available throughout orientation week (Sept 29 - Oct 12, 2025). Virtual campus tour available online year-round.",
+                visitUrl: "https://www.uni-passau.de/en/open-days",
+                highlights: [
+                    "Dedicated AI bachelor's program in English",
+                    "Nearly free tuition (€350/year)",
+                    "Beautiful campus on the Danube",
+                    "Strong focus on AI theory and applications"
+                ],
+                url: "https://www.uni-passau.de/en/bsc-artificial-intelligence"
+            },
+            {
+                id: 2,
+                name: "University of Bayreuth",
+                country: "Germany",
+                program: "BSc Data Science & AI",
+                language: "English",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "studierendenkanzlei@uni-bayreuth.de",
+                openHouseDates: "Spring 2026 (check website for exact date)",
+                visitInfo: "Campus tours available during orientation week (Oct 2025). Virtual tours online. Monthly public events at campus.",
+                visitUrl: "https://www.uni-bayreuth.de/en/study",
+                highlights: [
+                    "Dedicated Data Science & AI program",
+                    "English-taught at German prices (€350/year)",
+                    "Modern campus with excellent facilities",
+                    "Strong interdisciplinary approach"
+                ],
+                url: "https://www.uni-bayreuth.de/en/study/degree-programmes/bachelor/data-science-ai"
+            },
+            {
+                id: 3,
+                name: "TH Deggendorf",
+                country: "Germany",
+                program: "BSc Applied AI",
+                language: "English",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Small town",
+                admissionsEmail: "studentservice@th-deg.de",
+                openHouseDates: "Check website for updated dates",
+                visitInfo: "Campus visits can be arranged individually. Virtual tours available. Multiple campus locations across Bavaria.",
+                visitUrl: "https://www.th-deg.de/en/bai-b",
+                highlights: [
+                    "Applied, hands-on AI program",
+                    "Nearly free (€350/year)",
+                    "Multiple campuses across Bavaria",
+                    "48% international students"
+                ],
+                url: "https://www.th-deg.de/en/bai-b"
+            },
+            {
+                id: 4,
+                name: "Saarland University",
+                country: "Germany",
+                program: "BSc Computer Science (AI track)",
+                language: "English",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "studium@uni-saarland.de",
+                openHouseDates: "Spring 2026 (typical pattern)",
+                visitInfo: "Individual campus tours by appointment. Access to DFKI AI Research Center tours for prospective students.",
+                visitUrl: "https://www.uni-saarland.de/en/study/visit.html",
+                highlights: [
+                    "CS degree with AI specialization",
+                    "Home to German AI Research Center (DFKI)",
+                    "English-taught at German prices",
+                    "Strong research reputation"
+                ],
+                url: "https://www.uni-saarland.de/en/study/programmes/bachelor/computer-science.html"
+            },
+            {
+                id: 5,
+                name: "University of Tübingen",
+                country: "Germany",
+                program: "BSc Computer Science",
+                language: "German (some English)",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Reach",
+                fitScore: 3,
+                citySize: "Small city",
+                admissionsEmail: "studium@uni-tuebingen.de",
+                openHouseDates: "May-June 2026 (typical pattern)",
+                visitInfo: "Campus tours during orientation. Max Planck Institute tours available for admitted students. Virtual info sessions.",
+                visitUrl: "https://uni-tuebingen.de/en/study/finding-a-course/",
+                highlights: [
+                    "Elite German university (Top 50 globally)",
+                    "Home to Max Planck AI Institute",
+                    "Cyber Valley AI research hub",
+                    "Highly competitive admissions"
+                ],
+                url: "https://uni-tuebingen.de/en/study/finding-a-course/course-overview/detail/course/computer-science-bachelor-of-science-mono/"
+            },
+            {
+                id: 31,
+                name: "Friedrich-Alexander University Erlangen-Nürnberg (FAU)",
+                country: "Germany",
+                program: "BSc Autonomy Technologies",
+                language: "English",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Match",
+                fitScore: 4.5,
+                citySize: "Mid-size city",
+                admissionsEmail: "info@fau.de",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Strong industry partnership events with Siemens, Continental, Schaeffler.",
+                visitUrl: "https://www.fau.eu/education/advice-and-services/",
+                highlights: [
+                    "Unique robotics/autonomous systems focus",
+                    "Strong industry connections (Siemens, Schaeffler, Continental)",
+                    "Combines engineering + CS + AI",
+                    "Located in Nuremberg/Erlangen metro area"
+                ],
+                url: "https://www.fau.eu/studiengang/autonomy-technologies-bsc/",
+                new: true
+            },
+            {
+                id: 32,
+                name: "Rosenheim Technical University (TH Rosenheim)",
+                country: "Germany",
+                program: "BSc Applied Artificial Intelligence",
+                language: "English",
+                cost: "€42-47k total",
+                costMin: 42000,
+                costMax: 47000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Small city",
+                admissionsEmail: "studienberatung@th-rosenheim.de",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Individual campus visits available. 30 min from Munich - easy day trip for campus tours.",
+                visitUrl: "https://www.th-rosenheim.de/en/studies-and-further-education/",
+                highlights: [
+                    "Mandatory 6-month industry internship",
+                    "30 min from Munich by train",
+                    "Beautiful Bavarian location (mountains, lakes)",
+                    "Highly practical focus on AI applications"
+                ],
+                url: "https://www.th-rosenheim.de/en/studies-and-further-education/courses-of-study/bachelors-degree-programmes/applied-artificial-intelligence",
+                new: true
+            },
+            {
+                id: 33,
+                name: "Technische Hochschule Ingolstadt (THI)",
+                country: "Germany",
+                program: "BSc Computer Science & Artificial Intelligence",
+                language: "English",
+                cost: "€42-47k total",
+                costMin: 42000,
+                costMax: 47000,
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "info@thi.de",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus visits by appointment. No formal English proof required for application.",
+                visitUrl: "https://www.thi.de/en/international/",
+                highlights: [
+                    "Strong CS foundation + AI specialization",
+                    "Automotive industry connections (Audi, BMW nearby)",
+                    "No formal English proof required",
+                    "Free German language courses available"
+                ],
+                url: "https://www.thi.de/en/computer-science/degree-programmes/computer-science-and-artificial-intelligence-bsc/",
+                new: true
+            },
+            // NETHERLANDS (6 universities)
+            {
+                id: 6,
+                name: "Maastricht University",
+                country: "Netherlands",
+                program: "BSc Data Science & AI",
+                language: "English",
+                cost: "€80-87k total",
+                costMin: 80000,
+                costMax: 87000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "study@maastrichtuniversity.nl",
+                openHouseDates: "February 7, 2026",
+                visitInfo: "Individual campus visits by appointment. Online information sessions available monthly.",
+                visitUrl: "https://www.maastrichtuniversity.nl/bachelors-open-day",
+                highlights: [
+                    "Top-ranked program in Netherlands",
+                    "Problem-based learning approach",
+                    "International student body",
+                    "Close to Germany/Belgium border"
+                ],
+                url: "https://www.maastrichtuniversity.nl/education/bachelor/data-science-and-artificial-intelligence"
+            },
+            {
+                id: 7,
+                name: "VU Amsterdam",
+                country: "Netherlands",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€80-87k total",
+                costMin: 80000,
+                costMax: 87000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "info@vu.nl",
+                openHouseDates: "February 2026 (UvA Master's Week Feb 9-13)",
+                visitInfo: "Regular information sessions. Campus tours by appointment. Virtual open days throughout the year.",
+                visitUrl: "https://vu.nl/en/education/bachelor/artificial-intelligence",
+                highlights: [
+                    "Prestigious AI program",
+                    "Located in Amsterdam",
+                    "Strong research focus",
+                    "Excellent career prospects"
+                ],
+                url: "https://vu.nl/en/education/bachelor/artificial-intelligence"
+            },
+            {
+                id: 8,
+                name: "University of Groningen",
+                country: "Netherlands",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€80-87k total",
+                costMin: 80000,
+                costMax: 87000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "admissions@rug.nl",
+                openHouseDates: "February-March 2026",
+                visitInfo: "Open days for bachelor programs in February. Individual campus tours available year-round.",
+                visitUrl: "https://www.rug.nl/bachelors/artificial-intelligence/",
+                highlights: [
+                    "Strong AI program",
+                    "Student-friendly city",
+                    "Less competitive than Amsterdam/Maastricht",
+                    "Good value for Netherlands"
+                ],
+                url: "https://www.rug.nl/bachelors/artificial-intelligence/"
+            },
+            {
+                id: 9,
+                name: "Leiden University",
+                country: "Netherlands",
+                program: "BSc Data Science & AI",
+                language: "English",
+                cost: "€80-87k total",
+                costMin: 80000,
+                costMax: 87000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "studentin@bb.leidenuniv.nl",
+                openHouseDates: "February 2026",
+                visitInfo: "Bachelor Open Days in early February. Campus visits by appointment. Virtual tours available online.",
+                visitUrl: "https://www.universiteitleiden.nl/en/education/study-programmes/bachelor/data-science-and-artificial-intelligence",
+                highlights: [
+                    "Excellent reputation",
+                    "Close to Amsterdam/The Hague",
+                    "Beautiful historic city",
+                    "Strong academic focus"
+                ],
+                url: "https://www.universiteitleiden.nl/en/education/study-programmes/bachelor/data-science-and-artificial-intelligence"
+            },
+            {
+                id: 10,
+                name: "Breda University of Applied Sciences",
+                country: "Netherlands",
+                program: "BSc Applied Data Science & AI",
+                language: "English",
+                cost: "€80-87k total",
+                costMin: 80000,
+                costMax: 87000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Small city",
+                admissionsEmail: "info@buas.nl",
+                openHouseDates: "February-March 2026",
+                visitInfo: "Regular open days. Campus tours available. Strong focus on practical, applied learning.",
+                visitUrl: "https://www.buas.nl/en/programmes/applied-data-science-and-artificial-intelligence",
+                highlights: [
+                    "Applied, practical focus",
+                    "Good for hands-on learners",
+                    "Less competitive admissions",
+                    "Near Belgium border"
+                ],
+                url: "https://www.buas.nl/en/programmes/applied-data-science-and-artificial-intelligence"
+            },
+            {
+                id: 11,
+                name: "Zuyd University of Applied Sciences",
+                country: "Netherlands",
+                program: "BSc Applied Data Science & AI",
+                language: "English",
+                cost: "€80-87k total",
+                costMin: 80000,
+                costMax: 87000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Small city",
+                admissionsEmail: "info@zuyd.nl",
+                openHouseDates: "February-March 2026",
+                visitInfo: "Campus tours by appointment. Located in Maastricht region with practical industry focus.",
+                visitUrl: "https://www.zuyd.nl/en/study-at-zuyd/bachelor-s/applied-data-science-and-artificial-intelligence",
+                highlights: [
+                    "Applied sciences focus",
+                    "Located in Maastricht region",
+                    "Practical, industry-oriented",
+                    "Good safety option"
+                ],
+                url: "https://www.zuyd.nl/en/study-at-zuyd/bachelor-s/applied-data-science-and-artificial-intelligence"
+            },
+            // SPAIN (11 universities)
+            {
+                id: 12,
+                name: "UPM Madrid",
+                country: "Spain",
+                program: "BSc Data Science & AI",
+                language: "Spanish",
+                cost: "€25-30k total",
+                costMin: 25000,
+                costMax: 30000,
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "info.alumnos@upm.es",
+                openHouseDates: "April-May 2026 (Jornadas de Puertas Abiertas)",
+                visitInfo: "Campus visits by appointment. Virtual information sessions for international students. Orientation week in September.",
+                visitUrl: "https://www.upm.es",
+                highlights: [
+                    "Top technical university in Spain",
+                    "Excellent value (€1,200/yr tuition)",
+                    "Madrid location",
+                    "C1 Spanish = major advantage"
+                ],
+                url: "https://www.upm.es/Estudiantes/Estudios_Titulaciones/EstudiosOficialesGrado?id=1700&fmt=detail"
+            },
+            {
+                id: 13,
+                name: "Universidad Carlos III Madrid (UC3M)",
+                country: "Spain",
+                program: "BSc Data Science & Engineering",
+                language: "Spanish/English tracks",
+                cost: "€28-33k total",
+                costMin: 28000,
+                costMax: 33000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "internacional@uc3m.es",
+                openHouseDates: "March-April 2026 (typical pattern)",
+                visitInfo: "Regular open days for prospective students. English-language information sessions available. Campus tours in both Spanish and English.",
+                visitUrl: "https://www.uc3m.es/bachelor-degree/data-science",
+                highlights: [
+                    "Top-ranked Spanish university",
+                    "English track available",
+                    "Strong tech reputation",
+                    "Madrid location with lower cost"
+                ],
+                url: "https://www.uc3m.es/bachelor-degree/data-science"
+            },
+            {
+                id: 14,
+                name: "University of Barcelona",
+                country: "Spain",
+                program: "BSc Data Science",
+                language: "Spanish/Catalan",
+                cost: "€30-35k total",
+                costMin: 30000,
+                costMax: 35000,
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Big city",
+                admissionsEmail: "acces@ub.edu",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Information sessions in Spanish and Catalan.",
+                visitUrl: "https://www.ub.edu/web/portal/en/",
+                highlights: [
+                    "Historic university",
+                    "Barcelona location",
+                    "Good value",
+                    "Spanish language advantage"
+                ],
+                url: "https://www.ub.edu/web/portal/en/studies/undergraduate/bachelors-degree-in-data-science"
+            },
+            {
+                id: 15,
+                name: "University of Valencia",
+                country: "Spain",
+                program: "BSc Data Science",
+                language: "Spanish",
+                cost: "€25-30k total",
+                costMin: 25000,
+                costMax: 30000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Big city",
+                admissionsEmail: "informacio@uv.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours by appointment. Orientation week in September for new students.",
+                visitUrl: "https://www.uv.es/",
+                highlights: [
+                    "Excellent value",
+                    "Valencia location (beaches!)",
+                    "C1 Spanish advantage",
+                    "Good safety option"
+                ],
+                url: "https://www.uv.es/uvweb/college/en/undergraduate-degree/undergraduate-degrees/undergraduate-degree-data-science-1285846094474/Titulacio.html"
+            },
+            {
+                id: 16,
+                name: "UPC Barcelona (Polytechnic University of Catalonia)",
+                country: "Spain",
+                program: "BSc Computer Science (AI/Data track)",
+                language: "Spanish/Catalan",
+                cost: "€28-33k total",
+                costMin: 28000,
+                costMax: 33000,
+                classification: "Reach",
+                fitScore: 4,
+                citySize: "Big city",
+                admissionsEmail: "info.estudis@upc.edu",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Technical university with strong engineering focus.",
+                visitUrl: "https://www.upc.edu/en/",
+                highlights: [
+                    "Top technical university",
+                    "Barcelona location",
+                    "Strong engineering reputation",
+                    "Competitive admissions"
+                ],
+                url: "https://www.upc.edu/en/bachelors/computer-science-barcelona"
+            },
+            {
+                id: 17,
+                name: "IE University",
+                country: "Spain",
+                program: "BSc Computer Science & AI",
+                language: "English",
+                cost: "€90-105k total",
+                costMin: 90000,
+                costMax: 105000,
+                classification: "Match",
+                fitScore: 3,
+                citySize: "Small city",
+                admissionsEmail: "admissions@ie.edu",
+                openHouseDates: "Multiple dates throughout year",
+                visitInfo: "Private university with frequent campus tours and virtual sessions. English-language focused.",
+                visitUrl: "https://www.ie.edu/university/",
+                highlights: [
+                    "Private university",
+                    "English-taught",
+                    "International focus",
+                    "Very expensive for Spain"
+                ],
+                url: "https://www.ie.edu/university/studies/bachelor-computer-science-ai/"
+            },
+            {
+                id: 18,
+                name: "UPNA Pamplona",
+                country: "Spain",
+                program: "BSc Computer Science",
+                language: "English track",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Safety",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "internacional@unavarra.es",
+                openHouseDates: "Spring 2026 (check website)",
+                visitInfo: "Campus tours available by appointment. English-taught track has dedicated information sessions. Virtual tours online.",
+                visitUrl: "https://www.unavarra.es/sites/grados/informatica/",
+                highlights: [
+                    "Excellent value safety option",
+                    "English-taught track available",
+                    "Total cost comparable to Germany",
+                    "Less competitive admissions"
+                ],
+                url: "https://www.unavarra.es/sites/grados/informatica/descripcion-y-objetivos.html"
+            },
+            {
+                id: 19,
+                name: "UPV Valencia (Polytechnic University)",
+                country: "Spain",
+                program: "BSc Data Science",
+                language: "Spanish/English options",
+                cost: "€48-56k total",
+                costMin: 48000,
+                costMax: 56000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "infoingles@upv.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. English and Spanish information sessions. Strong technical focus.",
+                visitUrl: "https://www.upv.es/en",
+                highlights: [
+                    "Strong technical university",
+                    "English options available",
+                    "Great value",
+                    "Valencia location"
+                ],
+                url: "https://www.upv.es/titulaciones/GCD/index-en.html"
+            },
+            {
+                id: 20,
+                name: "Autonomous University of Barcelona (UAB)",
+                country: "Spain",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€68-70k total",
+                costMin: 68000,
+                costMax: 70000,
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "informacio@uab.cat",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Dedicated AI bachelor taught in English.",
+                visitUrl: "https://www.uab.cat/web/",
+                highlights: [
+                    "Dedicated AI bachelor's in English",
+                    "Top Spanish university",
+                    "Near Barcelona",
+                    "Competitive admissions"
+                ],
+                url: "https://www.uab.cat/web/estudiar/llistat-de-graus/informacio-general/artificial-intelligence-1345467765430.html?param2=1345672779923"
+            },
+            {
+                id: 21,
+                name: "TECNUN San Sebastián",
+                country: "Spain",
+                program: "BSc AI Engineering",
+                language: "Bilingual (Spanish/English)",
+                cost: "€60-70k total",
+                costMin: 60000,
+                costMax: 70000,
+                classification: "Reach",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "admision@tecnun.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Private engineering school with bilingual program.",
+                visitUrl: "https://tecnun.unav.edu/en/",
+                highlights: [
+                    "Engineering school of University of Navarra",
+                    "Bilingual program",
+                    "San Sebastián location (beautiful)",
+                    "Strong reputation, private"
+                ],
+                url: "https://tecnun.unav.edu/en/schools/school-of-engineering/undergraduate-programs/artificial-intelligence"
+            },
+            {
+                id: 22,
+                name: "Universidad de Zaragoza",
+                country: "Spain",
+                program: "BSc Computer Science",
+                language: "Spanish",
+                cost: "€40-45k total",
+                costMin: 40000,
+                costMax: 45000,
+                classification: "Safety",
+                fitScore: 3.5,
+                citySize: "Mid-size city",
+                admissionsEmail: "informacion@unizar.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours by appointment. Located between Madrid and Barcelona.",
+                visitUrl: "https://www.unizar.es/",
+                highlights: [
+                    "Good value safety option",
+                    "Zaragoza location (between Madrid/Barcelona)",
+                    "Less competitive",
+                    "C1 Spanish advantage"
+                ],
+                url: "https://estudios.unizar.es/estudio/ver?id=102"
+            },
+            // DENMARK (3 universities)
+            {
+                id: 34,
+                name: "IT University of Copenhagen (ITU)",
+                country: "Denmark",
+                program: "BSc Data Science",
+                language: "English",
+                cost: "€100-110k total",
+                costMin: 100000,
+                costMax: 110000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "study@itu.dk",
+                openHouseDates: "February-March 2026",
+                visitInfo: "Open house events twice per year. Campus tours by appointment. Virtual open days and webinars for international students.",
+                visitUrl: "https://en.itu.dk/",
+                highlights: [
+                    "Specialized IT university",
+                    "Copenhagen location",
+                    "Free for EU citizens",
+                    "Strong industry connections"
+                ],
+                url: "https://en.itu.dk/Programmes/BSc-Programmes/Data-Science"
+            },
+            {
+                id: 35,
+                name: "University of Southern Denmark (SDU) - Vejle",
+                country: "Denmark",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€100-110k total",
+                costMin: 100000,
+                costMax: 110000,
+                classification: "Safety",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "infobachelor@sdu.dk",
+                openHouseDates: "Spring 2026 (new campus, check for launch events)",
+                visitInfo: "NEW 2026 campus! Virtual tours available now. Campus visit days planned for spring 2026. First cohort information sessions.",
+                visitUrl: "https://www.sdu.dk/en/uddannelse/bachelor/artificial_intelligence",
+                highlights: [
+                    "NEW program launching 2026 - first cohort advantage!",
+                    "Free for EU citizens",
+                    "Small city with modern facilities",
+                    "English-taught dedicated AI program"
+                ],
+                url: "https://www.sdu.dk/en/uddannelse/bachelor/artificial_intelligence",
+                new: false
+            },
+            {
+                id: 36,
+                name: "University of Southern Denmark (SDU) - Vejle",
+                country: "Denmark",
+                program: "BSc Computer Science",
+                language: "English",
+                cost: "€100-110k total",
+                costMin: 100000,
+                costMax: 110000,
+                classification: "Safety",
+                fitScore: 4.5,
+                citySize: "Small city",
+                admissionsEmail: "infobachelor@sdu.dk",
+                openHouseDates: "Spring 2026 (new campus)",
+                visitInfo: "NEW 2026 campus! Virtual tours available. First cohort advantage for English-taught CS program.",
+                visitUrl: "https://www.sdu.dk/en/uddannelse/bachelor/datalogi",
+                highlights: [
+                    "NEW program launching 2026 - first cohort advantage!",
+                    "Free for EU citizens",
+                    "Vejle campus location",
+                    "English-taught CS program with AI options"
+                ],
+                url: "https://www.sdu.dk/en/uddannelse/bachelor/datalogi",
+                new: false
+            },
+            // BELGIUM (1 university)
+            {
+                id: 30,
+                name: "KdG Antwerp",
+                country: "Belgium",
+                program: "BSc Applied AI",
+                language: "English",
+                cost: "€45-52k total",
+                costMin: 45000,
+                costMax: 52000,
+                classification: "Safety",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "admissions@kdg.be",
+                openHouseDates: "March-April 2026",
+                visitInfo: "Open days for bachelor programs in spring. Individual campus visits available. Virtual information sessions for international students.",
+                visitUrl: "https://www.kdg.be/en/applied-artificial-intelligence",
+                highlights: [
+                    "Applied, practical focus",
+                    "Antwerp location (cosmopolitan)",
+                    "English-taught",
+                    "Excellent value"
+                ],
+                url: "https://www.kdg.be/en/applied-artificial-intelligence"
+            },
+            // FRANCE (2 universities)
+            {
+                id: 23,
+                name: "PSL Paris (Paris Sciences et Lettres)",
+                country: "France",
+                program: "International BSc AI",
+                language: "English",
+                cost: "€65k total",
+                costMin: 65000,
+                costMax: 65000,
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Big city",
+                admissionsEmail: "admissions@psl.eu",
+                openHouseDates: "March 2026 (Journées Portes Ouvertes)",
+                visitInfo: "Elite university with selective open house events. Campus tours for admitted students. Virtual info sessions for international applicants.",
+                visitUrl: "https://psl.eu/en/education/international-bachelors-degree-artificial-intelligence",
+                highlights: [
+                    "Elite university (Top 50 globally)",
+                    "Paris location",
+                    "English-taught AI program",
+                    "Highly competitive"
+                ],
+                url: "https://psl.eu/en/education/international-bachelors-degree-artificial-intelligence"
+            },
+            {
+                id: 24,
+                name: "Paris-Saclay",
+                country: "France",
+                program: "BSc Computer Science (AI track)",
+                language: "French/English",
+                cost: "€45-50k total",
+                costMin: 45000,
+                costMax: 50000,
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Big city",
+                admissionsEmail: "international@universite-paris-saclay.fr",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. French and English information sessions. Near Paris.",
+                visitUrl: "https://www.universite-paris-saclay.fr/en/",
+                highlights: [
+                    "Top research university",
+                    "AI specialization available",
+                    "Near Paris",
+                    "Good value for France"
+                ],
+                url: "https://www.universite-paris-saclay.fr/en/education/bachelor/bachelor-computer-science"
+            },
+            // AUSTRIA (2 universities)
+            {
+                id: 25,
+                name: "JKU Linz",
+                country: "Austria",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€55k total",
+                costMin: 55000,
+                costMax: 55000,
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Mid-size city",
+                admissionsEmail: "study@jku.at",
+                openHouseDates: "March-April 2026 (Tag der offenen Tür)",
+                visitInfo: "Annual open house in spring. Campus tours available by appointment. Virtual information sessions for international students.",
+                visitUrl: "https://www.jku.at/en/studying/",
+                highlights: [
+                    "Dedicated AI bachelor's in English",
+                    "€1,500/year tuition",
+                    "Linz location (near Germany)",
+                    "Strong tech focus"
+                ],
+                url: "https://www.jku.at/en/degree-programs/types-of-degree-programs/bachelors/bachelors-artificial-intelligence/"
+            },
+            {
+                id: 26,
+                name: "University of Klagenfurt",
+                country: "Austria",
+                program: "BSc Artificial Intelligence & Cybersecurity",
+                language: "English/German",
+                cost: "€52k total",
+                costMin: 52000,
+                costMax: 52000,
+                classification: "Safety",
+                fitScore: 4.5,
+                citySize: "Small city",
+                admissionsEmail: "studieninfo@aau.at",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Most affordable option on the entire list. Beautiful Austrian Alps location.",
+                visitUrl: "https://www.aau.at/en/",
+                highlights: [
+                    "Most affordable option on entire list",
+                    "AI + Cybersecurity dual focus",
+                    "Beautiful Austrian location",
+                    "Less competitive"
+                ],
+                url: "https://www.aau.at/en/studien/bachelor-artificial-intelligence-cybersecurity/"
+            },
+            // ITALY (2 universities)
+            {
+                id: 27,
+                name: "University of Milan",
+                country: "Italy",
+                program: "BSc Computer Science (AI track)",
+                language: "English",
+                cost: "€50-55k total",
+                costMin: 50000,
+                costMax: 55000,
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Big city",
+                admissionsEmail: "international.students@unimi.it",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. English-taught program in Milan. Virtual information sessions.",
+                visitUrl: "https://www.unimi.it/en/",
+                highlights: [
+                    "Milan location",
+                    "English-taught",
+                    "AI specialization",
+                    "Fashion/design capital"
+                ],
+                url: "https://www.unimi.it/en/education/degree-programme-courses/2024/computer-science-bachelors-degree"
+            },
+            {
+                id: 28,
+                name: "University of Pavia",
+                country: "Italy",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                cost: "€50-55k total",
+                costMin: 50000,
+                costMax: 55000,
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Small city",
+                admissionsEmail: "international@unipv.it",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Dedicated AI program in English. Near Milan.",
+                visitUrl: "https://web.unipv.it/",
+                highlights: [
+                    "Dedicated AI program in English",
+                    "Historic university",
+                    "Near Milan",
+                    "Good match option"
+                ],
+                url: "https://web.unipv.it/artificial-intelligence/"
+            },
+            // SWEDEN (1 university)
+            {
+                id: 29,
+                name: "Karlstad University",
+                country: "Sweden",
+                program: "BSc Computer Science (AI & ML track)",
+                language: "English",
+                cost: "€90-95k total",
+                costMin: 90000,
+                costMax: 95000,
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Small city",
+                admissionsEmail: "admission@kau.se",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available. Free for EU citizens. English-taught CS program with AI specialization.",
+                visitUrl: "https://www.kau.se/en/",
+                highlights: [
+                    "Sweden location",
+                    "English-taught",
+                    "Free for EU citizens",
+                    "Less competitive"
+                ],
+                url: "https://www.kau.se/en/education/programmes-and-courses/programmes/SGDTB"
+            }
         ];
 
-        const UniversityExplorer = () => {
+        function UniversityExplorer() {
             const [filters, setFilters] = useState({
-                countries: [],
-                classifications: [],
-                languages: [],
-                costRange: [0, 120000],
+                country: 'All',
+                classification: 'All',
+                language: 'All',
+                maxCost: 120000,
                 minFitScore: 0,
                 searchTerm: ''
             });
-            
             const [sortBy, setSortBy] = useState('cost');
+            const [viewMode, setViewMode] = useState('cards');
             const [compareMode, setCompareMode] = useState(false);
-            const [selectedForComparison, setSelectedForComparison] = useState([]);
-            const [viewMode, setViewMode] = useState('cards'); // cards or table
+            const [selectedForCompare, setSelectedForCompare] = useState([]);
 
-            const countries = [...new Set(universities.map(u => u.country))].sort();
-            const classifications = ['Safety', 'Match', 'Reach'];
-            const languages = [...new Set(universities.map(u => u.language))].sort();
+            const countries = ['All', ...new Set(universities.map(u => u.country))];
+            const classifications = ['All', 'Safety', 'Match', 'Reach'];
+            const languages = ['All', 'English', 'Spanish', 'German', 'French', 'Bilingual'];
 
-            const filteredAndSorted = useMemo(() => {
-                let filtered = universities.filter(uni => {
-                    // Country filter
-                    if (filters.countries.length > 0 && !filters.countries.includes(uni.country)) {
-                        return false;
-                    }
-                    
-                    // Classification filter
-                    if (filters.classifications.length > 0) {
-                        const matchesClassification = filters.classifications.some(c => 
-                            uni.classification.includes(c)
-                        );
-                        if (!matchesClassification) return false;
-                    }
-                    
-                    // Language filter
-                    if (filters.languages.length > 0 && !filters.languages.includes(uni.language)) {
-                        return false;
-                    }
-                    
-                    // Cost range filter
-                    if (uni.costMin > filters.costRange[1] || uni.costMax < filters.costRange[0]) {
-                        return false;
-                    }
-                    
-                    // Fit score filter
-                    if (uni.fitScore < filters.minFitScore) {
-                        return false;
-                    }
-                    
-                    // Search term
-                    if (filters.searchTerm) {
-                        const searchLower = filters.searchTerm.toLowerCase();
-                        return uni.name.toLowerCase().includes(searchLower) ||
-                               uni.program.toLowerCase().includes(searchLower) ||
-                               uni.country.toLowerCase().includes(searchLower);
-                    }
-                    
-                    return true;
-                });
-
-                // Sort
-                filtered.sort((a, b) => {
-                    switch(sortBy) {
-                        case 'cost':
-                            return a.costMin - b.costMin;
-                        case 'fitScore':
-                            return b.fitScore - a.fitScore;
-                        case 'name':
-                            return a.name.localeCompare(b.name);
-                        case 'country':
-                            return a.country.localeCompare(b.country);
-                        default:
-                            return 0;
-                    }
-                });
-
-                return filtered;
+            const filteredUniversities = useMemo(() => {
+                return universities
+                    .filter(uni => {
+                        if (filters.country !== 'All' && uni.country !== filters.country) return false;
+                        if (filters.classification !== 'All' && uni.classification !== filters.classification) return false;
+                        if (filters.language !== 'All') {
+                            if (filters.language === 'English' && !uni.language.includes('English')) return false;
+                            if (filters.language === 'Spanish' && !uni.language.includes('Spanish')) return false;
+                            if (filters.language === 'German' && !uni.language.includes('German')) return false;
+                            if (filters.language === 'French' && !uni.language.includes('French')) return false;
+                            if (filters.language === 'Bilingual' && !uni.language.includes('/')) return false;
+                        }
+                        if (uni.costMax > filters.maxCost) return false;
+                        if (uni.fitScore < filters.minFitScore) return false;
+                        if (filters.searchTerm && !uni.name.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
+                            !uni.program.toLowerCase().includes(filters.searchTerm.toLowerCase()) &&
+                            !uni.country.toLowerCase().includes(filters.searchTerm.toLowerCase())) return false;
+                        return true;
+                    })
+                    .sort((a, b) => {
+                        if (sortBy === 'cost') return a.costMin - b.costMin;
+                        if (sortBy === 'fit') return b.fitScore - a.fitScore;
+                        if (sortBy === 'name') return a.name.localeCompare(b.name);
+                        if (sortBy === 'country') return a.country.localeCompare(b.country);
+                        return 0;
+                    });
             }, [filters, sortBy]);
 
-            const toggleFilter = (filterType, value) => {
-                setFilters(prev => ({
-                    ...prev,
-                    [filterType]: prev[filterType].includes(value)
-                        ? prev[filterType].filter(v => v !== value)
-                        : [...prev[filterType], value]
-                }));
-            };
+            const stats = useMemo(() => {
+                return {
+                    total: filteredUniversities.length,
+                    safety: filteredUniversities.filter(u => u.classification === 'Safety').length,
+                    match: filteredUniversities.filter(u => u.classification === 'Match').length,
+                    reach: filteredUniversities.filter(u => u.classification === 'Reach').length,
+                    avgCost: Math.round(filteredUniversities.reduce((sum, u) => sum + (u.costMin + u.costMax) / 2, 0) / filteredUniversities.length / 1000),
+                    minCost: Math.min(...filteredUniversities.map(u => u.costMin)) / 1000
+                };
+            }, [filteredUniversities]);
 
-            const clearFilters = () => {
-                setFilters({
-                    countries: [],
-                    classifications: [],
-                    languages: [],
-                    costRange: [0, 120000],
-                    minFitScore: 0,
-                    searchTerm: ''
-                });
-            };
-
-            const toggleComparison = (uni) => {
-                if (selectedForComparison.find(u => u.id === uni.id)) {
-                    setSelectedForComparison(selectedForComparison.filter(u => u.id !== uni.id));
-                } else if (selectedForComparison.length < 4) {
-                    setSelectedForComparison([...selectedForComparison, uni]);
+            const toggleCompare = (uni) => {
+                if (selectedForCompare.find(u => u.id === uni.id)) {
+                    setSelectedForCompare(selectedForCompare.filter(u => u.id !== uni.id));
+                } else if (selectedForCompare.length < 4) {
+                    setSelectedForCompare([...selectedForCompare, uni]);
                 }
             };
 
             const getClassificationColor = (classification) => {
-                if (classification.includes('Safety')) return 'bg-green-100 text-green-800 border-green-300';
-                if (classification.includes('Match')) return 'bg-blue-100 text-blue-800 border-blue-300';
-                if (classification.includes('Reach')) return 'bg-purple-100 text-purple-800 border-purple-300';
+                if (classification === 'Safety') return 'bg-green-100 text-green-800 border-green-300';
+                if (classification === 'Match') return 'bg-blue-100 text-blue-800 border-blue-300';
+                if (classification === 'Reach') return 'bg-purple-100 text-purple-800 border-purple-300';
                 return 'bg-gray-100 text-gray-800 border-gray-300';
             };
 
-            const getClassificationBadgeColor = (classification) => {
-                if (classification.includes('Safety')) return 'bg-green-500';
-                if (classification.includes('Match')) return 'bg-blue-500';
-                if (classification.includes('Reach')) return 'bg-purple-500';
-                return 'bg-gray-500';
-            };
-
-            const stats = {
-                total: universities.length,
-                safety: universities.filter(u => u.classification.includes('Safety')).length,
-                match: universities.filter(u => u.classification.includes('Match')).length,
-                reach: universities.filter(u => u.classification.includes('Reach')).length,
-                avgCost: Math.round(universities.reduce((sum, u) => sum + u.costMin, 0) / universities.length),
-                cheapest: Math.min(...universities.map(u => u.costMin)),
-                englishTaught: universities.filter(u => u.language === 'English').length
-            };
-
             return (
-                <div className="min-h-screen bg-gradient-to-br from-blue-50 via-indigo-50 to-purple-50">
-                    {/* Header */}
-                    <div className="bg-white shadow-lg border-b-4 border-indigo-500">
-                        <div className="max-w-7xl mx-auto px-4 py-6">
-                            <h1 className="text-4xl font-bold text-gray-900 mb-2">
-                                🎓 University Shortlist Explorer
-                            </h1>
-                            <p className="text-gray-600 text-lg">
-                                AI, Data Science & Computer Science Bachelor's Programs in Europe
-                            </p>
-                            
-                            {/* Quick Stats */}
-                            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-7 gap-3 mt-6">
-                                <div className="bg-gradient-to-br from-indigo-500 to-indigo-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">{stats.total}</div>
-                                    <div className="text-xs opacity-90">Universities</div>
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+                    {/* Sticky Header + Stats + Filters - All Frozen Together */}
+                    <div className="sticky-header">
+                        <div className="max-w-7xl mx-auto px-4 py-2">
+                            {/* Ultra-Compact Header + Stats in One Row */}
+                            <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
+                                <div>
+                                    <h1 className="text-xl md:text-2xl font-bold text-gray-800">
+                                        🎓 European AI & Data Science
+                                    </h1>
+                                    <p className="text-xs text-gray-600">38 programs • 9 countries</p>
                                 </div>
-                                <div className="bg-gradient-to-br from-green-500 to-green-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">{stats.safety}</div>
-                                    <div className="text-xs opacity-90">Safety</div>
+                                <div className="flex flex-wrap gap-1.5">
+                                    <div className="bg-white rounded px-2 py-0.5 shadow-sm border border-gray-200">
+                                        <span className="text-blue-600 font-bold text-sm">{stats.total}</span>
+                                        <span className="text-xs text-gray-500 ml-1">Total</span>
+                                    </div>
+                                    <div className="bg-white rounded px-2 py-0.5 shadow-sm border border-gray-200">
+                                        <span className="text-green-600 font-bold text-sm">{stats.safety}</span>
+                                        <span className="text-xs text-gray-500 ml-1">Safe</span>
+                                    </div>
+                                    <div className="bg-white rounded px-2 py-0.5 shadow-sm border border-gray-200">
+                                        <span className="text-blue-600 font-bold text-sm">{stats.match}</span>
+                                        <span className="text-xs text-gray-500 ml-1">Match</span>
+                                    </div>
+                                    <div className="bg-white rounded px-2 py-0.5 shadow-sm border border-gray-200">
+                                        <span className="text-purple-600 font-bold text-sm">{stats.reach}</span>
+                                        <span className="text-xs text-gray-500 ml-1">Reach</span>
+                                    </div>
+                                    <div className="bg-white rounded px-2 py-0.5 shadow-sm border border-gray-200">
+                                        <span className="text-indigo-600 font-bold text-sm">€{stats.avgCost}k</span>
+                                        <span className="text-xs text-gray-500 ml-1">Avg</span>
+                                    </div>
+                                    <div className="bg-white rounded px-2 py-0.5 shadow-sm border border-gray-200">
+                                        <span className="text-teal-600 font-bold text-sm">€{stats.minCost}k</span>
+                                        <span className="text-xs text-gray-500 ml-1">Min</span>
+                                    </div>
                                 </div>
-                                <div className="bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">{stats.match}</div>
-                                    <div className="text-xs opacity-90">Match</div>
+                            </div>
+
+                            {/* Consolidated Filters + Controls */}
+                            <div className="bg-white rounded-lg shadow-sm p-2 border border-gray-200">
+                                {/* Filter Labels Row */}
+                                <div className="grid grid-cols-2 md:grid-cols-7 lg:grid-cols-10 gap-2 mb-1">
+                                    <label className="text-xs font-semibold text-gray-700">Country</label>
+                                    <label className="text-xs font-semibold text-gray-700">Classification</label>
+                                    <label className="text-xs font-semibold text-gray-700">Language</label>
+                                    <label className="text-xs font-semibold text-gray-700 col-span-2">Max Cost</label>
+                                    <label className="text-xs font-semibold text-gray-700 col-span-3">Min Fit Score (1★ to 5★)</label>
+                                    <label className="text-xs font-semibold text-gray-700">View</label>
+                                    <label className="text-xs font-semibold text-gray-700">Sort</label>
                                 </div>
-                                <div className="bg-gradient-to-br from-purple-500 to-purple-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">{stats.reach}</div>
-                                    <div className="text-xs opacity-90">Reach</div>
+
+                                {/* Filter Controls Row */}
+                                <div className="grid grid-cols-2 md:grid-cols-7 lg:grid-cols-10 gap-2 mb-2">
+                                    <select 
+                                        value={filters.country}
+                                        onChange={(e) => setFilters({...filters, country: e.target.value})}
+                                        className="text-xs p-1.5 border border-gray-300 rounded"
+                                    >
+                                        {countries.map(c => <option key={c} value={c}>{c === 'All' ? 'All Countries' : c}</option>)}
+                                    </select>
+                                    
+                                    <select 
+                                        value={filters.classification}
+                                        onChange={(e) => setFilters({...filters, classification: e.target.value})}
+                                        className="text-xs p-1.5 border border-gray-300 rounded"
+                                    >
+                                        {classifications.map(c => <option key={c} value={c}>{c === 'All' ? 'All Levels' : c}</option>)}
+                                    </select>
+                                    
+                                    <select 
+                                        value={filters.language}
+                                        onChange={(e) => setFilters({...filters, language: e.target.value})}
+                                        className="text-xs p-1.5 border border-gray-300 rounded"
+                                    >
+                                        {languages.map(l => <option key={l} value={l}>{l === 'All' ? 'All Languages' : l}</option>)}
+                                    </select>
+
+                                    <div className="flex items-center gap-2 col-span-2">
+                                        <span className="text-xs text-gray-600 whitespace-nowrap font-medium">€{filters.maxCost / 1000}k</span>
+                                        <input 
+                                            type="range"
+                                            min="0"
+                                            max="120000"
+                                            step="5000"
+                                            value={filters.maxCost}
+                                            onChange={(e) => setFilters({...filters, maxCost: parseInt(e.target.value)})}
+                                            className="flex-1"
+                                        />
+                                    </div>
+
+                                    <div className="flex items-center justify-center gap-1 col-span-3">
+                                        {[1, 2, 3, 4, 5].map(star => (
+                                            <button
+                                                key={star}
+                                                onClick={() => setFilters({...filters, minFitScore: star})}
+                                                className={`text-xl ${filters.minFitScore === star ? 'text-yellow-500' : 'text-gray-300'} hover:scale-110 transition-transform`}
+                                                title={`${star} star${star > 1 ? 's' : ''}`}
+                                            >
+                                                ⭐
+                                            </button>
+                                        ))}
+                                        {filters.minFitScore > 0 && (
+                                            <button
+                                                onClick={() => setFilters({...filters, minFitScore: 0})}
+                                                className="text-xs text-blue-600 ml-2 underline"
+                                            >
+                                                Clear
+                                            </button>
+                                        )}
+                                    </div>
+
+                                    <div className="flex gap-1">
+                                        <button
+                                            onClick={() => setViewMode('cards')}
+                                            className={`text-xs px-2 py-1 rounded flex-1 ${viewMode === 'cards' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                            title="Card View"
+                                        >
+                                            📋
+                                        </button>
+                                        <button
+                                            onClick={() => setViewMode('table')}
+                                            className={`text-xs px-2 py-1 rounded flex-1 ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                            title="Table View"
+                                        >
+                                            📊
+                                        </button>
+                                        <button
+                                            onClick={() => setCompareMode(!compareMode)}
+                                            className={`text-xs px-2 py-1 rounded flex-1 ${compareMode ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+                                            title="Compare Mode"
+                                        >
+                                            {compareMode && selectedForCompare.length > 0 ? selectedForCompare.length : '🔄'}
+                                        </button>
+                                    </div>
+
+                                    <select 
+                                        value={sortBy}
+                                        onChange={(e) => setSortBy(e.target.value)}
+                                        className="text-xs p-1.5 border border-gray-300 rounded"
+                                    >
+                                        <option value="cost">💰 Cost ↑</option>
+                                        <option value="fit">⭐ Fit ↓</option>
+                                        <option value="name">🔤 Name</option>
+                                        <option value="country">🌍 Country</option>
+                                    </select>
                                 </div>
-                                <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">{stats.englishTaught}</div>
-                                    <div className="text-xs opacity-90">English-taught</div>
-                                </div>
-                                <div className="bg-gradient-to-br from-teal-500 to-teal-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">€{Math.round(stats.cheapest/1000)}k</div>
-                                    <div className="text-xs opacity-90">Cheapest</div>
-                                </div>
-                                <div className="bg-gradient-to-br from-pink-500 to-pink-600 rounded-lg p-3 text-white">
-                                    <div className="text-2xl font-bold">€{Math.round(stats.avgCost/1000)}k</div>
-                                    <div className="text-xs opacity-90">Avg Cost</div>
+
+                                {/* Search Bar Row */}
+                                <div className="flex gap-2">
+                                    <div className="flex-1">
+                                        <input 
+                                            type="text"
+                                            placeholder="🔍 Search universities, programs, or countries..."
+                                            value={filters.searchTerm}
+                                            onChange={(e) => setFilters({...filters, searchTerm: e.target.value})}
+                                            className="w-full text-xs p-2 border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        />
+                                    </div>
+                                    {filters.searchTerm && (
+                                        <button
+                                            onClick={() => setFilters({...filters, searchTerm: ''})}
+                                            className="text-xs px-3 py-1 bg-red-100 text-red-600 rounded hover:bg-red-200"
+                                        >
+                                            Clear
+                                        </button>
+                                    )}
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div className="max-w-7xl mx-auto px-4 py-6">
-                        {/* Controls */}
-                        <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-                            {/* Search and View Toggle */}
-                            <div className="flex flex-col md:flex-row gap-4 mb-6">
-                                <input
-                                    type="text"
-                                    placeholder="🔍 Search universities, programs, countries..."
-                                    value={filters.searchTerm}
-                                    onChange={(e) => setFilters({...filters, searchTerm: e.target.value})}
-                                    className="flex-1 px-4 py-3 border-2 border-gray-300 rounded-lg focus:border-indigo-500 focus:outline-none"
-                                />
-                                <div className="flex gap-2">
-                                    <button
-                                        onClick={() => setViewMode(viewMode === 'cards' ? 'table' : 'cards')}
-                                        className="px-4 py-3 bg-indigo-100 text-indigo-700 rounded-lg hover:bg-indigo-200 font-medium"
-                                    >
-                                        {viewMode === 'cards' ? '📊 Table View' : '📋 Card View'}
-                                    </button>
-                                    <button
-                                        onClick={() => setCompareMode(!compareMode)}
-                                        className={`px-4 py-3 rounded-lg font-medium ${
-                                            compareMode 
-                                                ? 'bg-purple-500 text-white' 
-                                                : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
-                                        }`}
-                                    >
-                                        ⚖️ Compare ({selectedForComparison.length}/4)
-                                    </button>
-                                </div>
-                            </div>
-
-                            {/* Filters */}
-                            <div className="grid md:grid-cols-3 gap-6">
-                                {/* Country Filter */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Countries</label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {countries.map(country => (
-                                            <button
-                                                key={country}
-                                                onClick={() => toggleFilter('countries', country)}
-                                                className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                                                    filters.countries.includes(country)
-                                                        ? 'bg-indigo-500 text-white shadow-md'
-                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                                }`}
-                                            >
-                                                {country}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Classification Filter */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Classification</label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {classifications.map(classification => (
-                                            <button
-                                                key={classification}
-                                                onClick={() => toggleFilter('classifications', classification)}
-                                                className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                                                    filters.classifications.includes(classification)
-                                                        ? classification === 'Safety' 
-                                                            ? 'bg-green-500 text-white shadow-md'
-                                                            : classification === 'Match'
-                                                            ? 'bg-blue-500 text-white shadow-md'
-                                                            : 'bg-purple-500 text-white shadow-md'
-                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                                }`}
-                                            >
-                                                {classification}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-
-                                {/* Language Filter */}
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">Language</label>
-                                    <div className="flex flex-wrap gap-2">
-                                        {languages.map(language => (
-                                            <button
-                                                key={language}
-                                                onClick={() => toggleFilter('languages', language)}
-                                                className={`px-3 py-1 rounded-full text-sm font-medium transition-all ${
-                                                    filters.languages.includes(language)
-                                                        ? 'bg-indigo-500 text-white shadow-md'
-                                                        : 'bg-gray-200 text-gray-700 hover:bg-gray-300'
-                                                }`}
-                                            >
-                                                {language}
-                                            </button>
-                                        ))}
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Cost Range and Fit Score */}
-                            <div className="grid md:grid-cols-2 gap-6 mt-6">
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                        Cost Range: €{Math.round(filters.costRange[0]/1000)}k - €{Math.round(filters.costRange[1]/1000)}k
-                                    </label>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="120000"
-                                        step="5000"
-                                        value={filters.costRange[1]}
-                                        onChange={(e) => setFilters({...filters, costRange: [0, parseInt(e.target.value)]})}
-                                        className="w-full"
-                                    />
-                                </div>
-                                <div>
-                                    <label className="block text-sm font-semibold text-gray-700 mb-2">
-                                        Min Fit Score: {filters.minFitScore}/5 ⭐
-                                    </label>
-                                    <input
-                                        type="range"
-                                        min="0"
-                                        max="5"
-                                        step="0.5"
-                                        value={filters.minFitScore}
-                                        onChange={(e) => setFilters({...filters, minFitScore: parseFloat(e.target.value)})}
-                                        className="w-full"
-                                    />
-                                </div>
-                            </div>
-
-                            {/* Sort and Clear */}
-                            <div className="flex flex-wrap gap-4 mt-6 pt-6 border-t">
-                                <div className="flex items-center gap-2">
-                                    <label className="text-sm font-semibold text-gray-700">Sort by:</label>
-                                    <select
-                                        value={sortBy}
-                                        onChange={(e) => setSortBy(e.target.value)}
-                                        className="px-3 py-2 border-2 border-gray-300 rounded-lg focus:border-indigo-500"
-                                    >
-                                        <option value="cost">Cost (Low to High)</option>
-                                        <option value="fitScore">Fit Score (High to Low)</option>
-                                        <option value="name">Name (A-Z)</option>
-                                        <option value="country">Country (A-Z)</option>
-                                    </select>
-                                </div>
-                                <button
-                                    onClick={clearFilters}
-                                    className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200 font-medium"
-                                >
-                                    🔄 Clear All Filters
-                                </button>
-                                <div className="ml-auto text-sm text-gray-600 py-2">
-                                    Showing {filteredAndSorted.length} of {universities.length} universities
+                    {/* Scrollable Content Area */}
+                    <div className="max-w-7xl mx-auto px-4 scrollable-content">
+                        {/* Campus Visit Information Banner */}
+                        <div className="bg-gradient-to-r from-blue-50 to-indigo-50 border border-blue-200 rounded-lg p-3 mb-4">
+                            <div className="flex items-start gap-2">
+                                <span className="text-2xl">🏫</span>
+                                <div className="flex-1">
+                                    <h3 className="text-sm font-bold text-gray-800 mb-1">Campus Visits & Open Houses</h3>
+                                    <p className="text-xs text-gray-700 mb-2">
+                                        Most European universities offer open houses in <strong>Spring (Feb-April)</strong> and <strong>Fall (Oct-Nov)</strong>. 
+                                        Many also accept individual campus visits year-round by appointment.
+                                    </p>
+                                    <ul className="text-xs text-gray-600 space-y-1">
+                                        <li>✅ <strong>Confirmed dates shown where available</strong> - always verify on official university websites</li>
+                                        <li>🌐 <strong>Virtual tours</strong> available at most universities year-round</li>
+                                        <li>📅 <strong>Orientation weeks</strong> typically occur in September/October before semester starts</li>
+                                        <li>💡 <strong>Pro tip:</strong> Email admissions offices directly to arrange individual campus visits</li>
+                                    </ul>
                                 </div>
                             </div>
                         </div>
-
-                        {/* Comparison View */}
-                        {compareMode && selectedForComparison.length > 0 && (
-                            <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-                                <div className="flex justify-between items-center mb-4">
-                                    <h2 className="text-2xl font-bold text-gray-900">⚖️ Comparison</h2>
-                                    <button
-                                        onClick={() => setSelectedForComparison([])}
-                                        className="px-4 py-2 bg-red-100 text-red-700 rounded-lg hover:bg-red-200"
-                                    >
-                                        Clear Selection
-                                    </button>
-                                </div>
+                        {/* Compare View */}
+                        {compareMode && selectedForCompare.length > 0 && (
+                            <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
+                                <h2 className="text-lg font-bold text-gray-800 mb-3">
+                                    🔄 Comparing {selectedForCompare.length} Universities
+                                </h2>
                                 <div className="overflow-x-auto">
-                                    <table className="w-full">
+                                    <table className="w-full text-sm">
                                         <thead>
-                                            <tr className="border-b-2">
-                                                <th className="text-left p-3 font-semibold">Feature</th>
-                                                {selectedForComparison.map(uni => (
-                                                    <th key={uni.id} className="text-left p-3 font-semibold">{uni.name}</th>
+                                            <tr className="border-b">
+                                                <th className="text-left p-2 text-xs">Attribute</th>
+                                                {selectedForCompare.map(uni => (
+                                                    <th key={uni.id} className="text-left p-2 text-xs">
+                                                        {uni.name}
+                                                        <button
+                                                            onClick={() => toggleCompare(uni)}
+                                                            className="ml-2 text-red-600"
+                                                        >
+                                                            ✕
+                                                        </button>
+                                                    </th>
                                                 ))}
                                             </tr>
                                         </thead>
-                                        <tbody className="divide-y">
-                                            <tr>
-                                                <td className="p-3 font-medium">Program</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">{uni.program}</td>
-                                                ))}
+                                        <tbody className="text-xs">
+                                            <tr className="border-b"><td className="p-2 font-medium">Country</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2">{uni.country}</td>)}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">Country</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">{uni.country}</td>
-                                                ))}
+                                            <tr className="border-b"><td className="p-2 font-medium">Program</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2">{uni.program}</td>)}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">Cost</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3 font-semibold text-green-600">{uni.cost}</td>
-                                                ))}
+                                            <tr className="border-b"><td className="p-2 font-medium">Language</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2">{uni.language}</td>)}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">Classification</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">
-                                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getClassificationColor(uni.classification)}`}>
+                                            <tr className="border-b"><td className="p-2 font-medium">Cost</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2">{uni.cost}</td>)}
+                                            </tr>
+                                            <tr className="border-b"><td className="p-2 font-medium">Class</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">
+                                                        <span className={`px-2 py-1 rounded-full text-xs ${getClassificationColor(uni.classification)}`}>
                                                             {uni.classification}
                                                         </span>
                                                     </td>
                                                 ))}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">Fit Score</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">
-                                                        {'⭐'.repeat(Math.floor(uni.fitScore))} {uni.fitScore}/5
+                                            <tr className="border-b"><td className="p-2 font-medium">Fit</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2">{'⭐'.repeat(Math.floor(uni.fitScore))}</td>)}
+                                            </tr>
+                                            <tr className="border-b"><td className="p-2 font-medium">📧 Admissions</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">
+                                                        {uni.admissionsEmail ? (
+                                                            <a href={`mailto:${uni.admissionsEmail}`} className="text-purple-600 hover:underline text-xs">
+                                                                {uni.admissionsEmail}
+                                                            </a>
+                                                        ) : 'See website'}
                                                     </td>
                                                 ))}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">Language</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">{uni.language}</td>
-                                                ))}
+                                            <tr className="border-b"><td className="p-2 font-medium">🗓️ Open House</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2">{uni.openHouseDates || 'Check website'}</td>)}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">City Size</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">{uni.citySize}</td>
-                                                ))}
+                                            <tr className="border-b"><td className="p-2 font-medium">🏫 Visits</td>
+                                                {selectedForCompare.map(uni => <td key={uni.id} className="p-2 text-xs">{uni.visitInfo || 'Contact admissions for details'}</td>)}
                                             </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium align-top">Highlights</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">
-                                                        <ul className="list-disc list-inside text-sm space-y-1">
-                                                            {uni.highlights.map((h, i) => (
-                                                                <li key={i}>{h}</li>
-                                                            ))}
-                                                        </ul>
-                                                    </td>
-                                                ))}
-                                            </tr>
-                                            <tr>
-                                                <td className="p-3 font-medium">Website</td>
-                                                {selectedForComparison.map(uni => (
-                                                    <td key={uni.id} className="p-3">
-                                                        <a
-                                                            href={uni.url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center gap-1 px-3 py-2 bg-indigo-500 text-white text-sm rounded-lg hover:bg-indigo-600 transition-all"
-                                                        >
-                                                            🔗 Visit Program
+                                            <tr className="border-b"><td className="p-2 font-medium">Website</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">
+                                                        <a href={uni.url} target="_blank" rel="noopener noreferrer" 
+                                                           className="text-blue-600 hover:underline">
+                                                            🔗 Visit
                                                         </a>
                                                     </td>
                                                 ))}
@@ -510,99 +1270,77 @@
 
                         {/* Results */}
                         {viewMode === 'cards' ? (
-                            // Card View
-                            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                                {filteredAndSorted.map(uni => (
-                                    <div
-                                        key={uni.id}
-                                        className={`bg-white rounded-lg shadow-lg overflow-hidden border-2 transition-all hover:shadow-xl ${
-                                            uni.new ? 'border-orange-400' : 'border-transparent'
-                                        } ${
-                                            selectedForComparison.find(u => u.id === uni.id) 
-                                                ? 'ring-4 ring-purple-300' 
-                                                : ''
-                                        }`}
-                                    >
-                                        {/* Header with Classification */}
-                                        <div className={`p-4 border-b-4 ${getClassificationColor(uni.classification)}`}>
-                                            <div className="flex justify-between items-start mb-2">
-                                                <h3 className="font-bold text-lg leading-tight">{uni.name}</h3>
-                                                {uni.new && (
-                                                    <span className="bg-orange-500 text-white text-xs px-2 py-1 rounded-full font-bold animate-pulse">
-                                                        NEW!
-                                                    </span>
-                                                )}
-                                            </div>
-                                            <div className="flex items-center gap-2 text-sm">
-                                                <span className="font-semibold">{uni.country}</span>
-                                                <span className="text-gray-400">•</span>
-                                                <span>{uni.citySize}</span>
-                                            </div>
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-8">
+                                {filteredUniversities.map(uni => (
+                                    <div key={uni.id} className="bg-white rounded-lg shadow-lg p-4 hover:shadow-xl transition-shadow flex flex-col">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="text-base font-bold text-gray-800 flex-1">{uni.name}</h3>
+                                            {uni.new && (
+                                                <span className="bg-yellow-400 text-yellow-900 text-xs px-2 py-0.5 rounded-full font-bold ml-2">
+                                                    NEW
+                                                </span>
+                                            )}
                                         </div>
-
-                                        {/* Content */}
-                                        <div className="p-4 space-y-3">
-                                            <div>
-                                                <div className="text-sm font-semibold text-gray-500 mb-1">Program</div>
-                                                <div className="font-medium">{uni.program}</div>
-                                            </div>
-
-                                            <div className="flex justify-between items-center">
-                                                <div>
-                                                    <div className="text-sm font-semibold text-gray-500">Language</div>
-                                                    <div className="font-medium">{uni.language}</div>
-                                                </div>
-                                                <div className="text-right">
-                                                    <div className="text-sm font-semibold text-gray-500">Fit Score</div>
-                                                    <div className="font-bold text-lg">
-                                                        {'⭐'.repeat(Math.floor(uni.fitScore))} {uni.fitScore}
-                                                    </div>
-                                                </div>
-                                            </div>
-
-                                            <div>
-                                                <div className="text-sm font-semibold text-gray-500 mb-1">Total Cost (3 years)</div>
-                                                <div className="text-2xl font-bold text-green-600">{uni.cost}</div>
-                                            </div>
-
-                                            <div>
-                                                <div className="text-sm font-semibold text-gray-500 mb-2">Highlights</div>
-                                                <div className="space-y-1">
-                                                    {uni.highlights.slice(0, 3).map((highlight, idx) => (
-                                                        <div key={idx} className="text-sm flex items-start gap-2">
-                                                            <span className="text-green-500 mt-0.5">✓</span>
-                                                            <span>{highlight}</span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
+                                        <div className="flex flex-wrap gap-1 mb-3">
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getClassificationColor(uni.classification)}`}>
+                                                {uni.classification}
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">
+                                                {uni.country}
+                                            </span>
                                         </div>
-
-                                        {/* Footer */}
-                                        <div className="p-4 bg-gray-50 border-t space-y-2">
-                                            <a
-                                                href={uni.url}
-                                                target="_blank"
+                                        <div className="space-y-1 mb-3 text-xs flex-grow">
+                                            <p><strong>Program:</strong> {uni.program}</p>
+                                            <p><strong>Language:</strong> {uni.language}</p>
+                                            <p><strong>Cost:</strong> {uni.cost}</p>
+                                            <p><strong>Fit:</strong> {'⭐'.repeat(Math.floor(uni.fitScore))}</p>
+                                            <p><strong>Location:</strong> {uni.citySize}</p>
+                                            {uni.admissionsEmail && (
+                                                <p className="text-purple-700">
+                                                    <strong>📧 Admissions:</strong>{' '}
+                                                    <a href={`mailto:${uni.admissionsEmail}`} className="underline hover:text-purple-900">
+                                                        {uni.admissionsEmail}
+                                                    </a>
+                                                </p>
+                                            )}
+                                            {uni.openHouseDates && (
+                                                <p className="text-green-700"><strong>🗓️ Open House:</strong> {uni.openHouseDates}</p>
+                                            )}
+                                            {uni.visitInfo && (
+                                                <p className="text-blue-700"><strong>🏫 Campus Visits:</strong> {uni.visitInfo}</p>
+                                            )}
+                                        </div>
+                                        <div className="mb-3">
+                                            <p className="text-xs font-semibold text-gray-600 mb-1">Highlights:</p>
+                                            <ul className="text-xs space-y-0.5">
+                                                {uni.highlights.map((h, i) => (
+                                                    <li key={i} className="flex items-start">
+                                                        <span className="mr-1">•</span>
+                                                        <span>{h}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-2 mt-auto">
+                                            <a 
+                                                href={uni.url} 
+                                                target="_blank" 
                                                 rel="noopener noreferrer"
-                                                className="block w-full py-2 px-4 bg-indigo-500 text-white text-center rounded-lg font-medium hover:bg-indigo-600 transition-all"
+                                                className="flex-1 bg-blue-600 text-white px-3 py-1.5 rounded text-center hover:bg-blue-700 text-xs"
                                             >
-                                                🔗 Visit Program Website
+                                                🔗 Visit Website
                                             </a>
                                             {compareMode && (
                                                 <button
-                                                    onClick={() => toggleComparison(uni)}
-                                                    disabled={selectedForComparison.length >= 4 && !selectedForComparison.find(u => u.id === uni.id)}
-                                                    className={`w-full py-2 rounded-lg font-medium transition-all ${
-                                                        selectedForComparison.find(u => u.id === uni.id)
-                                                            ? 'bg-purple-500 text-white hover:bg-purple-600'
-                                                            : selectedForComparison.length >= 4
-                                                            ? 'bg-gray-200 text-gray-400 cursor-not-allowed'
-                                                            : 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200'
+                                                    onClick={() => toggleCompare(uni)}
+                                                    className={`px-3 py-1.5 rounded text-xs ${
+                                                        selectedForCompare.find(u => u.id === uni.id)
+                                                            ? 'bg-green-600 text-white'
+                                                            : 'bg-gray-200 text-gray-800'
                                                     }`}
+                                                    disabled={!selectedForCompare.find(u => u.id === uni.id) && selectedForCompare.length >= 4}
                                                 >
-                                                    {selectedForComparison.find(u => u.id === uni.id) 
-                                                        ? '✓ Selected for Comparison' 
-                                                        : '+ Add to Comparison'}
+                                                    {selectedForCompare.find(u => u.id === uni.id) ? '✓' : '+'}
                                                 </button>
                                             )}
                                         </div>
@@ -610,104 +1348,69 @@
                                 ))}
                             </div>
                         ) : (
-                            // Table View
-                            <div className="bg-white rounded-lg shadow-lg overflow-hidden">
-                                <div className="overflow-x-auto">
-                                    <table className="w-full">
-                                        <thead className="bg-gray-50 border-b-2">
-                                            <tr>
-                                                {compareMode && <th className="p-3 text-left">Compare</th>}
-                                                <th className="p-3 text-left font-semibold">University</th>
-                                                <th className="p-3 text-left font-semibold">Program</th>
-                                                <th className="p-3 text-left font-semibold">Country</th>
-                                                <th className="p-3 text-left font-semibold">Cost</th>
-                                                <th className="p-3 text-left font-semibold">Classification</th>
-                                                <th className="p-3 text-left font-semibold">Fit</th>
-                                                <th className="p-3 text-left font-semibold">Language</th>
-                                                <th className="p-3 text-left font-semibold">Website</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody className="divide-y">
-                                            {filteredAndSorted.map(uni => (
-                                                <tr key={uni.id} className="hover:bg-gray-50">
-                                                    {compareMode && (
-                                                        <td className="p-3">
-                                                            <input
-                                                                type="checkbox"
-                                                                checked={!!selectedForComparison.find(u => u.id === uni.id)}
-                                                                onChange={() => toggleComparison(uni)}
-                                                                disabled={selectedForComparison.length >= 4 && !selectedForComparison.find(u => u.id === uni.id)}
-                                                                className="w-5 h-5"
-                                                            />
-                                                        </td>
-                                                    )}
-                                                    <td className="p-3">
-                                                        <div className="font-semibold">{uni.name}</div>
-                                                        {uni.new && (
-                                                            <span className="inline-block mt-1 bg-orange-500 text-white text-xs px-2 py-0.5 rounded-full">
-                                                                NEW 2026!
-                                                            </span>
-                                                        )}
-                                                    </td>
-                                                    <td className="p-3 text-sm">{uni.program}</td>
-                                                    <td className="p-3 font-medium">{uni.country}</td>
-                                                    <td className="p-3 font-bold text-green-600">{uni.cost}</td>
-                                                    <td className="p-3">
-                                                        <span className={`px-2 py-1 rounded-full text-xs font-medium ${getClassificationColor(uni.classification)}`}>
-                                                            {uni.classification}
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-3">
-                                                        {'⭐'.repeat(Math.floor(uni.fitScore))} {uni.fitScore}
-                                                    </td>
-                                                    <td className="p-3 text-sm">{uni.language}</td>
-                                                    <td className="p-3">
-                                                        <a
-                                                            href={uni.url}
-                                                            target="_blank"
-                                                            rel="noopener noreferrer"
-                                                            className="inline-flex items-center gap-1 px-3 py-1 bg-indigo-500 text-white text-sm rounded-lg hover:bg-indigo-600 transition-all"
+                            <div className="bg-white rounded-lg shadow-lg overflow-x-auto mb-8">
+                                <table className="w-full text-sm">
+                                    <thead className="bg-gray-50 border-b">
+                                        <tr>
+                                            {compareMode && <th className="p-2 text-left text-xs">Compare</th>}
+                                            <th className="p-2 text-left text-xs">University</th>
+                                            <th className="p-2 text-left text-xs">Country</th>
+                                            <th className="p-2 text-left text-xs">Program</th>
+                                            <th className="p-2 text-left text-xs">Lang</th>
+                                            <th className="p-2 text-left text-xs">Cost</th>
+                                            <th className="p-2 text-left text-xs">Class</th>
+                                            <th className="p-2 text-left text-xs">Fit</th>
+                                            <th className="p-2 text-left text-xs">Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-xs">
+                                        {filteredUniversities.map(uni => (
+                                            <tr key={uni.id} className="border-b hover:bg-gray-50">
+                                                {compareMode && (
+                                                    <td className="p-2">
+                                                        <button
+                                                            onClick={() => toggleCompare(uni)}
+                                                            className={`px-2 py-1 rounded text-xs ${
+                                                                selectedForCompare.find(u => u.id === uni.id)
+                                                                    ? 'bg-green-600 text-white'
+                                                                    : 'bg-gray-200'
+                                                            }`}
+                                                            disabled={!selectedForCompare.find(u => u.id === uni.id) && selectedForCompare.length >= 4}
                                                         >
-                                                            🔗 Visit
-                                                        </a>
+                                                            {selectedForCompare.find(u => u.id === uni.id) ? '✓' : '+'}
+                                                        </button>
                                                     </td>
-                                                </tr>
-                                            ))}
-                                        </tbody>
-                                    </table>
-                                </div>
+                                                )}
+                                                <td className="p-2 font-medium">
+                                                    {uni.name}
+                                                    {uni.new && <span className="ml-1 bg-yellow-400 text-yellow-900 text-xs px-1 py-0.5 rounded">NEW</span>}
+                                                </td>
+                                                <td className="p-2">{uni.country}</td>
+                                                <td className="p-2">{uni.program}</td>
+                                                <td className="p-2">{uni.language}</td>
+                                                <td className="p-2">{uni.cost}</td>
+                                                <td className="p-2">
+                                                    <span className={`px-2 py-0.5 rounded-full text-xs ${getClassificationColor(uni.classification)}`}>
+                                                        {uni.classification}
+                                                    </span>
+                                                </td>
+                                                <td className="p-2">{'⭐'.repeat(Math.floor(uni.fitScore))}</td>
+                                                <td className="p-2">
+                                                    <a href={uni.url} target="_blank" rel="noopener noreferrer" 
+                                                       className="text-blue-600 hover:underline">
+                                                        🔗
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
                             </div>
                         )}
-
-                        {filteredAndSorted.length === 0 && (
-                            <div className="bg-white rounded-lg shadow-lg p-12 text-center">
-                                <div className="text-6xl mb-4">🔍</div>
-                                <h3 className="text-2xl font-bold text-gray-800 mb-2">No universities match your filters</h3>
-                                <p className="text-gray-600 mb-6">Try adjusting your filters to see more options</p>
-                                <button
-                                    onClick={clearFilters}
-                                    className="px-6 py-3 bg-indigo-500 text-white rounded-lg hover:bg-indigo-600 font-medium"
-                                >
-                                    Clear All Filters
-                                </button>
-                            </div>
-                        )}
-                    </div>
-
-                    {/* Footer */}
-                    <div className="bg-white border-t mt-12 py-6">
-                        <div className="max-w-7xl mx-auto px-4 text-center text-gray-600">
-                            <p className="font-medium">
-                                Good luck with your applications, Sophia! 🍀
-                            </p>
-                            <p className="text-sm mt-2">
-                                Your EU citizenship + C1 Spanish + trilingual skills = amazing opportunities across Europe! 🌍
-                            </p>
-                        </div>
                     </div>
                 </div>
             );
-        };
+        }
 
         ReactDOM.render(<UniversityExplorer />, document.getElementById('root'));
     </script>
