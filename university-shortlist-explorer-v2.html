@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>European AI/Data Science University Shortlist - Enhanced</title>
+    <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+    <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+        .sticky-controls {
+            position: sticky;
+            top: 0;
+            z-index: 40;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .details-table {
+            font-size: 0.75rem;
+        }
+        .details-table td {
+            padding: 0.25rem 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+    <script type="text/babel">
+        const { useState, useMemo } = React;
+
+        // Enhanced university database with detailed cost breakdowns
+        const universities = [
+            // GERMANY (9 universities)
+            {
+                id: 0,
+                name: "Technical University of Berlin (TU Berlin)",
+                country: "Germany",
+                program: "B.Sc. Artificial Intelligence & Data Engineering",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€10,800-15,600",
+                duration: 3,
+                cost: "€33-48k total",
+                costMin: 33000,
+                costMax: 48000,
+                erasmusPlus: true,
+                erasmusPartners: "Extensive",
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "international-department@tu.berlin.de",
+                openHouseDates: "TBD - Contact admissions (new program Oct 2025)",
+                visitInfo: "Berlin campus tours available - contact International Office",
+                visitUrl: "https://www.tu.berlin/en/international/students-1/international-students",
+                highlights: [
+                    "🆕 BRAND NEW PROGRAM - First intake October 2025!",
+                    "Top German technical university (#12 THE Rankings)",
+                    "BERLIN - Europe's startup & tech capital 🏙️",
+                    "BIFOLD Institute - 12 research groups in Big Data & ML",
+                    "Machine Learning Group with 50+ researchers",
+                    "Industry partnerships: Siemens, BMW, SAP, Deutsche Bahn",
+                    "Science of Intelligence Cluster (with Humboldt University)",
+                    "Practically FREE for EU students (€350/year tuition)",
+                    "Same cost as small-town universities but IN BERLIN!",
+                    "Access to Berlin's thriving tech ecosystem & startups"
+                ],
+                url: "https://www.tu.berlin/en/studying/study-programs/all-programs-offered"
+            },
+            {
+                id: 1,
+                name: "University of Passau",
+                country: "Germany",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€37-41k total",
+                costMin: 37000,
+                costMax: 41000,
+                erasmusPlus: true,
+                erasmusPartners: "250+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "advice@uni-passau.de",
+                openHouseDates: "March 21, 2026",
+                visitInfo: "Campus tours available throughout orientation week (Sept 29 - Oct 12, 2025)",
+                visitUrl: "https://www.uni-passau.de/en/open-days",
+                highlights: [
+                    "Dedicated AI bachelor's program in English",
+                    "Nearly free tuition (€350/year)",
+                    "Beautiful campus on the Danube",
+                    "Erasmus+ with 250+ partner universities"
+                ],
+                url: "https://www.uni-passau.de/en/bsc-artificial-intelligence"
+            },
+            {
+                id: 2,
+                name: "University of Bayreuth",
+                country: "Germany",
+                program: "BSc Data Science & AI",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€37-41k total",
+                costMin: 37000,
+                costMax: 41000,
+                erasmusPlus: true,
+                erasmusPartners: "150+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Small city",
+                admissionsEmail: "studierendenkanzlei@uni-bayreuth.de",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours during orientation week (Oct 2025)",
+                visitUrl: "https://www.uni-bayreuth.de/en/study",
+                highlights: [
+                    "Dedicated Data Science & AI program",
+                    "English-taught at German prices",
+                    "Modern campus with excellent facilities",
+                    "Erasmus+ with 150+ partners"
+                ],
+                url: "https://www.uni-bayreuth.de/en/study/degree-programmes/bachelor/data-science-ai"
+            },
+            {
+                id: 3,
+                name: "TH Deggendorf",
+                country: "Germany",
+                program: "BSc Applied AI",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€10,800-12,000",
+                duration: 3.5,
+                cost: "€39-43k total",
+                costMin: 39000,
+                costMax: 43000,
+                erasmusPlus: true,
+                erasmusPartners: "200+",
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Small town",
+                admissionsEmail: "studentservice@th-deg.de",
+                openHouseDates: "Check website",
+                visitInfo: "Individual campus visits available",
+                visitUrl: "https://www.th-deg.de/en/bai-b",
+                highlights: [
+                    "Applied, hands-on AI program",
+                    "Includes mandatory internship semester",
+                    "Multiple campuses across Bavaria",
+                    "48% international students"
+                ],
+                url: "https://www.th-deg.de/en/bai-b"
+            },
+            {
+                id: 4,
+                name: "Saarland University",
+                country: "Germany",
+                program: "BSc Computer Science (AI track)",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€37-41k total",
+                costMin: 37000,
+                costMax: 41000,
+                erasmusPlus: true,
+                erasmusPartners: "Extensive network",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "studium@uni-saarland.de",
+                openHouseDates: "Spring 2026",
+                visitInfo: "DFKI AI Research Center tours available",
+                visitUrl: "https://www.uni-saarland.de/en/study/visit.html",
+                highlights: [
+                    "Home to German AI Research Center (DFKI)",
+                    "Strong research reputation",
+                    "Near France/Luxembourg border",
+                    "Franco-German University programs"
+                ],
+                url: "https://www.uni-saarland.de/en/study/programmes/bachelor/computer-science.html"
+            },
+            {
+                id: 5,
+                name: "University of Tübingen",
+                country: "Germany",
+                program: "BSc Computer Science",
+                language: "German (mostly)",
+                tuitionPerYear: "€350",
+                livingPerYear: "€13,200-14,400",
+                duration: 3,
+                cost: "€41-44k total",
+                costMin: 41000,
+                costMax: 44000,
+                erasmusPlus: true,
+                erasmusPartners: "450+",
+                classification: "Reach",
+                fitScore: 3,
+                citySize: "Mid-size city",
+                admissionsEmail: "studium@uni-tuebingen.de",
+                openHouseDates: "Check website",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://uni-tuebingen.de",
+                highlights: [
+                    "Elite German university",
+                    "Strong AI research (Max Planck Institute)",
+                    "Erasmus+ 450+ partners (very extensive)",
+                    "Mostly German-taught (limited for international)"
+                ],
+                url: "https://uni-tuebingen.de/en/study/information-prospective-students/degree-programs/computer-science/"
+            },
+            {
+                id: 6,
+                name: "FAU Erlangen-Nuremberg",
+                country: "Germany",
+                program: "BSc Data Science",
+                language: "English/German",
+                tuitionPerYear: "€350",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€37-41k total",
+                costMin: 37000,
+                costMax: 41000,
+                erasmusPlus: true,
+                erasmusPartners: "500+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Large city",
+                admissionsEmail: "studienberatung@fau.de",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Regular campus tours",
+                visitUrl: "https://www.fau.eu",
+                highlights: [
+                    "Largest Erasmus+ network in Germany (500+)",
+                    "Strong CS and engineering reputation",
+                    "Located in Bavaria's tech corridor",
+                    "ATHENS program participant"
+                ],
+                url: "https://www.fau.eu/education/degree-programmes-a-z/data-science-bsc/"
+            },
+            {
+                id: 7,
+                name: "TH Rosenheim",
+                country: "Germany",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€13,200-14,400",
+                duration: 3.5,
+                cost: "€47-52k total",
+                costMin: 47000,
+                costMax: 52000,
+                erasmusPlus: true,
+                erasmusPartners: "100+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Small city",
+                admissionsEmail: "studienberatung@th-rosenheim.de",
+                openHouseDates: "Check website",
+                visitInfo: "Campus visits by appointment",
+                visitUrl: "https://www.th-rosenheim.de",
+                highlights: [
+                    "Applied AI program",
+                    "Near Munich and Alps",
+                    "Strong industry partnerships",
+                    "Includes practical semester"
+                ],
+                url: "https://www.th-rosenheim.de/en/study/study-programs/bachelor/artificial-intelligence-beng"
+            },
+            {
+                id: 8,
+                name: "THI Ingolstadt",
+                country: "Germany",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€350",
+                livingPerYear: "€12,000-13,200",
+                duration: 3.5,
+                cost: "€43-47k total",
+                costMin: 43000,
+                costMax: 47000,
+                erasmusPlus: true,
+                erasmusPartners: "120+",
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "studienberatung@thi.de",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Regular campus tours",
+                visitUrl: "https://www.thi.de",
+                highlights: [
+                    "Strong automotive industry connections (Audi HQ)",
+                    "Applied sciences focus",
+                    "Modern facilities",
+                    "Industry internship opportunities"
+                ],
+                url: "https://www.thi.de/en/study/bachelors-degree-programmes/artificial-intelligence"
+            },
+
+            // NETHERLANDS (6 universities)
+            {
+                id: 9,
+                name: "Maastricht University",
+                country: "Netherlands",
+                program: "BSc Data Science & AI",
+                language: "English",
+                tuitionPerYear: "€2,314",
+                livingPerYear: "€10,800-12,000",
+                duration: 3,
+                cost: "€39-43k total",
+                costMin: 39000,
+                costMax: 43000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Mid-size city",
+                admissionsEmail: "studyadvisor-dke@maastrichtuniversity.nl",
+                openHouseDates: "March 2026",
+                visitInfo: "Open days and campus tours throughout year",
+                visitUrl: "https://www.maastrichtuniversity.nl/education/bachelor/data-science-and-artificial-intelligence",
+                highlights: [
+                    "Problem-based learning approach",
+                    "International environment (50% international)",
+                    "Near Belgium/Germany border",
+                    "Erasmus+ with 300+ partners"
+                ],
+                url: "https://www.maastrichtuniversity.nl/education/bachelor/data-science-and-artificial-intelligence"
+            },
+            {
+                id: 10,
+                name: "VU Amsterdam",
+                country: "Netherlands",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€2,314",
+                livingPerYear: "€14,400-18,000",
+                duration: 3,
+                cost: "€50-61k total",
+                costMin: 50000,
+                costMax: 61000,
+                erasmusPlus: true,
+                erasmusPartners: "250+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "info@vu.nl",
+                openHouseDates: "Multiple open days",
+                visitInfo: "Regular campus tours in Amsterdam",
+                visitUrl: "https://vu.nl/en/education/bachelor/artificial-intelligence",
+                highlights: [
+                    "Top-tier AI research program",
+                    "Amsterdam tech hub location",
+                    "Strong industry connections",
+                    "HIGH living costs (Amsterdam)"
+                ],
+                url: "https://vu.nl/en/education/bachelor/artificial-intelligence"
+            },
+            {
+                id: 11,
+                name: "University of Groningen",
+                country: "Netherlands",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€2,314",
+                livingPerYear: "€10,800-12,000",
+                duration: 3,
+                cost: "€39-43k total",
+                costMin: 39000,
+                costMax: 43000,
+                erasmusPlus: true,
+                erasmusPartners: "400+",
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "info@rug.nl",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Open days and campus tours",
+                visitUrl: "https://www.rug.nl/bachelors/artificial-intelligence/",
+                highlights: [
+                    "Vibrant student city atmosphere",
+                    "Very affordable for Netherlands",
+                    "Erasmus+ with 400+ partners (extensive)",
+                    "Strong international community"
+                ],
+                url: "https://www.rug.nl/bachelors/artificial-intelligence/"
+            },
+            {
+                id: 12,
+                name: "Leiden University",
+                country: "Netherlands",
+                program: "BSc Data Science & AI",
+                language: "English",
+                tuitionPerYear: "€2,314",
+                livingPerYear: "€12,000-14,400",
+                duration: 3,
+                cost: "€43-50k total",
+                costMin: 43000,
+                costMax: 50000,
+                erasmusPlus: true,
+                erasmusPartners: "200+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Mid-size city",
+                admissionsEmail: "studiechoice@liacs.leidenuniv.nl",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.universiteitleiden.nl/en/education/study-programmes/bachelor/artificial-intelligence",
+                highlights: [
+                    "Oldest university in Netherlands (1575)",
+                    "Beautiful historic city",
+                    "League of European Research Universities",
+                    "Near The Hague and Amsterdam"
+                ],
+                url: "https://www.universiteitleiden.nl/en/education/study-programmes/bachelor/artificial-intelligence"
+            },
+            {
+                id: 13,
+                name: "Breda University",
+                country: "Netherlands",
+                program: "BSc Applied Data Science & AI",
+                language: "English",
+                tuitionPerYear: "€2,314",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€52-57k total",
+                costMin: 52000,
+                costMax: 57000,
+                erasmusPlus: true,
+                erasmusPartners: "100+",
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "info@buas.nl",
+                openHouseDates: "Check website",
+                visitInfo: "Open days and campus tours",
+                visitUrl: "https://www.buas.nl/en/programmes/applied-data-science-and-artificial-intelligence",
+                highlights: [
+                    "Applied sciences - very practical",
+                    "4 years including internship",
+                    "Strong industry connections",
+                    "Focus on real-world applications"
+                ],
+                url: "https://www.buas.nl/en/programmes/applied-data-science-and-artificial-intelligence"
+            },
+            {
+                id: 14,
+                name: "Zuyd University",
+                country: "Netherlands",
+                program: "BSc Applied Data Science & AI",
+                language: "English",
+                tuitionPerYear: "€2,314",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€52-57k total",
+                costMin: 52000,
+                costMax: 57000,
+                erasmusPlus: true,
+                erasmusPartners: "Extensive",
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "info@zuyd.nl",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.zuyd.nl/en/programmes/applied-data-science-and-artificial-intelligence",
+                highlights: [
+                    "Applied sciences focus",
+                    "Maastricht area (near Belgium/Germany)",
+                    "4 years with practical experience",
+                    "Euregional connections"
+                ],
+                url: "https://www.zuyd.nl/en/programmes/applied-data-science-and-artificial-intelligence"
+            },
+
+            // SPAIN (13 universities)
+            {
+                id: 15,
+                name: "UPM Madrid",
+                country: "Spain",
+                program: "BSc Data Science & AI",
+                language: "Spanish",
+                tuitionPerYear: "€1,600-2,000",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€50-56k total",
+                costMin: 50000,
+                costMax: 56000,
+                erasmusPlus: true,
+                erasmusPartners: "400+",
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "informacion.academica@upm.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.upm.es",
+                highlights: [
+                    "Top Spanish engineering university",
+                    "Erasmus+ with 400+ partners (largest in Spain)",
+                    "Madrid capital location",
+                    "Taught in Spanish (C1 advantage!)"
+                ],
+                url: "https://www.upm.es/Estudiantes/Estudios_Titulaciones/EstudiosOficiales"
+            },
+            {
+                id: 16,
+                name: "UC3M Madrid",
+                country: "Spain",
+                program: "BSc Data Science & Engineering",
+                language: "Spanish/English",
+                tuitionPerYear: "€1,800-2,200",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€50-57k total",
+                costMin: 50000,
+                costMax: 57000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "informacion@uc3m.es",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours at multiple locations",
+                visitUrl: "https://www.uc3m.es/bachelor-degree/data-science",
+                highlights: [
+                    "Bilingual program (Spanish/English)",
+                    "Excellent reputation in Spain",
+                    "Strong international focus",
+                    "Erasmus+ with 300+ partners"
+                ],
+                url: "https://www.uc3m.es/bachelor-degree/data-science"
+            },
+            {
+                id: 17,
+                name: "University of Barcelona",
+                country: "Spain",
+                program: "BSc Data Science",
+                language: "Spanish/Catalan",
+                tuitionPerYear: "€2,400-2,800",
+                livingPerYear: "€10,800-13,200",
+                duration: 4,
+                cost: "€53-64k total",
+                costMin: 53000,
+                costMax: 64000,
+                erasmusPlus: true,
+                erasmusPartners: "250+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Large city",
+                admissionsEmail: "informacio@ub.edu",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.ub.edu/web/portal/en/",
+                highlights: [
+                    "Prestigious Spanish university",
+                    "Beautiful Barcelona location",
+                    "Spanish/Catalan language",
+                    "Coimbra Group member"
+                ],
+                url: "https://www.ub.edu/portal/web/mathematics-computer-science/bachelor-s-degrees/-/ensenyament/detallEnsenyament/1061205"
+            },
+            {
+                id: 18,
+                name: "University of Valencia",
+                country: "Spain",
+                program: "BSc Data Science",
+                language: "Spanish",
+                tuitionPerYear: "€1,300-1,600",
+                livingPerYear: "€9,600-10,800",
+                duration: 4,
+                cost: "€44-50k total",
+                costMin: 44000,
+                costMax: 50000,
+                erasmusPlus: true,
+                erasmusPartners: "350+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Large city",
+                admissionsEmail: "estudiantes@uv.es",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.uv.es/uvweb/college/en/undergraduate-degrees/undergraduate-degrees/data-science-1285846094474/Titulacio.html",
+                highlights: [
+                    "Beach city with great weather",
+                    "Very affordable for Spain",
+                    "Erasmus+ with 350+ partners",
+                    "Mediterranean lifestyle"
+                ],
+                url: "https://www.uv.es"
+            },
+            {
+                id: 19,
+                name: "UPC Barcelona",
+                country: "Spain",
+                program: "BSc Computer Science (AI/Data)",
+                language: "Spanish/Catalan",
+                tuitionPerYear: "€2,400-2,800",
+                livingPerYear: "€10,800-13,200",
+                duration: 4,
+                cost: "€53-64k total",
+                costMin: 53000,
+                costMax: 64000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Reach",
+                fitScore: 4,
+                citySize: "Large city",
+                admissionsEmail: "info.fr@upc.edu",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.upc.edu/en",
+                highlights: [
+                    "Top Spanish engineering university",
+                    "Strong AI/Data Science track",
+                    "TIME and ATHENS networks",
+                    "Barcelona tech hub"
+                ],
+                url: "https://www.upc.edu/en/bachelors"
+            },
+            {
+                id: 20,
+                name: "IE University",
+                country: "Spain",
+                program: "BSc CS & AI (PRIVATE)",
+                language: "English",
+                tuitionPerYear: "€26,000-28,000",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€147-160k total",
+                costMin: 147000,
+                costMax: 160000,
+                erasmusPlus: false,
+                erasmusPartners: "Limited",
+                classification: "Expensive",
+                fitScore: 3,
+                citySize: "Madrid/Segovia",
+                admissionsEmail: "admissions@ie.edu",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.ie.edu/university/",
+                highlights: [
+                    "English-taught private university",
+                    "VERY EXPENSIVE (€147-160k)",
+                    "NOT RECOMMENDED - poor value",
+                    "Limited Erasmus+ as private institution"
+                ],
+                url: "https://www.ie.edu/university/studies/academic-programs/bachelors-computer-science-artificial-intelligence/"
+            },
+            {
+                id: 21,
+                name: "UPNA Pamplona",
+                country: "Spain",
+                program: "BSc Computer Science",
+                language: "English",
+                tuitionPerYear: "€1,200-1,500",
+                livingPerYear: "€8,400-9,600",
+                duration: 4,
+                cost: "€38-44k total",
+                costMin: 38000,
+                costMax: 44000,
+                erasmusPlus: true,
+                erasmusPartners: "200+",
+                classification: "Safety",
+                fitScore: 5,
+                citySize: "Mid-size city",
+                admissionsEmail: "admision@unavarra.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.unavarra.es/home/",
+                highlights: [
+                    "100% ENGLISH-taught program",
+                    "EXCELLENT VALUE (€38-44k)",
+                    "Very affordable living costs",
+                    "Erasmus+ with 200+ partners"
+                ],
+                url: "https://www.unavarra.es/sites/grados/informatica/informatica-english.html"
+            },
+            {
+                id: 22,
+                name: "UPV Valencia",
+                country: "Spain",
+                program: "BSc Data Science",
+                language: "Spanish/English",
+                tuitionPerYear: "€1,400-1,700",
+                livingPerYear: "€9,600-10,800",
+                duration: 4,
+                cost: "€44-50k total",
+                costMin: 44000,
+                costMax: 50000,
+                erasmusPlus: true,
+                erasmusPartners: "400+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "infopdi@upv.es",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.upv.es/index-en.html",
+                highlights: [
+                    "Spanish/English options available",
+                    "Beach city location",
+                    "Erasmus+ with 400+ partners (very extensive)",
+                    "Excellent value for quality"
+                ],
+                url: "https://www.upv.es/titulaciones/GCIEDDATOS/indexi.html"
+            },
+            {
+                id: 23,
+                name: "UAB Barcelona",
+                country: "Spain",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€2,500-3,000",
+                livingPerYear: "€10,800-13,200",
+                duration: 4,
+                cost: "€53-65k total",
+                costMin: 53000,
+                costMax: 65000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "informacio.graus@uab.cat",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.uab.cat/web/estudiar/graus/artificial-intelligence-1345467812802.html",
+                highlights: [
+                    "ENGLISH-taught AI program",
+                    "Near Barcelona (15 min by train)",
+                    "Worldwide Universities Network member",
+                    "Higher Catalonia tuition rates"
+                ],
+                url: "https://www.uab.cat/web/estudiar/graus/artificial-intelligence-1345467812802.html"
+            },
+            {
+                id: 24,
+                name: "TECNUN San Sebastián",
+                country: "Spain",
+                program: "BSc AI Engineering",
+                language: "Spanish/English",
+                tuitionPerYear: "€10,000-12,000",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€83-96k total",
+                costMin: 83000,
+                costMax: 96000,
+                erasmusPlus: true,
+                erasmusPartners: "150+",
+                classification: "Reach",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "admisiones@tecnun.es",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.tecnun.es/en",
+                highlights: [
+                    "Bilingual Spanish/English",
+                    "Part of University of Navarra",
+                    "EXPENSIVE for Spain (semi-private)",
+                    "Beautiful Basque Country location"
+                ],
+                url: "https://www.tecnun.es/en/ingenio/undergraduate-degrees/artificial-intelligence-engineering"
+            },
+            {
+                id: 25,
+                name: "Universidad de Zaragoza",
+                country: "Spain",
+                program: "BSc Computer Science",
+                language: "Spanish",
+                tuitionPerYear: "€1,200-1,500",
+                livingPerYear: "€8,400-9,600",
+                duration: 4,
+                cost: "€38-44k total",
+                costMin: 38000,
+                costMax: 44000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Safety",
+                fitScore: 3.5,
+                citySize: "Large city",
+                admissionsEmail: "informacion@unizar.es",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.unizar.es/",
+                highlights: [
+                    "Very affordable (€38-44k)",
+                    "Spanish-taught program",
+                    "Coimbra Group member",
+                    "Good value for cost-conscious students"
+                ],
+                url: "https://www.unizar.es/grado-en-ingenieria-informatica"
+            },
+
+            // FRANCE (3 universities)
+            {
+                id: 26,
+                name: "PSL Paris",
+                country: "France",
+                program: "International BSc AI",
+                language: "English",
+                tuitionPerYear: "€13,000",
+                livingPerYear: "€14,400-18,000",
+                duration: 3,
+                cost: "€82-93k total",
+                costMin: 82000,
+                costMax: 93000,
+                erasmusPlus: true,
+                erasmusPartners: "Elite network",
+                classification: "Elite Reach",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "admissions@psl.eu",
+                openHouseDates: "Check website",
+                visitInfo: "Campus tours by appointment",
+                visitUrl: "https://www.psl.eu/en/education/bachelors-degree/psl-international-bachelors-degree-sciences",
+                highlights: [
+                    "ELITE program (highly selective)",
+                    "English-taught international track",
+                    "PSL network (ENS, École Polytechnique)",
+                    "EXPENSIVE for France (€82-93k)"
+                ],
+                url: "https://www.psl.eu/en/education/bachelors-degree/psl-international-bachelors-degree-sciences"
+            },
+            {
+                id: 27,
+                name: "Paris-Saclay",
+                country: "France",
+                program: "BSc CS + AI track",
+                language: "French/English",
+                tuitionPerYear: "€170",
+                livingPerYear: "€14,400-16,800",
+                duration: 3,
+                cost: "€44-51k total",
+                costMin: 44000,
+                costMax: 51000,
+                erasmusPlus: true,
+                erasmusPartners: "200+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Paris suburbs",
+                admissionsEmail: "contact@universite-paris-saclay.fr",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.universite-paris-saclay.fr/en",
+                highlights: [
+                    "STATUTORY French tuition (€170/year!)",
+                    "Mostly French-taught",
+                    "Alliance 4EU+ network",
+                    "Paris area location"
+                ],
+                url: "https://www.universite-paris-saclay.fr/en"
+            },
+            {
+                id: 28,
+                name: "DSTI Paris",
+                country: "France",
+                program: "BSc Data Science & AI (PRIVATE)",
+                language: "English",
+                tuitionPerYear: "€9,000-10,000",
+                livingPerYear: "€14,400-18,000",
+                duration: 3,
+                cost: "€70-84k total",
+                costMin: 70000,
+                costMax: 84000,
+                erasmusPlus: false,
+                erasmusPartners: "None",
+                classification: "Expensive",
+                fitScore: 3,
+                citySize: "Large city",
+                admissionsEmail: "info@dsti.education",
+                openHouseDates: "Check website",
+                visitInfo: "Campus tours by appointment",
+                visitUrl: "https://www.datasciencetech.institute/",
+                highlights: [
+                    "English-taught private school",
+                    "EXPENSIVE (€70-84k)",
+                    "No Erasmus+ (private institution)",
+                    "NOT recommended - poor value"
+                ],
+                url: "https://www.datasciencetech.institute/"
+            },
+
+            // AUSTRIA (1 university)
+            {
+                id: 29,
+                name: "JKU Linz",
+                country: "Austria",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€1,452",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€40-44k total",
+                costMin: 40000,
+                costMax: 44000,
+                erasmusPlus: true,
+                erasmusPartners: "200+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Mid-size city",
+                admissionsEmail: "study@jku.at",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.jku.at/en/degree-programs/bachelors-programmes/ba-artificial-intelligence/",
+                highlights: [
+                    "English-taught AI program",
+                    "Affordable Austrian city",
+                    "CEEPUS and Coimbra Group",
+                    "Strong tech industry presence"
+                ],
+                url: "https://www.jku.at/en/degree-programs/bachelors-programmes/ba-artificial-intelligence/"
+            },
+
+            // ITALY (3 universities)
+            {
+                id: 30,
+                name: "University of Milan",
+                country: "Italy",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€2,000-3,000",
+                livingPerYear: "€12,000-14,400",
+                duration: 3,
+                cost: "€42-52k total",
+                costMin: 42000,
+                costMax: 52000,
+                erasmusPlus: true,
+                erasmusPartners: "400+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Large city",
+                admissionsEmail: "info@unimi.it",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.unimi.it/en",
+                highlights: [
+                    "English-taught program",
+                    "Fashion capital location",
+                    "Erasmus+ with 400+ partners (very extensive)",
+                    "Milan living costs HIGH"
+                ],
+                url: "https://www.unimi.it/en/education/bachelor-programme/artificial-intelligence"
+            },
+            {
+                id: 31,
+                name: "University of Pavia",
+                country: "Italy",
+                program: "BSc Artificial Intelligence",
+                language: "English",
+                tuitionPerYear: "€1,500-2,500",
+                livingPerYear: "€9,600-10,800",
+                duration: 3,
+                cost: "€33-40k total",
+                costMin: 33000,
+                costMax: 40000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "internationaladmissions@unipv.it",
+                openHouseDates: "Multiple dates",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://web.unipv.it/artificial-intelligence/",
+                highlights: [
+                    "English-taught AI program",
+                    "VERY AFFORDABLE (€33-40k)",
+                    "Historic Italian city",
+                    "Coimbra Group member"
+                ],
+                url: "https://web.unipv.it/artificial-intelligence/"
+            },
+            {
+                id: 32,
+                name: "H-FARM College",
+                country: "Italy",
+                program: "BSc AI & Data Science (PRIVATE)",
+                language: "English",
+                tuitionPerYear: "€12,000-14,000",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€72-82k total",
+                costMin: 72000,
+                costMax: 82000,
+                erasmusPlus: false,
+                erasmusPartners: "None",
+                classification: "Expensive",
+                fitScore: 3,
+                citySize: "Venice area",
+                admissionsEmail: "admissions@h-farm.com",
+                openHouseDates: "Check website",
+                visitInfo: "Campus tours by appointment",
+                visitUrl: "https://www.h-farmcollege.com/",
+                highlights: [
+                    "English-taught private school",
+                    "Startup/entrepreneurship focus",
+                    "EXPENSIVE (€72-82k)",
+                    "No Erasmus+ (private)"
+                ],
+                url: "https://www.h-farmcollege.com/undergraduate/artificial-intelligence-and-data-science"
+            },
+
+            // SWEDEN (1 university)
+            {
+                id: 33,
+                name: "Karlstad University",
+                country: "Sweden",
+                program: "BSc CS (AI & ML track)",
+                language: "English",
+                tuitionPerYear: "€0",
+                livingPerYear: "€12,000-13,200",
+                duration: 3,
+                cost: "€36-40k total",
+                costMin: 36000,
+                costMax: 40000,
+                erasmusPlus: true,
+                erasmusPartners: "300+",
+                classification: "Safety",
+                fitScore: 4,
+                citySize: "Mid-size city",
+                admissionsEmail: "admissions@kau.se",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.kau.se/en/education/programmes-and-courses/programmes/SGDSC",
+                highlights: [
+                    "FREE tuition for EU students",
+                    "English-taught program",
+                    "Swedish quality of life",
+                    "Nordplus network participant"
+                ],
+                url: "https://www.kau.se/en/education/programmes-and-courses/programmes/SGDSC"
+            },
+
+            // PORTUGAL (1 university)
+            {
+                id: 34,
+                name: "NOVA IMS Lisbon",
+                country: "Portugal",
+                program: "BSc Data Science",
+                language: "English",
+                tuitionPerYear: "€697",
+                livingPerYear: "€7,200-9,600",
+                duration: 3,
+                cost: "€24-31k total",
+                costMin: 24000,
+                costMax: 31000,
+                erasmusPlus: true,
+                erasmusPartners: "100+",
+                classification: "Match",
+                fitScore: 5,
+                citySize: "Large city",
+                admissionsEmail: "admissions@novaims.unl.pt",
+                openHouseDates: "Spring 2026",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.novaims.unl.pt/education/bachelors/data-science",
+                highlights: [
+                    "100% ENGLISH-taught",
+                    "MOST AFFORDABLE (€24-31k total!)",
+                    "Dedicated Data Science school",
+                    "Excellent value proposition"
+                ],
+                url: "https://www.novaims.unl.pt/education/bachelors/data-science",
+                new: true
+            }
+        ];
+
+        function UniversityExplorer() {
+            const [countryFilter, setCountryFilter] = useState('all');
+            const [languageFilter, setLanguageFilter] = useState('all');
+            const [costFilter, setCostFilter] = useState([0, 250000]);
+            const [searchQuery, setSearchQuery] = useState('');
+            const [viewMode, setViewMode] = useState('grid');
+            const [compareMode, setCompareMode] = useState(false);
+            const [selectedForCompare, setSelectedForCompare] = useState([]);
+            const [minStars, setMinStars] = useState(0);
+            const [durationFilter, setDurationFilter] = useState('all');
+            const [erasmusFilter, setErasmusFilter] = useState(false);
+            const [expandedDetails, setExpandedDetails] = useState({});
+
+            const countries = useMemo(() => {
+                return ['all', ...new Set(universities.map(u => u.country))].sort();
+            }, []);
+
+            const languages = useMemo(() => {
+                return ['all', ...new Set(universities.map(u => u.language))].sort();
+            }, []);
+
+            const durations = useMemo(() => {
+                return ['all', ...new Set(universities.map(u => u.duration.toString()))].sort();
+            }, []);
+
+            const filteredUniversities = useMemo(() => {
+                return universities.filter(uni => {
+                    const matchesCountry = countryFilter === 'all' || uni.country === countryFilter;
+                    const matchesLanguage = languageFilter === 'all' || uni.language.includes(languageFilter);
+                    const matchesCost = uni.costMin >= costFilter[0] && uni.costMax <= costFilter[1];
+                    const matchesSearch = searchQuery === '' || 
+                        uni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        uni.program.toLowerCase().includes(searchQuery.toLowerCase()) ||
+                        uni.country.toLowerCase().includes(searchQuery.toLowerCase());
+                    const matchesStars = uni.fitScore >= minStars;
+                    const matchesDuration = durationFilter === 'all' || uni.duration.toString() === durationFilter;
+                    const matchesErasmus = !erasmusFilter || uni.erasmusPlus === true;
+
+                    return matchesCountry && matchesLanguage && matchesCost && matchesSearch && matchesStars && matchesDuration && matchesErasmus;
+                });
+            }, [countryFilter, languageFilter, costFilter, searchQuery, minStars, durationFilter, erasmusFilter]);
+
+            const toggleCompare = (uni) => {
+                if (selectedForCompare.find(u => u.id === uni.id)) {
+                    setSelectedForCompare(selectedForCompare.filter(u => u.id !== uni.id));
+                } else if (selectedForCompare.length < 4) {
+                    setSelectedForCompare([...selectedForCompare, uni]);
+                }
+            };
+
+            const toggleDetails = (uniId) => {
+                setExpandedDetails(prev => ({
+                    ...prev,
+                    [uniId]: !prev[uniId]
+                }));
+            };
+
+            const getClassificationColor = (classification) => {
+                switch(classification) {
+                    case 'Reach':
+                    case 'Elite Reach':
+                        return 'border-red-500 text-red-700 bg-red-50';
+                    case 'Match':
+                        return 'border-green-500 text-green-700 bg-green-50';
+                    case 'Safety':
+                        return 'border-blue-500 text-blue-700 bg-blue-50';
+                    case 'Expensive':
+                        return 'border-yellow-500 text-yellow-700 bg-yellow-50';
+                    default:
+                        return 'border-gray-500 text-gray-700 bg-gray-50';
+                }
+            };
+
+            const renderStarFilter = () => {
+                return (
+                    <div className="flex items-center gap-0.5">
+                        {[1, 2, 3, 4, 5].map(star => (
+                            <button
+                                key={star}
+                                onClick={() => setMinStars(star === minStars ? 0 : star)}
+                                className={`text-base transition-all ${
+                                    star <= minStars 
+                                        ? 'text-yellow-400' 
+                                        : 'text-gray-300 hover:text-yellow-200'
+                                }`}
+                                title={`${star}+ stars`}
+                            >
+                                ⭐
+                            </button>
+                        ))}
+                        {minStars > 0 && (
+                            <span className="text-xs text-gray-600 ml-1">
+                                {minStars}+
+                            </span>
+                        )}
+                    </div>
+                );
+            };
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+                    {/* Header - Scrolls away */}
+                    <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                                🎓 European AI & Data Science Universities
+                            </h1>
+                            <p className="text-gray-600 text-xs">
+                                Comprehensive comparison tool • Cost breakdowns • Erasmus+ programs • 35 universities across 8 countries
+                            </p>
+                        </div>
+                    </div>
+
+                    {/* Filters - Sticky and Compact */}
+                    <div className="sticky-controls">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
+                            <div className="bg-white rounded-lg shadow-md p-3">
+                                {/* First Row: Search and Main Filters */}
+                                <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-2 mb-2">
+                                    {/* Search - Takes more space */}
+                                    <div className="md:col-span-3 lg:col-span-4">
+                                        <input
+                                            type="text"
+                                            placeholder="🔍 Search universities, programs..."
+                                            value={searchQuery}
+                                            onChange={(e) => setSearchQuery(e.target.value)}
+                                            className="w-full px-3 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        />
+                                    </div>
+
+                                    {/* Country Filter */}
+                                    <div className="md:col-span-1 lg:col-span-2">
+                                        <select
+                                            value={countryFilter}
+                                            onChange={(e) => setCountryFilter(e.target.value)}
+                                            className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            {countries.map(country => (
+                                                <option key={country} value={country}>
+                                                    {country === 'all' ? '🌍 Country' : country}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    {/* Language Filter */}
+                                    <div className="md:col-span-1 lg:col-span-2">
+                                        <select
+                                            value={languageFilter}
+                                            onChange={(e) => setLanguageFilter(e.target.value)}
+                                            className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            {languages.map(lang => (
+                                                <option key={lang} value={lang}>
+                                                    {lang === 'all' ? '🗣️ Language' : lang}
+                                                </option>
+                                            ))}
+                                        </select>
+                                    </div>
+
+                                    {/* Duration Filter */}
+                                    <div className="md:col-span-1 lg:col-span-2">
+                                        <select
+                                            value={durationFilter}
+                                            onChange={(e) => setDurationFilter(e.target.value)}
+                                            className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:ring-2 focus:ring-blue-500"
+                                        >
+                                            <option value="all">⏱️ Duration</option>
+                                            <option value="3">3 years</option>
+                                            <option value="3.5">3.5 years</option>
+                                            <option value="4">4 years</option>
+                                        </select>
+                                    </div>
+
+                                    {/* Star Rating Filter - Compact */}
+                                    <div className="md:col-span-6 lg:col-span-2 flex items-center justify-center">
+                                        {renderStarFilter()}
+                                    </div>
+                                </div>
+
+                                {/* Second Row: View Mode and Toggles */}
+                                <div className="flex flex-wrap items-center gap-2">
+                                    {/* View Mode Buttons */}
+                                    <button
+                                        onClick={() => setViewMode('grid')}
+                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                    >
+                                        📱 Grid
+                                    </button>
+                                    <button
+                                        onClick={() => setViewMode('table')}
+                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                    >
+                                        📊 Table
+                                    </button>
+                                    <button
+                                        onClick={() => {
+                                            setCompareMode(!compareMode);
+                                            if (!compareMode) setSelectedForCompare([]);
+                                        }}
+                                        className={`px-3 py-1 text-xs rounded ${compareMode ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+                                    >
+                                        ⚖️ Compare ({selectedForCompare.length}/4)
+                                    </button>
+
+                                    {/* Erasmus+ Toggle */}
+                                    <label className="flex items-center space-x-1 cursor-pointer px-2 py-1 bg-purple-50 rounded border border-purple-200">
+                                        <input
+                                            type="checkbox"
+                                            checked={erasmusFilter}
+                                            onChange={(e) => setErasmusFilter(e.target.checked)}
+                                            className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                                        />
+                                        <span className="text-xs font-medium text-purple-700">🇪🇺 Erasmus+ only</span>
+                                    </label>
+
+                                    {/* Results Counter */}
+                                    <div className="ml-auto text-xs text-gray-600 font-semibold">
+                                        {filteredUniversities.length} of {universities.length} universities
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {/* Main Content */}
+                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+                        {/* Comparison Panel */}
+                        {compareMode && selectedForCompare.length > 0 && (
+                            <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
+                                <h2 className="text-lg font-bold mb-3">Comparing {selectedForCompare.length} Universities</h2>
+                                <div className="overflow-x-auto">
+                                    <table className="w-full text-sm">
+                                        <thead className="bg-gray-50">
+                                            <tr>
+                                                <th className="p-2 text-left">Attribute</th>
+                                                {selectedForCompare.map(uni => (
+                                                    <th key={uni.id} className="p-2 text-left">{uni.name}</th>
+                                                ))}
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Program</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">{uni.program}</td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Duration</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">{uni.duration} years</td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Tuition/Year</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">{uni.tuitionPerYear}</td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Living/Year</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">{uni.livingPerYear}</td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t bg-blue-50">
+                                                <td className="p-2 font-semibold">Total Cost</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2 font-bold">{uni.cost}</td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Language</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">{uni.language}</td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Erasmus+</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">
+                                                        {uni.erasmusPlus ? `✅ ${uni.erasmusPartners}` : '❌'}
+                                                    </td>
+                                                ))}
+                                            </tr>
+                                            <tr className="border-t">
+                                                <td className="p-2 font-semibold">Fit Score</td>
+                                                {selectedForCompare.map(uni => (
+                                                    <td key={uni.id} className="p-2">{'⭐'.repeat(uni.fitScore)}</td>
+                                                ))}
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        )}
+
+                        {/* Results */}
+                        {viewMode === 'grid' ? (
+                            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                                {filteredUniversities.map(uni => (
+                                    <div key={uni.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 flex flex-col">
+                                        <div className="flex justify-between items-start mb-2">
+                                            <h3 className="text-lg font-bold text-gray-900 flex-1">
+                                                {uni.name}
+                                                {uni.new && <span className="ml-2 bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded">NEW</span>}
+                                            </h3>
+                                        </div>
+                                        <div className="flex flex-wrap gap-1 mb-3">
+                                            <span className={`px-2 py-0.5 rounded-full text-xs font-semibold border ${getClassificationColor(uni.classification)}`}>
+                                                {uni.classification}
+                                            </span>
+                                            <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-gray-100 text-gray-800">
+                                                {uni.country}
+                                            </span>
+                                            {uni.erasmusPlus && (
+                                                <span className="px-2 py-0.5 rounded-full text-xs font-semibold bg-purple-100 text-purple-800">
+                                                    🇪🇺 Erasmus+
+                                                </span>
+                                            )}
+                                        </div>
+                                        <div className="space-y-1 mb-3 text-xs flex-grow">
+                                            <p><strong>Program:</strong> {uni.program}</p>
+                                            <p><strong>Language:</strong> {uni.language}</p>
+                                            <p><strong>Duration:</strong> {uni.duration} years</p>
+                                            <p><strong>Total Cost:</strong> {uni.cost}</p>
+                                            <p><strong>Fit:</strong> {'⭐'.repeat(Math.floor(uni.fitScore))}</p>
+                                            
+                                            {/* Expandable Details */}
+                                            <button
+                                                onClick={() => toggleDetails(uni.id)}
+                                                className="text-blue-600 hover:text-blue-800 text-xs font-semibold mt-2"
+                                            >
+                                                {expandedDetails[uni.id] ? '▼ Hide Cost Breakdown' : '▶ Show Cost Breakdown'}
+                                            </button>
+
+                                            {expandedDetails[uni.id] && (
+                                                <div className="mt-2 p-3 bg-gray-50 rounded-lg">
+                                                    <table className="details-table w-full">
+                                                        <tbody>
+                                                            <tr>
+                                                                <td className="text-gray-600">Tuition/year:</td>
+                                                                <td className="font-semibold text-right">{uni.tuitionPerYear}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td className="text-gray-600">Living/year:</td>
+                                                                <td className="font-semibold text-right">{uni.livingPerYear}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <td className="text-gray-600">Duration:</td>
+                                                                <td className="font-semibold text-right">{uni.duration} years</td>
+                                                            </tr>
+                                                            <tr className="border-t border-gray-300">
+                                                                <td className="text-gray-800 font-bold pt-2">Total cost:</td>
+                                                                <td className="font-bold text-right pt-2 text-blue-700">{uni.cost}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                    <div className="mt-3 pt-2 border-t border-gray-200">
+                                                        <p className="text-xs">
+                                                            <strong>Erasmus+:</strong> {uni.erasmusPlus ? `✅ Yes (${uni.erasmusPartners} partners)` : '❌ No'}
+                                                        </p>
+                                                    </div>
+                                                </div>
+                                            )}
+
+                                            {uni.admissionsEmail && (
+                                                <p className="text-purple-700">
+                                                    <strong>📧 Admissions:</strong>{' '}
+                                                    <a href={`mailto:${uni.admissionsEmail}`} className="underline hover:text-purple-900">
+                                                        {uni.admissionsEmail}
+                                                    </a>
+                                                </p>
+                                            )}
+                                            {uni.openHouseDates && (
+                                                <p className="text-green-700"><strong>🗓️ Open House:</strong> {uni.openHouseDates}</p>
+                                            )}
+                                            {uni.visitInfo && (
+                                                <p className="text-blue-700"><strong>🏫 Campus Visits:</strong> {uni.visitInfo}</p>
+                                            )}
+                                        </div>
+                                        <div className="mb-3">
+                                            <p className="text-xs font-semibold text-gray-600 mb-1">Highlights:</p>
+                                            <ul className="text-xs space-y-0.5">
+                                                {uni.highlights.slice(0, 3).map((h, i) => (
+                                                    <li key={i} className="flex items-start">
+                                                        <span className="mr-1">•</span>
+                                                        <span>{h}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                        <div className="flex gap-2 mt-auto">
+                                            <a 
+                                                href={uni.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="flex-1 bg-blue-600 text-white px-3 py-1.5 rounded text-center hover:bg-blue-700 text-xs"
+                                            >
+                                                🔗 Visit Website
+                                            </a>
+                                            {compareMode && (
+                                                <button
+                                                    onClick={() => toggleCompare(uni)}
+                                                    className={`px-3 py-1.5 rounded text-xs ${
+                                                        selectedForCompare.find(u => u.id === uni.id)
+                                                            ? 'bg-green-600 text-white'
+                                                            : 'bg-gray-200 text-gray-800'
+                                                    }`}
+                                                    disabled={!selectedForCompare.find(u => u.id === uni.id) && selectedForCompare.length >= 4}
+                                                >
+                                                    {selectedForCompare.find(u => u.id === uni.id) ? '✓' : '+'}
+                                                </button>
+                                            )}
+                                        </div>
+                                    </div>
+                                ))}
+                            </div>
+                        ) : (
+                            <div className="bg-white rounded-lg shadow-lg overflow-x-auto mb-4">
+                                <table className="w-full text-sm">
+                                    <thead className="bg-gray-50 border-b">
+                                        <tr>
+                                            {compareMode && <th className="p-2 text-left text-xs">Compare</th>}
+                                            <th className="p-2 text-left text-xs">University</th>
+                                            <th className="p-2 text-left text-xs">Country</th>
+                                            <th className="p-2 text-left text-xs">Program</th>
+                                            <th className="p-2 text-left text-xs">Duration</th>
+                                            <th className="p-2 text-left text-xs">Tuition/Yr</th>
+                                            <th className="p-2 text-left text-xs">Living/Yr</th>
+                                            <th className="p-2 text-left text-xs">Total</th>
+                                            <th className="p-2 text-left text-xs">Erasmus+</th>
+                                            <th className="p-2 text-left text-xs">Fit</th>
+                                            <th className="p-2 text-left text-xs">Link</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody className="text-xs">
+                                        {filteredUniversities.map(uni => (
+                                            <tr key={uni.id} className="border-b hover:bg-gray-50">
+                                                {compareMode && (
+                                                    <td className="p-2">
+                                                        <button
+                                                            onClick={() => toggleCompare(uni)}
+                                                            className={`px-2 py-1 rounded text-xs ${
+                                                                selectedForCompare.find(u => u.id === uni.id)
+                                                                    ? 'bg-green-600 text-white'
+                                                                    : 'bg-gray-200'
+                                                            }`}
+                                                            disabled={!selectedForCompare.find(u => u.id === uni.id) && selectedForCompare.length >= 4}
+                                                        >
+                                                            {selectedForCompare.find(u => u.id === uni.id) ? '✓' : '+'}
+                                                        </button>
+                                                    </td>
+                                                )}
+                                                <td className="p-2 font-medium">
+                                                    {uni.name}
+                                                    {uni.new && <span className="ml-1 bg-yellow-400 text-yellow-900 text-xs px-1 py-0.5 rounded">NEW</span>}
+                                                </td>
+                                                <td className="p-2">{uni.country}</td>
+                                                <td className="p-2">{uni.program}</td>
+                                                <td className="p-2">{uni.duration}y</td>
+                                                <td className="p-2">{uni.tuitionPerYear}</td>
+                                                <td className="p-2">{uni.livingPerYear}</td>
+                                                <td className="p-2 font-semibold">{uni.cost}</td>
+                                                <td className="p-2">{uni.erasmusPlus ? '✅' : '❌'}</td>
+                                                <td className="p-2">{'⭐'.repeat(Math.floor(uni.fitScore))}</td>
+                                                <td className="p-2">
+                                                    <a href={uni.url} target="_blank" rel="noopener noreferrer" 
+                                                       className="text-blue-600 hover:underline">
+                                                        🔗
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Footer */}
+                    <footer className="bg-white border-t border-gray-200 mt-8 py-4">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
+                            <p className="mb-1">
+                                Built with 🤖 AI assistance by Sophia | 
+                                <a href="https://github.com/ymarquezla/UniversityAdvisor" 
+                                   className="text-blue-600 hover:underline ml-1">
+                                    View Source on GitHub
+                                </a>
+                            </p>
+                            <p className="text-[10px] text-gray-500">
+                                Last updated: December 2025 • Data includes tuition, living costs, duration, and Erasmus+ participation
+                            </p>
+                        </div>
+                    </footer>
+                </div>
+            );
+        }
+
+        ReactDOM.render(<UniversityExplorer />, document.getElementById('root'));
+    </script>
+</body>
+</html>
