@@ -3,16 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>European AI/Data Science University Shortlist - 37 Universities (with Map)</title>
+    <title>European AI/Data Science University Shortlist - 37 Universities</title>
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-    <script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
-    <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
     <style>
         body {
             margin: 0;
@@ -37,21 +32,7 @@
 <body>
     <div id="root"></div>
     <script type="text/babel">
-        const { useState, useMemo, useEffect, useRef } = React;
-
-        // Country center coordinates and zoom levels for map focusing
-        const countryCoordinates = {
-            'Germany': { lat: 51.1657, lng: 10.4515, zoom: 6 },
-            'Netherlands': { lat: 52.1326, lng: 5.2913, zoom: 7 },
-            'Belgium': { lat: 50.5039, lng: 4.4699, zoom: 8 },
-            'Spain': { lat: 40.4637, lng: -3.7492, zoom: 6 },
-            'France': { lat: 46.2276, lng: 2.2137, zoom: 6 },
-            'Austria': { lat: 47.5162, lng: 14.5501, zoom: 7 },
-            'Italy': { lat: 41.8719, lng: 12.5674, zoom: 6 },
-            'Sweden': { lat: 60.1282, lng: 18.6435, zoom: 5 },
-            'Portugal': { lat: 39.3999, lng: -8.2245, zoom: 7 },
-            'all': { lat: 50.0, lng: 10.0, zoom: 4 }
-        };
+        const { useState, useMemo } = React;
 
         // Enhanced university database with detailed cost breakdowns
         const universities = [
@@ -62,8 +43,6 @@
                 country: "Germany",
                 program: "B.Sc. Artificial Intelligence & Data Engineering",
                 language: "English",
-                lat: 52.5126,
-                lng: 13.3266,
                 tuitionPerYear: "€350",
                 livingPerYear: "€10,800-15,600",
                 duration: 3,
@@ -99,8 +78,6 @@
                 country: "Germany",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 48.5665,
-                lng: 13.4318,
                 tuitionPerYear: "€350",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -130,8 +107,6 @@
                 country: "Germany",
                 program: "BSc Data Science & AI",
                 language: "English",
-                lat: 49.9294,
-                lng: 11.5858,
                 tuitionPerYear: "€350",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -161,8 +136,6 @@
                 country: "Germany",
                 program: "BSc Applied AI",
                 language: "English",
-                lat: 48.8288,
-                lng: 12.9606,
                 tuitionPerYear: "€350",
                 livingPerYear: "€10,800-12,000",
                 duration: 3.5,
@@ -192,8 +165,6 @@
                 country: "Germany",
                 program: "BSc Computer Science (AI track)",
                 language: "English",
-                lat: 49.2545,
-                lng: 7.0418,
                 tuitionPerYear: "€350",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -223,8 +194,6 @@
                 country: "Germany",
                 program: "BSc Computer Science",
                 language: "German (mostly)",
-                lat: 48.5216,
-                lng: 9.0576,
                 tuitionPerYear: "€350",
                 livingPerYear: "€13,200-14,400",
                 duration: 3,
@@ -254,8 +223,6 @@
                 country: "Germany",
                 program: "BSc Data Science",
                 language: "English/German",
-                lat: 49.5975,
-                lng: 11.0045,
                 tuitionPerYear: "€350",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -285,8 +252,6 @@
                 country: "Germany",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 47.8564,
-                lng: 12.1270,
                 tuitionPerYear: "€350",
                 livingPerYear: "€13,200-14,400",
                 duration: 3.5,
@@ -316,8 +281,6 @@
                 country: "Germany",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 48.7665,
-                lng: 11.4257,
                 tuitionPerYear: "€350",
                 livingPerYear: "€12,000-13,200",
                 duration: 3.5,
@@ -349,8 +312,6 @@
                 country: "Netherlands",
                 program: "BSc Data Science & AI",
                 language: "English",
-                lat: 50.8483,
-                lng: 5.6889,
                 tuitionPerYear: "€2,314",
                 livingPerYear: "€10,800-12,000",
                 duration: 3,
@@ -380,8 +341,6 @@
                 country: "Netherlands",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 52.3341,
-                lng: 4.8656,
                 tuitionPerYear: "€2,314",
                 livingPerYear: "€14,400-18,000",
                 duration: 3,
@@ -411,8 +370,6 @@
                 country: "Netherlands",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 53.2194,
-                lng: 6.5665,
                 tuitionPerYear: "€2,314",
                 livingPerYear: "€10,800-12,000",
                 duration: 3,
@@ -442,8 +399,6 @@
                 country: "Netherlands",
                 program: "BSc Data Science & AI",
                 language: "English",
-                lat: 52.1579,
-                lng: 4.4844,
                 tuitionPerYear: "€2,314",
                 livingPerYear: "€12,000-14,400",
                 duration: 3,
@@ -473,8 +428,6 @@
                 country: "Netherlands",
                 program: "BSc Applied Data Science & AI",
                 language: "English",
-                lat: 51.5719,
-                lng: 4.7683,
                 tuitionPerYear: "€2,314",
                 livingPerYear: "€10,800-12,000",
                 duration: 4,
@@ -504,8 +457,6 @@
                 country: "Netherlands",
                 program: "BSc Applied Data Science & AI",
                 language: "English",
-                lat: 50.8514,
-                lng: 5.6909,
                 tuitionPerYear: "€2,314",
                 livingPerYear: "€10,800-12,000",
                 duration: 4,
@@ -537,8 +488,6 @@
                 country: "Belgium",
                 program: "BSc Applied Computer Science (AI Specialization)",
                 language: "English",
-                lat: 51.2194,
-                lng: 4.4025,
                 tuitionPerYear: "€1,157",
                 livingPerYear: "€10,200-11,400",
                 duration: 3,
@@ -575,8 +524,6 @@
                 country: "Spain",
                 program: "BSc Data Science & AI",
                 language: "Spanish",
-                lat: 40.4406,
-                lng: -3.6758,
                 tuitionPerYear: "€1,600-2,000",
                 livingPerYear: "€10,800-12,000",
                 duration: 4,
@@ -606,8 +553,6 @@
                 country: "Spain",
                 program: "BSc Data Science & Engineering",
                 language: "Spanish/English",
-                lat: 40.3313,
-                lng: -3.7643,
                 tuitionPerYear: "€1,800-2,200",
                 livingPerYear: "€10,800-12,000",
                 duration: 4,
@@ -637,8 +582,6 @@
                 country: "Spain",
                 program: "BSc Data Science",
                 language: "Spanish/Catalan",
-                lat: 41.3874,
-                lng: 2.1686,
                 tuitionPerYear: "€2,400-2,800",
                 livingPerYear: "€10,800-13,200",
                 duration: 4,
@@ -668,8 +611,6 @@
                 country: "Spain",
                 program: "BSc Data Science",
                 language: "Spanish",
-                lat: 39.4810,
-                lng: -0.3396,
                 tuitionPerYear: "€1,300-1,600",
                 livingPerYear: "€9,600-10,800",
                 duration: 4,
@@ -699,8 +640,6 @@
                 country: "Spain",
                 program: "BSc Computer Science (AI/Data)",
                 language: "Spanish/Catalan",
-                lat: 41.3888,
-                lng: 2.1129,
                 tuitionPerYear: "€2,400-2,800",
                 livingPerYear: "€10,800-13,200",
                 duration: 4,
@@ -730,8 +669,6 @@
                 country: "Spain",
                 program: "BSc CS & AI (PRIVATE)",
                 language: "English",
-                lat: 40.9465,
-                lng: -4.1203,
                 tuitionPerYear: "€26,000-28,000",
                 livingPerYear: "€10,800-12,000",
                 duration: 4,
@@ -761,8 +698,6 @@
                 country: "Spain",
                 program: "BSc Computer Science",
                 language: "English",
-                lat: 42.8020,
-                lng: -1.6374,
                 tuitionPerYear: "€1,200-1,500",
                 livingPerYear: "€8,400-9,600",
                 duration: 4,
@@ -792,8 +727,6 @@
                 country: "Spain",
                 program: "BSc Data Science",
                 language: "Spanish/English",
-                lat: 39.4810,
-                lng: -0.3400,
                 tuitionPerYear: "€1,400-1,700",
                 livingPerYear: "€9,600-10,800",
                 duration: 4,
@@ -823,8 +756,6 @@
                 country: "Spain",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 41.5009,
-                lng: 2.1055,
                 tuitionPerYear: "€2,500-3,000",
                 livingPerYear: "€10,800-13,200",
                 duration: 4,
@@ -854,8 +785,6 @@
                 country: "Spain",
                 program: "BSc AI Engineering",
                 language: "Spanish/English",
-                lat: 43.3001,
-                lng: -1.9666,
                 tuitionPerYear: "€10,000-12,000",
                 livingPerYear: "€10,800-12,000",
                 duration: 4,
@@ -885,8 +814,6 @@
                 country: "Spain",
                 program: "BSc Computer Science",
                 language: "Spanish",
-                lat: 41.6488,
-                lng: -0.8891,
                 tuitionPerYear: "€1,200-1,500",
                 livingPerYear: "€8,400-9,600",
                 duration: 4,
@@ -917,8 +844,6 @@
                 country: "Spain",
                 program: "BSc Data Science",
                 language: "Spanish/English",
-                lat: 41.4036,
-                lng: 2.1960,
                 tuitionPerYear: "€1,500-2,000",
                 livingPerYear: "€10,800-13,200",
                 duration: 4,
@@ -955,8 +880,6 @@
                 country: "France",
                 program: "International BSc AI",
                 language: "English",
-                lat: 48.8434,
-                lng: 2.3380,
                 tuitionPerYear: "€13,000",
                 livingPerYear: "€14,400-18,000",
                 duration: 3,
@@ -986,8 +909,6 @@
                 country: "France",
                 program: "BSc CS + AI track",
                 language: "French/English",
-                lat: 48.7128,
-                lng: 2.2059,
                 tuitionPerYear: "€170",
                 livingPerYear: "€14,400-16,800",
                 duration: 3,
@@ -1017,8 +938,6 @@
                 country: "France",
                 program: "BSc Data Science & AI (PRIVATE)",
                 language: "English",
-                lat: 48.8566,
-                lng: 2.3522,
                 tuitionPerYear: "€9,000-10,000",
                 livingPerYear: "€14,400-18,000",
                 duration: 3,
@@ -1050,8 +969,6 @@
                 country: "Austria",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 48.3369,
-                lng: 14.3193,
                 tuitionPerYear: "€1,452",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -1083,8 +1000,6 @@
                 country: "Italy",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 45.4642,
-                lng: 9.1900,
                 tuitionPerYear: "€2,000-3,000",
                 livingPerYear: "€12,000-14,400",
                 duration: 3,
@@ -1114,8 +1029,6 @@
                 country: "Italy",
                 program: "BSc Artificial Intelligence",
                 language: "English",
-                lat: 45.1847,
-                lng: 9.1582,
                 tuitionPerYear: "€1,500-2,500",
                 livingPerYear: "€9,600-10,800",
                 duration: 3,
@@ -1145,8 +1058,6 @@
                 country: "Italy",
                 program: "BSc AI & Data Science (PRIVATE)",
                 language: "English",
-                lat: 45.6495,
-                lng: 12.2422,
                 tuitionPerYear: "€12,000-14,000",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -1178,8 +1089,6 @@
                 country: "Sweden",
                 program: "BSc CS (AI & ML track)",
                 language: "English",
-                lat: 59.3793,
-                lng: 13.5036,
                 tuitionPerYear: "€0",
                 livingPerYear: "€12,000-13,200",
                 duration: 3,
@@ -1211,8 +1120,6 @@
                 country: "Portugal",
                 program: "BSc Data Science",
                 language: "English",
-                lat: 38.7223,
-                lng: -9.1393,
                 tuitionPerYear: "€697",
                 livingPerYear: "€7,200-9,600",
                 duration: 3,
@@ -1251,9 +1158,6 @@
             const [durationFilter, setDurationFilter] = useState('all');
             const [erasmusFilter, setErasmusFilter] = useState(false);
             const [expandedDetails, setExpandedDetails] = useState({});
-            const [showMap, setShowMap] = useState(true);
-            const [mapInstance, setMapInstance] = useState(null);
-            const [markersLayer, setMarkersLayer] = useState(null);
 
             const countries = useMemo(() => {
                 return ['all', ...new Set(universities.map(u => u.country))].sort();
@@ -1284,92 +1188,6 @@
                 });
             }, [countryFilter, languageFilter, costFilter, searchQuery, minStars, durationFilter, erasmusFilter]);
 
-            // Map initialization effect
-            useEffect(() => {
-                if (!mapInstance && showMap) {
-                    // Wait for DOM element to be available
-                    setTimeout(() => {
-                        const mapElement = document.getElementById('map');
-                        if (mapElement && !mapInstance) {
-                            const map = L.map('map').setView([50.0, 10.0], 4);
-
-                            L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-                                attribution: '© OpenStreetMap contributors',
-                                maxZoom: 18
-                            }).addTo(map);
-
-                            setMapInstance(map);
-                        }
-                    }, 100);
-                }
-            }, [showMap, mapInstance]);
-
-            // Marker cluster management effect
-            useEffect(() => {
-                if (!mapInstance) return;
-
-                // Clear existing markers
-                if (markersLayer) {
-                    mapInstance.removeLayer(markersLayer);
-                }
-
-                // Create marker cluster group
-                const markers = L.markerClusterGroup({
-                    chunkedLoading: true,
-                    spiderfyOnMaxZoom: true,
-                    showCoverageOnHover: false
-                });
-
-                // Add markers for filtered universities
-                filteredUniversities.forEach(uni => {
-                    if (uni.lat && uni.lng) {
-                        const color = getMarkerColor(uni.classification);
-
-                        // Create custom colored marker
-                        const icon = L.divIcon({
-                            className: 'custom-marker',
-                            html: `<div style="background-color: ${color}; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 4px rgba(0,0,0,0.4);"></div>`,
-                            iconSize: [24, 24],
-                            iconAnchor: [12, 12]
-                        });
-
-                        const marker = L.marker([uni.lat, uni.lng], { icon: icon });
-
-                        // Popup content
-                        const popupContent = `
-                            <div class="text-sm" style="min-width: 200px;">
-                                <h3 class="font-bold text-base mb-1">${uni.name}</h3>
-                                <p><strong>Program:</strong> ${uni.program}</p>
-                                <p><strong>Cost:</strong> ${uni.cost}</p>
-                                <p><strong>Language:</strong> ${uni.language}</p>
-                                <p><strong>Fit:</strong> ${'⭐'.repeat(Math.floor(uni.fitScore))}</p>
-                                <a href="${uni.url}" target="_blank" class="text-blue-600 hover:underline">Visit Website →</a>
-                            </div>
-                        `;
-
-                        marker.bindPopup(popupContent);
-                        markers.addLayer(marker);
-                    }
-                });
-
-                mapInstance.addLayer(markers);
-                setMarkersLayer(markers);
-
-            }, [filteredUniversities, mapInstance]);
-
-            // Country focus effect - adjust map view when country filter changes
-            useEffect(() => {
-                if (!mapInstance) return;
-
-                const countryData = countryCoordinates[countryFilter];
-                if (countryData) {
-                    mapInstance.setView([countryData.lat, countryData.lng], countryData.zoom, {
-                        animate: true,
-                        duration: 1.0
-                    });
-                }
-            }, [countryFilter, mapInstance]);
-
             const toggleCompare = (uni) => {
                 if (selectedForCompare.find(u => u.id === uni.id)) {
                     setSelectedForCompare(selectedForCompare.filter(u => u.id !== uni.id));
@@ -1398,22 +1216,6 @@
                         return 'border-yellow-500 text-yellow-700 bg-yellow-50';
                     default:
                         return 'border-gray-500 text-gray-700 bg-gray-50';
-                }
-            };
-
-            const getMarkerColor = (classification) => {
-                switch(classification) {
-                    case 'Reach':
-                    case 'Elite Reach':
-                        return '#ef4444'; // red
-                    case 'Match':
-                        return '#22c55e'; // green
-                    case 'Safety':
-                        return '#3b82f6'; // blue
-                    case 'Expensive':
-                        return '#eab308'; // yellow
-                    default:
-                        return '#6b7280'; // gray
                 }
             };
 
@@ -1540,12 +1342,6 @@
                                         📊 Table
                                     </button>
                                     <button
-                                        onClick={() => setShowMap(!showMap)}
-                                        className={`px-3 py-1 text-xs rounded ${showMap ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}
-                                    >
-                                        🗺️ Map ({showMap ? 'On' : 'Off'})
-                                    </button>
-                                    <button
                                         onClick={() => {
                                             setCompareMode(!compareMode);
                                             if (!compareMode) setSelectedForCompare([]);
@@ -1577,18 +1373,8 @@
 
                     {/* Main Content */}
                     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                        <div className="flex flex-col lg:flex-row gap-4">
-                            {/* Map Section - Left/Top */}
-                            {showMap && (
-                                <div className={`${showMap && (viewMode === 'grid' || viewMode === 'table') ? 'lg:w-1/2' : 'w-full'}`}>
-                                    <div id="map" className="bg-white rounded-lg shadow-lg h-[500px] lg:h-[800px] lg:sticky lg:top-[140px]"></div>
-                                </div>
-                            )}
-
-                            {/* Results Section - Right/Bottom */}
-                            <div className={`${showMap ? 'lg:w-1/2' : 'w-full'}`}>
-                                {/* Comparison Panel */}
-                                {compareMode && selectedForCompare.length > 0 && (
+                        {/* Comparison Panel */}
+                        {compareMode && selectedForCompare.length > 0 && (
                             <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
                                 <h2 className="text-lg font-bold mb-3">Comparing {selectedForCompare.length} Universities</h2>
                                 <div className="overflow-x-auto">
@@ -1839,27 +1625,16 @@
                                 </table>
                             </div>
                         )}
-                            </div>
-                        </div>
                     </div>
 
                     {/* Footer */}
                     <footer className="bg-white border-t border-gray-200 mt-8 py-4">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
-                            <p className="mb-2">
-                                Built with 🤖 AI assistance by Sophia |
-                                <a href="https://github.com/ymarquezla/UniversityAdvisor"
+                            <p className="mb-1">
+                                Built with 🤖 AI assistance by Sophia | 
+                                <a href="https://github.com/ymarquezla/UniversityAdvisor" 
                                    className="text-blue-600 hover:underline ml-1">
                                     View Source on GitHub
-                                </a>
-                            </p>
-                            <p className="mb-2">
-                                <a href="https://www.buymeacoffee.com/smarquez"
-                                   target="_blank"
-                                   rel="noopener noreferrer">
-                                    <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png"
-                                         alt="Buy Me A Coffee"
-                                         style="height: 40px; width: 145px; display: inline-block;" />
                                 </a>
                             </p>
                             <p className="text-[10px] text-gray-500">
