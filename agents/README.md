@@ -6,7 +6,9 @@ Each agent has its own subfolder with documentation and code.
 
 ## Available Agents
 
-(Agents will be listed here as they are added)
+- **university-advisor-agent** - AI agent for helping with European university applications for AI/Data Science programs
+- **financial-aid-advisor-agent** - AI agent for finding scholarships, grants, and optimal loan strategies to fund European education
+- **new-agent** - Template for a new AI agent (needs customization)
 
 ---
 
