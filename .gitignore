@@ -1,0 +1,41 @@
+# Claude Code
+.claude/
+
+# OS Files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editor
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Node (if used in future)
+node_modules/
+package-lock.json
+npm-debug.log
+yarn.lock
+yarn-error.log
+
+# Python (if used in future)
+__pycache__/
+*.pyc
+.venv/
+venv/
+*.egg-info/
+
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.bak
+.cache/

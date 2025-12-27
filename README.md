@@ -1,6 +1,20 @@
-# 🎓 University Shortlist Explorer
+# 🎓 University Advisor
 
-An interactive web application for exploring and comparing 35 European undergraduate programs in AI, Data Science, and Computer Science.
+An interactive web application and AI agent for exploring and comparing 37 European undergraduate programs in AI, Data Science, and Computer Science.
+
+## 🌐 Live Demo
+
+**https://ymarquezla.github.io/UniversityAdvisor/**
+
+## 🤖 AI Agent
+
+This project includes a comprehensive AI agent designed to help students navigate European university applications. The agent provides personalized guidance on:
+- Building a balanced REACH/MATCH/SAFETY application portfolio
+- Leveraging unique advantages (EU citizenship, language skills)
+- Understanding costs, deadlines, and requirements
+- Comparing universities and programs
+
+**[View Agent Documentation →](agents/university-advisor-agent/)**
 
 ## Features
 
@@ -33,45 +47,57 @@ An interactive web application for exploring and comparing 35 European undergrad
 - Average cost and cheapest option
 - Number of English-taught programs
 
-## University Database
+## 📚 University Database
 
-The app includes **35 universities** across **9 countries**:
+The app includes **37 universities** across **9 countries**:
 
-- **Germany** (6): Free tuition, English-taught options
+- **Germany** (9): Nearly free tuition (€350/yr), English-taught options
 - **Netherlands** (6): High-quality programs, international focus
-- **Spain** (11): Affordable options, Spanish/English programs
-- **Denmark** (3): Free tuition, including brand new 2026 programs
+- **Spain** (12): Affordable options, Spanish/English programs
 - **Belgium** (1): KdG Antwerp - excellent value
-- **Austria** (2): Including cheapest option (€25-32k)
-- **France** (2): Paris programs, elite options
+- **Austria** (1): JKU Linz - excellent value
+- **France** (3): Paris programs, elite options
 - **Italy** (3): English-taught AI programs
-- **Sweden** (1): Free tuition
+- **Sweden** (1): Nearly free tuition for EU students
+- **Portugal** (1): NOVA IMS - most affordable option
 
 ### Cost Range
-- **Cheapest**: University of Klagenfurt (Austria) - €25-32k
-- **Most expensive**: IE University (Spain) - €100k+
-- **Average**: ~€50k for 3-year bachelor's
+- **Cheapest**: NOVA IMS Lisbon (Portugal) - €24-31k total
+- **Most expensive**: IE University (Spain) - €147-160k total
+- **Best value**: Germany (€40-45k), UPNA Pamplona (€38-44k), Karlstad (€36-40k)
 
 ### Classification Breakdown
-- **Safety schools**: 11 universities (31%)
-- **Match schools**: 17 universities (49%)
-- **Reach schools**: 7 universities (20%)
+- **Safety schools**: High acceptance probability
+- **Match schools**: Realistic targets (bulk of applications)
+- **Reach schools**: Competitive stretch goals
 
-## How to Use
+## 🚀 How to Use
 
-1. **Open the file**: Simply open `university-shortlist-explorer.html` in any modern web browser
-2. **Filter your options**: Use the filter buttons and sliders to narrow down choices
-3. **Compare universities**: Enable comparison mode and select up to 4 universities
-4. **Visit program websites**: Click the "Visit Program Website" button on any university
-5. **Switch views**: Toggle between card and table view as needed
+### Interactive Web App
+1. **Visit the live site**: https://ymarquezla.github.io/UniversityAdvisor/
+2. **Explore the map**: View all universities on an interactive map of Europe
+3. **Filter your options**: Use filters for country, language, cost, duration, Erasmus+
+4. **Compare universities**: Select up to 4 universities for side-by-side comparison
+5. **Switch views**: Toggle between card view, table view, and map view
 
-## Technical Details
+### AI Agent
+1. **Set up in Claude Desktop**: Follow instructions in [agents/university-advisor-agent/](agents/university-advisor-agent/)
+2. **Get personalized guidance**: Ask questions about specific universities, application strategy, or cost comparisons
+3. **Build your shortlist**: Work with the agent to create a balanced REACH/MATCH/SAFETY portfolio
 
-- **Built with**: React 18, Tailwind CSS
+## 🛠️ Technical Details
+
+### Web Application
+- **Built with**: React 18, Tailwind CSS, Leaflet.js
+- **Map features**: Interactive map with clustered markers, auto-focus on country selection
 - **No installation required**: Runs entirely in the browser
 - **No backend needed**: All data is client-side
 - **Mobile responsive**: Works on phones, tablets, and desktops
-- **Offline capable**: Once loaded, works without internet (except for external links)
+
+### AI Agent
+- **Platform**: Claude Desktop (Projects)
+- **Files**: Custom instructions, project memory, university database, examples
+- **Capabilities**: Personalized guidance, application strategy, cost analysis
 
 ## Student Profile
 
@@ -82,33 +108,75 @@ This shortlist is optimized for students with:
 - **C1 Spanish** proficiency
 - Interested in **AI, Data Science, or Computer Science**
 
-## Key Advantages Highlighted
+## 🎯 Key Advantages Highlighted
 
-- 🇪🇺 **Free tuition** in Germany, Sweden, Denmark, Austria for EU students
-- 🗣️ **Trilingual opportunities** - programs in German, English, and Spanish
-- 💰 **Affordable options** - Several programs under €40k total cost
-- 🆕 **First cohort advantage** - SDU Vejle launching in 2026
-- 🎯 **Strategic mix** - Safety, Match, and Reach schools
+- 🇪🇺 **EU citizenship benefits** - Save €40-60k vs international student rates
+- 🗣️ **C1 Spanish advantage** - Access top Spanish universities competitively
+- 💰 **Affordable options** - Many programs under €40k total cost
+- 🌍 **Trilingual opportunities** - Programs in German, English, and Spanish
+- 📊 **Strategic approach** - REACH/MATCH/SAFETY framework for balanced applications
 
-## Program Links
+## 📋 Features
 
-All 35 universities include direct links to their official program pages, including:
-- Admission requirements
-- Curriculum details
-- Application deadlines
-- Contact information
+### Web Application
+- Interactive Leaflet map showing all 37 universities across Europe
+- Color-coded markers by classification (Reach/Match/Safety/Expensive)
+- Map clustering and auto-focus on country selection
+- Side-by-side map and results view
+- Advanced filtering (country, language, cost, duration, Erasmus+, search)
+- Compare up to 4 universities side-by-side
+- Card view and table view
+- Direct links to all official program websites
 
-## Updates
+### AI Agent
+- Personalized university recommendations based on profile
+- REACH/MATCH/SAFETY application strategy
+- Cost-benefit analysis and comparisons
+- Application timeline and deadline tracking
+- Motivation letter guidance
+- Parent ROI and risk assessment support
 
-- **v1.1** (Latest): Added direct program website links to all universities
-- **v1.0**: Initial release with 35 universities, filtering, and comparison features
+## 📦 Repository Structure
 
-## Credits
+```
+UniversityAdvisor/
+├── index.html                          # Main web app (v4 with map)
+├── university-shortlist-explorer-v3.html # Previous version (no map)
+├── university-shortlist-explorer-v4.html # Latest version with map
+├── agents/
+│   └── university-advisor-agent/       # AI agent documentation
+│       ├── README.md                   # Agent overview
+│       ├── instructions.md             # Custom instructions
+│       ├── memory.md                   # Project context
+│       ├── university-database.md      # Full database
+│       └── examples.md                 # Sample conversations
+└── README.md                           # This file
 
-Created as a personalized university research tool for exploring European AI/Data Science bachelor's programs.
+## 🔗 Links
+
+- **Live Web App**: https://ymarquezla.github.io/UniversityAdvisor/
+- **AI Agent Docs**: [agents/university-advisor-agent/](agents/university-advisor-agent/)
+- **Support**: https://www.buymeacoffee.com/smarquez
+
+## 📝 License
+
+MIT License - Free to use and modify for educational purposes.
 
 ---
 
+## 💡 About This Project
+
+Created to help Sophia navigate European undergraduate applications for AI, Data Science, and Data Engineering programs. Leverages her unique advantages:
+- EU citizenship (German passport) = €40-60k savings
+- C1 Spanish proficiency = competitive advantage in Spanish universities
+- Trilingual skills (German + English + Spanish) = highly marketable
+
 **Good luck with your applications! 🍀**
 
-*Your EU citizenship + C1 Spanish + trilingual skills = amazing opportunities across Europe!* 🌍
+*Your unique advantages open amazing opportunities across Europe!* 🌍
+
+---
+
+**Created**: December 2024
+**Maintained by**: Yomar Marquez
+**Built with**: 🤖 Claude Code assistance
