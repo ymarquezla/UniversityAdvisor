@@ -1,0 +1,9 @@
+# Google Sheets API Integration Requirements
+
+google-auth==2.25.2
+google-auth-oauthlib==1.2.0
+google-auth-httplib2==0.2.0
+google-api-python-client==2.110.0
+
+# Optional: For HTTP requests (if using webhook method)
+requests==2.31.0
