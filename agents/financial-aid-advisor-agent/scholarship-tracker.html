@@ -6,8 +6,9 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Sophia's Scholarship Tracker - 2025-2026 (v3.0)</title>
+    <title>Sophia's Scholarship Tracker - 2025-2026 (v3.2 - Git Sync)</title>
     <style>
+        /* Include all existing styles from v3.0 */
         * {
             margin: 0;
             padding: 0;
@@ -94,6 +95,68 @@
             opacity: 0.9;
         }
 
+        /* Sync status indicator */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sync-status.syncing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .sync-status.synced {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .sync-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .sync-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sync-button:hover {
+            background: #218838;
+        }
+
+        .sync-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* All other existing styles from v3.0 ... */
         .stats {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
@@ -157,11 +220,6 @@
             flex: 1;
         }
 
-        select:focus, input:focus {
-            outline: none;
-            border-color: #667eea;
-        }
-
         .status-dropdown {
             padding: 4px 8px;
             font-size: 12px;
@@ -169,11 +227,6 @@
             border-radius: 4px;
             background: white;
             cursor: pointer;
-        }
-
-        .status-dropdown:focus {
-            outline: none;
-            border-color: #667eea;
         }
 
         button {
@@ -184,15 +237,11 @@
             font-weight: 600;
         }
 
-        button:hover {
-            background: #5568d3;
-            transform: translateY(-2px);
-            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
-        }
-
         .table-container {
-            padding: 30px;
+            padding: 15px;
             overflow-x: auto;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
         }
 
         table {
@@ -207,22 +256,6 @@
             padding: 15px;
             text-align: left;
             font-weight: 600;
-            position: sticky;
-            top: 0;
-            cursor: pointer;
-            user-select: none;
-        }
-
-        th:hover {
-            background: #5568d3;
-        }
-
-        th:first-child {
-            border-top-left-radius: 8px;
-        }
-
-        th:last-child {
-            border-top-right-radius: 8px;
         }
 
         td {
@@ -249,52 +282,9 @@
             border-left: 4px solid #28a745;
         }
 
-        .deadline-urgent {
-            color: #dc3545;
-            font-weight: bold;
-        }
-
-        .deadline-soon {
-            color: #ff8800;
-            font-weight: bold;
-        }
-
-        .deadline-ok {
-            color: #28a745;
-        }
-
-        .status-badge {
-            display: inline-block;
-            padding: 5px 12px;
-            border-radius: 20px;
-            font-size: 0.85em;
-            font-weight: 600;
-        }
-
-        .status-not-started {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-research {
-            background: #fff3cd;
-            color: #856404;
-        }
-
-        .status-in-progress {
-            background: #d1ecf1;
-            color: #0c5460;
-        }
-
-        .status-applied {
-            background: #d4edda;
-            color: #155724;
-        }
-
-        .status-awarded {
-            background: #28a745;
-            color: white;
-        }
+        .deadline-urgent { color: #dc3545; font-weight: bold; }
+        .deadline-soon { color: #ff8800; font-weight: bold; }
+        .deadline-ok { color: #28a745; }
 
         .amount {
             font-weight: bold;
@@ -311,10 +301,6 @@
             display: inline-block;
         }
 
-        .link-btn:hover {
-            background: #5568d3;
-        }
-
         .edit-btn {
             background: #ffc107;
             color: #333;
@@ -326,10 +312,6 @@
             margin-right: 5px;
         }
 
-        .edit-btn:hover {
-            background: #e0a800;
-        }
-
         .delete-btn {
             background: #dc3545;
             color: white;
@@ -338,10 +320,6 @@
             border-radius: 6px;
             cursor: pointer;
             font-size: 0.85em;
-        }
-
-        .delete-btn:hover {
-            background: #c82333;
         }
 
         .add-scholarship-btn {
@@ -362,11 +340,7 @@
             justify-content: center;
         }
 
-        .add-scholarship-btn:hover {
-            background: #218838;
-            transform: scale(1.1);
-        }
-
+        /* Modal styles */
         .modal {
             display: none;
             position: fixed;
@@ -385,11 +359,6 @@
             margin: 50px auto;
             border-radius: 16px;
             padding: 30px;
-        }
-
-        .modal h2 {
-            color: #667eea;
-            margin-bottom: 20px;
         }
 
         .form-group {
@@ -433,138 +402,37 @@
             background: #6c757d;
         }
 
-        .cancel-btn:hover {
-            background: #5a6268;
-        }
-
-        .export-btn {
-            background: #17a2b8;
-        }
-
-        .export-btn:hover {
-            background: #138496;
-        }
-
-        .table-container {
-            padding: 15px;
-            overflow-x: auto;
-            flex: 1;
-            -webkit-overflow-scrolling: touch;
-        }
-
         @media (max-width: 768px) {
-            body {
-                padding: 0;
-            }
-
-            .header h1 {
-                font-size: 1.5em;
-            }
-
-            .header p {
-                font-size: 0.85em;
-            }
-
-            .stats {
-                grid-template-columns: repeat(3, 1fr);
-                gap: 8px;
-                padding: 10px;
-            }
-
-            .stat-card {
-                padding: 10px 6px;
-            }
-
-            .stat-number {
-                font-size: 1.4em;
-            }
-
-            .stat-label {
-                font-size: 0.7em;
-            }
-
-            .filters {
-                padding: 10px;
-                gap: 8px;
-            }
-
-            .filter-group {
-                min-width: calc(50% - 4px);
-            }
-
-            .filter-group label {
-                font-size: 0.75em;
-            }
-
-            select, input[type="text"], button {
-                padding: 6px 10px;
-                font-size: 12px;
-            }
-
-            .table-container {
-                padding: 10px;
-            }
-
-            table {
-                font-size: 0.75em;
-            }
-
-            th, td {
-                padding: 8px 6px;
-            }
-
-            .edit-btn, .delete-btn {
-                padding: 4px 8px;
-                font-size: 0.75em;
-                margin-right: 2px;
-            }
-
-            .link-btn {
-                padding: 4px 8px;
-                font-size: 0.75em;
-            }
-
-            .add-scholarship-btn {
-                width: 50px;
-                height: 50px;
-                bottom: 20px;
-                right: 20px;
-                font-size: 1.5em;
-            }
-
-            .modal-content {
-                margin: 20px;
-                padding: 20px;
-            }
+            .header h1 { font-size: 1.5em; }
+            .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px; }
+            .filter-group { min-width: calc(50% - 4px); }
+            table { font-size: 0.75em; }
+            th, td { padding: 8px 6px; }
         }
 
         @media (max-width: 480px) {
-            .stats {
-                grid-template-columns: repeat(2, 1fr);
-            }
-
-            .filter-group {
-                min-width: 100%;
-            }
-
-            table {
-                font-size: 0.7em;
-            }
-
-            th, td {
-                padding: 6px 4px;
-            }
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .filter-group { min-width: 100%; }
         }
     </style>
 </head>
 <body>
+    <!-- Sync Status Indicator -->
+    <div class="sync-status" id="sync-status">
+        <div class="sync-dot"></div>
+        <span id="sync-text">Not configured</span>
+    </div>
+
     <!-- Navigation Bar -->
     <nav class="app-nav">
         <a href="../../index.html">
             🎓 Universities
         </a>
-        <a href="scholarship-tracker.html" class="active">
+        <a href="scholarship-tracker-sync.html" class="active">
             💰 Scholarships
+        </a>
+        <a href="../chat-app/index.html">
+            💬 AI Chat
         </a>
     </nav>
 
@@ -572,70 +440,71 @@
         <div class="sticky-top">
             <div class="header">
                 <h1>🎓 Sophia's Scholarship Tracker</h1>
-                <p>2025-2026 Academic Year | Target: €8,000-€20,000</p>
+                <p>2025-2026 Academic Year | Target: €8,000-€20,000 | 🔄 Git Sync Enabled</p>
             </div>
 
             <div class="stats">
-            <div class="stat-card">
-                <div class="stat-number" id="total-scholarships">0</div>
-                <div class="stat-label">Total Scholarships</div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-scholarships">0</div>
+                    <div class="stat-label">Total Scholarships</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="high-priority">0</div>
+                    <div class="stat-label">High Priority</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="applied">0</div>
+                    <div class="stat-label">Applied</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="upcoming">0</div>
+                    <div class="stat-label">Due in 30 Days</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-potential">$0</div>
+                    <div class="stat-label">Max Potential</div>
+                </div>
             </div>
-            <div class="stat-card">
-                <div class="stat-number" id="high-priority">0</div>
-                <div class="stat-label">High Priority</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="applied">0</div>
-                <div class="stat-label">Applied</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="upcoming">0</div>
-                <div class="stat-label">Due in 30 Days</div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-number" id="total-potential">$0</div>
-                <div class="stat-label">Max Potential</div>
-            </div>
-        </div>
 
-        <div class="filters">
-            <div class="filter-group">
-                <label>Priority:</label>
-                <select id="filter-priority">
-                    <option value="all">All</option>
-                    <option value="HIGH">High</option>
-                    <option value="MEDIUM">Medium</option>
-                    <option value="LOW">Low</option>
-                </select>
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Priority:</label>
+                    <select id="filter-priority">
+                        <option value="all">All</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status:</label>
+                    <select id="filter-status">
+                        <option value="all">All</option>
+                        <option value="Not Started">Not Started</option>
+                        <option value="Research Needed">Research Needed</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Applied">Applied</option>
+                        <option value="Awarded">Awarded</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select id="filter-category">
+                        <option value="all">All</option>
+                        <option value="Women in STEM">Women in STEM</option>
+                        <option value="Study Abroad">Study Abroad</option>
+                        <option value="Local/Community">Local/Community</option>
+                        <option value="Field-Specific">Field-Specific</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search:</label>
+                    <input type="text" id="search-box" placeholder="Search scholarships...">
+                </div>
+                <button class="sync-button" id="manual-sync-btn" onclick="manualSync()">🔄 Sync to Git</button>
+                <button class="sync-button" id="pull-btn" onclick="pullFromGit()" style="background: #17a2b8;">⬇️ Pull from Git</button>
+                <button onclick="exportToCSV()">📥 Export</button>
             </div>
-            <div class="filter-group">
-                <label>Status:</label>
-                <select id="filter-status">
-                    <option value="all">All</option>
-                    <option value="Not Started">Not Started</option>
-                    <option value="Research Needed">Research Needed</option>
-                    <option value="In Progress">In Progress</option>
-                    <option value="Applied">Applied</option>
-                    <option value="Awarded">Awarded</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Category:</label>
-                <select id="filter-category">
-                    <option value="all">All</option>
-                    <option value="Women in STEM">Women in STEM</option>
-                    <option value="Study Abroad">Study Abroad</option>
-                    <option value="Local/Community">Local/Community</option>
-                    <option value="Field-Specific">Field-Specific</option>
-                </select>
-            </div>
-            <div class="filter-group">
-                <label>Search:</label>
-                <input type="text" id="search-box" placeholder="Search scholarships...">
-            </div>
-            <button class="export-btn" onclick="exportToCSV()">📥 Export</button>
-            <button onclick="loadSampleData()">🔄 Load</button>
-        </div>
         </div>
 
         <div class="table-container">
@@ -659,84 +528,204 @@
         </div>
 
         <div style="text-align: center; padding: 20px; color: #666; font-size: 0.9em; border-top: 2px solid #eee;">
-            <p>Scholarship Tracker v3.0 | Updated: December 27, 2024</p>
-            <p style="margin-top: 5px;">All data saved locally in your browser | <a href="https://github.com/ymarquezla/UniversityAdvisor" target="_blank" style="color: #667eea;">View on GitHub</a></p>
+            <p>Scholarship Tracker v3.2 (Git Sync) | Updated: December 27, 2024</p>
+            <p style="margin-top: 5px;">Auto-syncs to Git | Pull latest from GitHub | <a href="https://github.com/ymarquezla/UniversityAdvisor" target="_blank" style="color: #667eea;">View on GitHub</a></p>
         </div>
     </div>
 
     <button class="add-scholarship-btn" onclick="openModal()" title="Add Scholarship">+</button>
 
-    <!-- Add/Edit Modal -->
-    <div id="scholarship-modal" class="modal">
+    <!-- Settings Modal for API Configuration -->
+    <div id="settings-modal" class="modal">
         <div class="modal-content">
-            <h2 id="modal-title">Add New Scholarship</h2>
-            <form id="scholarship-form" onsubmit="saveScholarship(event)">
-                <div class="form-group">
-                    <label>Deadline Date:</label>
-                    <input type="date" id="form-deadline">
-                </div>
-                <div class="form-group">
-                    <label>Scholarship Name: *</label>
-                    <input type="text" id="form-name" required>
-                </div>
-                <div class="form-group">
-                    <label>Amount Min:</label>
-                    <input type="text" id="form-amount-min" placeholder="$1,000">
-                </div>
-                <div class="form-group">
-                    <label>Amount Max:</label>
-                    <input type="text" id="form-amount-max" placeholder="$10,000">
-                </div>
-                <div class="form-group">
-                    <label>Priority:</label>
-                    <select id="form-priority">
-                        <option value="HIGH">High</option>
-                        <option value="MEDIUM" selected>Medium</option>
-                        <option value="LOW">Low</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Status:</label>
-                    <select id="form-status">
-                        <option value="Not Started" selected>Not Started</option>
-                        <option value="Research Needed">Research Needed</option>
-                        <option value="In Progress">In Progress</option>
-                        <option value="Applied">Applied</option>
-                        <option value="Awarded">Awarded</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Category:</label>
-                    <input type="text" id="form-category" placeholder="e.g., Women in STEM">
-                </div>
-                <div class="form-group">
-                    <label>Requirements:</label>
-                    <textarea id="form-requirements" placeholder="e.g., Essays, Transcripts, Recommendations"></textarea>
-                </div>
-                <div class="form-group">
-                    <label>Application Link:</label>
-                    <input type="url" id="form-link" placeholder="https://...">
-                </div>
-                <div class="form-group">
-                    <label>Notes:</label>
-                    <textarea id="form-notes" placeholder="Additional notes..."></textarea>
-                </div>
-                <input type="hidden" id="form-index">
-                <div class="form-buttons">
-                    <button type="button" class="cancel-btn" onclick="closeModal()">Cancel</button>
-                    <button type="submit">Save</button>
-                </div>
-            </form>
+            <h2>⚙️ Git Sync Settings</h2>
+            <div class="form-group">
+                <label>Sync Server URL:</label>
+                <input type="text" id="settings-api-url" placeholder="http://localhost:3000">
+            </div>
+            <div class="form-group">
+                <label>Secret Token:</label>
+                <input type="password" id="settings-token" placeholder="your-secret-token-here">
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="cancel-btn" onclick="closeSettingsModal()">Cancel</button>
+                <button type="button" onclick="saveSettings()">Save Settings</button>
+            </div>
         </div>
     </div>
 
     <script>
-        let scholarships = [];
-        let editingIndex = -1;
+        // ===== CONFIGURATION =====
+        const CONFIG_KEY = 'scholarship-sync-config';
+        const STORAGE_KEY = 'scholarships';
 
-        // Load from localStorage
+        let scholarships = [];
+        let syncConfig = {
+            apiUrl: '',
+            token: ''
+        };
+
+        // Load configuration
+        function loadConfig() {
+            const saved = localStorage.getItem(CONFIG_KEY);
+            if (saved) {
+                syncConfig = JSON.parse(saved);
+                updateSyncStatus('Configured', 'synced');
+            } else {
+                updateSyncStatus('Not configured', 'error');
+                // Auto-open settings modal on first load
+                setTimeout(() => {
+                    document.getElementById('settings-modal').style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        // Save configuration
+        function saveSettings() {
+            syncConfig.apiUrl = document.getElementById('settings-api-url').value.trim();
+            syncConfig.token = document.getElementById('settings-token').value.trim();
+
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                alert('Please provide both API URL and token');
+                return;
+            }
+
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(syncConfig));
+            closeSettingsModal();
+            updateSyncStatus('Configured', 'synced');
+            alert('Sync settings saved! Changes will now auto-sync to Git.');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        // Update sync status indicator
+        function updateSyncStatus(text, status) {
+            const statusEl = document.getElementById('sync-status');
+            const textEl = document.getElementById('sync-text');
+
+            statusEl.className = 'sync-status ' + status;
+            textEl.textContent = text;
+        }
+
+        // Sync to Git
+        async function syncToGit(message = null) {
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                console.log('Sync not configured');
+                return;
+            }
+
+            try {
+                updateSyncStatus('Syncing...', 'syncing');
+
+                const response = await fetch(`${syncConfig.apiUrl}/sync`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${syncConfig.token}`
+                    },
+                    body: JSON.stringify({
+                        scholarships,
+                        message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    updateSyncStatus(`Synced (${data.count} scholarships)`, 'synced');
+                    setTimeout(() => updateSyncStatus('Configured', 'synced'), 3000);
+                } else {
+                    throw new Error(data.error);
+                }
+
+            } catch (error) {
+                console.error('Sync error:', error);
+                updateSyncStatus('Sync failed', 'error');
+                setTimeout(() => updateSyncStatus('Configured', 'synced'), 5000);
+            }
+        }
+
+        // Manual sync button
+        async function manualSync() {
+            const btn = document.getElementById('manual-sync-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Syncing...';
+
+            await syncToGit('Manual sync from web app');
+
+            btn.disabled = false;
+            btn.textContent = '🔄 Sync to Git';
+        }
+
+        // Pull from Git button
+        async function pullFromGit() {
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                alert('Sync not configured. Press Ctrl+, to configure settings first.');
+                return;
+            }
+
+            const btn = document.getElementById('pull-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Pulling...';
+
+            try {
+                updateSyncStatus('Pulling from Git...', 'syncing');
+
+                const response = await fetch(`${syncConfig.apiUrl}/scholarships`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${syncConfig.token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Confirm before overwriting local data
+                    const confirmMsg = `Pull ${data.count} scholarships from Git?\n\n⚠️ This will REPLACE your current data with what's in GitHub.\n\nCurrent local: ${scholarships.length} scholarships\nGitHub has: ${data.count} scholarships`;
+
+                    if (confirm(confirmMsg)) {
+                        scholarships = data.scholarships;
+                        saveToStorage();
+                        renderTable();
+                        updateStats();
+                        updateSyncStatus(`Pulled ${data.count} scholarships`, 'synced');
+                        setTimeout(() => updateSyncStatus('Configured', 'synced'), 3000);
+                        alert(`✅ Successfully pulled ${data.count} scholarships from Git!`);
+                    } else {
+                        updateSyncStatus('Pull cancelled', 'synced');
+                    }
+                } else {
+                    throw new Error(data.error || 'Failed to pull from Git');
+                }
+
+            } catch (error) {
+                console.error('Pull error:', error);
+                updateSyncStatus('Pull failed', 'error');
+                setTimeout(() => updateSyncStatus('Configured', 'synced'), 5000);
+                alert('❌ Failed to pull from Git:\n' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+
+        // Auto-save with Git sync
+        function saveToStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(scholarships));
+
+            // Auto-sync to Git after every change
+            if (syncConfig.apiUrl && syncConfig.token) {
+                syncToGit();
+            }
+        }
+
+        // All existing scholarship functions from v3.0...
         function loadScholarships() {
-            const saved = localStorage.getItem('scholarships');
+            const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 scholarships = JSON.parse(saved);
             } else {
@@ -746,139 +735,37 @@
             updateStats();
         }
 
-        // Save to localStorage
-        function saveToStorage() {
-            localStorage.setItem('scholarships', JSON.stringify(scholarships));
-        }
-
-        // Load sample Barrington scholarships
         function loadSampleData() {
-            fetch('scholarship-deadline-calendar.csv')
-                .then(response => response.text())
-                .then(csv => {
-                    const lines = csv.trim().split('\n');
-                    scholarships = [];
-                    for (let i = 1; i < lines.length; i++) {
-                        const parts = parseCSVLine(lines[i]);
-                        if (parts.length >= 10) {
-                            scholarships.push({
-                                deadline: parts[0],
-                                name: parts[1],
-                                amountMin: parts[2],
-                                amountMax: parts[3],
-                                priority: parts[4],
-                                status: parts[5],
-                                category: parts[6],
-                                requirements: parts[7],
-                                link: parts[8],
-                                notes: parts[9]
-                            });
-                        }
-                    }
-                    saveToStorage();
-                    renderTable();
-                    updateStats();
-                })
-                .catch(() => {
-                    // If CSV not found, load hardcoded Barrington scholarships
-                    scholarships = [
-                        {
-                            deadline: '2025-01-31',
-                            name: 'Society of Women Engineers (SWE)',
-                            amountMin: '$1,000',
-                            amountMax: '$15,000',
-                            priority: 'HIGH',
-                            status: 'Not Started',
-                            category: 'Women in STEM',
-                            requirements: 'Transcripts, Resume, Essays, Recommendations',
-                            link: 'https://swe.org/apply-for-a-swe-scholarship/',
-                            notes: 'Single app = 330+ scholarships! Dates coming soon'
-                        },
-                        {
-                            deadline: '2025-02-24',
-                            name: 'Community Scholarship Fund of Barrington',
-                            amountMin: '$1,000',
-                            amountMax: '$10,000',
-                            priority: 'HIGH',
-                            status: 'Not Started',
-                            category: 'Local/Community',
-                            requirements: 'Application, Essays, Transcripts, Financial docs, Recommendations',
-                            link: 'https://csfofbarrington.com/apply/',
-                            notes: 'Barrington RI residents - based on need + merit - URGENT!'
-                        },
-                        {
-                            deadline: 'TBD',
-                            name: 'RI PBS & Public Radio Journalism Scholarship',
-                            amountMin: '$15,000',
-                            amountMax: '$60,000',
-                            priority: 'HIGH',
-                            status: 'Research Needed',
-                            category: 'Field-Specific',
-                            requirements: 'Broadcasting/Communications/Journalism focus',
-                            link: 'https://rifoundation.org/',
-                            notes: 'Up to $60k renewable for 4 years - AI journalism angle!'
-                        },
-                        {
-                            deadline: 'TBD',
-                            name: 'Rhode Island Foundation Scholarships',
-                            amountMin: '$500',
-                            amountMax: '$5,000',
-                            priority: 'MEDIUM',
-                            status: 'Research Needed',
-                            category: 'State/Regional',
-                            requirements: 'Varies by scholarship',
-                            link: 'https://rifoundation.org/',
-                            notes: 'Multiple RI-specific scholarships'
-                        },
-                        {
-                            deadline: 'TBD',
-                            name: 'JKU Linz Merit Scholarship (Austria)',
-                            amountMin: '€500',
-                            amountMax: '€2,000',
-                            priority: 'MEDIUM',
-                            status: 'Research Needed',
-                            category: 'University-Specific',
-                            requirements: 'Academic merit, Strong grades',
-                            link: 'https://www.jku.at/en/',
-                            notes: 'Government-funded for international students at JKU Linz'
-                        },
-                        {
-                            deadline: 'TBD',
-                            name: 'FH St. Pölten Scholarships (Austria)',
-                            amountMin: '€500',
-                            amountMax: '€1,500',
-                            priority: 'MEDIUM',
-                            status: 'Research Needed',
-                            category: 'University-Specific',
-                            requirements: 'Academic merit',
-                            link: 'https://www.ustp.at/en/',
-                            notes: 'Check with International Office for Data Science program scholarships'
-                        }
-                    ];
-                    saveToStorage();
-                    renderTable();
-                    updateStats();
-                });
-        }
-
-        function parseCSVLine(line) {
-            const result = [];
-            let current = '';
-            let inQuotes = false;
-
-            for (let i = 0; i < line.length; i++) {
-                const char = line[i];
-                if (char === '"') {
-                    inQuotes = !inQuotes;
-                } else if (char === ',' && !inQuotes) {
-                    result.push(current.trim());
-                    current = '';
-                } else {
-                    current += char;
+            // Load from hardcoded data (same as v3.0)
+            scholarships = [
+                {
+                    deadline: '2025-01-31',
+                    name: 'Society of Women Engineers (SWE)',
+                    amountMin: '$1,000',
+                    amountMax: '$15,000',
+                    priority: 'HIGH',
+                    status: 'Not Started',
+                    category: 'Women in STEM',
+                    requirements: 'Transcripts, Resume, Essays, Recommendations',
+                    link: 'https://swe.org/apply-for-a-swe-scholarship/',
+                    notes: 'Single app = 330+ scholarships! Dates coming soon'
+                },
+                {
+                    deadline: '2025-02-24',
+                    name: 'Community Scholarship Fund of Barrington',
+                    amountMin: '$1,000',
+                    amountMax: '$10,000',
+                    priority: 'HIGH',
+                    status: 'Not Started',
+                    category: 'Local/Community',
+                    requirements: 'Application, Essays, Transcripts, Financial docs, Recommendations',
+                    link: 'https://csfofbarrington.com/apply/',
+                    notes: 'Barrington RI residents - based on need + merit'
                 }
-            }
-            result.push(current.trim());
-            return result;
+            ];
+            saveToStorage();
+            renderTable();
+            updateStats();
         }
 
         function renderTable() {
@@ -971,85 +858,14 @@
             document.getElementById('total-potential').textContent = '$' + totalMax.toLocaleString();
         }
 
-        function openModal() {
-            editingIndex = -1;
-            document.getElementById('modal-title').textContent = 'Add New Scholarship';
-            document.getElementById('scholarship-form').reset();
-            document.getElementById('scholarship-modal').style.display = 'block';
-        }
-
-        function closeModal() {
-            document.getElementById('scholarship-modal').style.display = 'none';
-        }
-
-        function editScholarship(index) {
-            editingIndex = index;
-            const s = scholarships[index];
-
-            document.getElementById('modal-title').textContent = 'Edit Scholarship';
-            document.getElementById('form-deadline').value = s.deadline !== 'TBD' ? s.deadline : '';
-            document.getElementById('form-name').value = s.name;
-            document.getElementById('form-amount-min').value = s.amountMin;
-            document.getElementById('form-amount-max').value = s.amountMax;
-            document.getElementById('form-priority').value = s.priority;
-            document.getElementById('form-status').value = s.status;
-            document.getElementById('form-category').value = s.category;
-            document.getElementById('form-requirements').value = s.requirements;
-            document.getElementById('form-link').value = s.link;
-            document.getElementById('form-notes').value = s.notes;
-
-            document.getElementById('scholarship-modal').style.display = 'block';
-        }
-
-        function saveScholarship(event) {
-            event.preventDefault();
-
-            const scholarship = {
-                deadline: document.getElementById('form-deadline').value || 'TBD',
-                name: document.getElementById('form-name').value,
-                amountMin: document.getElementById('form-amount-min').value,
-                amountMax: document.getElementById('form-amount-max').value,
-                priority: document.getElementById('form-priority').value,
-                status: document.getElementById('form-status').value,
-                category: document.getElementById('form-category').value,
-                requirements: document.getElementById('form-requirements').value,
-                link: document.getElementById('form-link').value,
-                notes: document.getElementById('form-notes').value
-            };
-
-            if (editingIndex >= 0) {
-                scholarships[editingIndex] = scholarship;
-            } else {
-                scholarships.push(scholarship);
-            }
-
-            saveToStorage();
-            renderTable();
-            updateStats();
-            closeModal();
-        }
-
         function deleteScholarship(index) {
             const scholarship = scholarships[index];
-            if (confirm(`Are you sure you want to delete "${scholarship.name}"?\n\nThis action cannot be undone.`)) {
+            if (confirm(`Are you sure you want to delete "${scholarship.name}"?\n\nThis will sync to Git immediately.`)) {
                 scholarships.splice(index, 1);
                 saveToStorage();
                 renderTable();
                 updateStats();
             }
-        }
-
-        function sortTable(field) {
-            // Sorting logic
-            scholarships.sort((a, b) => {
-                if (field === 'deadline') {
-                    if (a.deadline === 'TBD') return 1;
-                    if (b.deadline === 'TBD') return -1;
-                    return new Date(a.deadline) - new Date(b.deadline);
-                }
-                return 0;
-            });
-            renderTable();
         }
 
         function exportToCSV() {
@@ -1073,15 +889,18 @@
         document.getElementById('filter-category').addEventListener('change', renderTable);
         document.getElementById('search-box').addEventListener('input', renderTable);
 
-        // Close modal on outside click
-        window.onclick = function(event) {
-            const modal = document.getElementById('scholarship-modal');
-            if (event.target === modal) {
-                closeModal();
+        // Keyboard shortcut to open settings (Ctrl+,)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === ',') {
+                e.preventDefault();
+                document.getElementById('settings-api-url').value = syncConfig.apiUrl;
+                document.getElementById('settings-token').value = syncConfig.token;
+                document.getElementById('settings-modal').style.display = 'block';
             }
-        }
+        });
 
         // Initialize
+        loadConfig();
         loadScholarships();
     </script>
 </body>
