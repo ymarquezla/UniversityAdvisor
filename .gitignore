@@ -36,6 +36,12 @@ credentials.json
 .env.local
 .env.*.local
 
+# Sync Server
+sync-server/.env
+sync-server/node_modules/
+sync-server/*.log
+sync-server/.pm2/
+
 # Logs
 *.log
 

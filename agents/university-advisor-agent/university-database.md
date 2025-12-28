@@ -1,6 +1,8 @@
 # Complete University Database
 
-This file contains the full database of 37 European universities offering undergraduate AI, Data Science, and Data Engineering programs suitable for Sophia's profile.
+This file contains the full database of 38 European universities offering undergraduate AI, Data Science, and Data Engineering programs suitable for Sophia's profile.
+
+**IMPORTANT**: Sophia is interested in AI, Data Science, and Data Engineering programs. She is NOT interested in robotics-focused programs or pure mathematics programs. Focus on Data Science and AI applications.
 
 ---
 
@@ -388,9 +390,9 @@ This file contains the full database of 37 European universities offering underg
 
 ---
 
-## AUSTRIA (1 university)
-**Tuition**: €1,452/year (EU rate)
-**Total Cost**: €40,000-€44,000
+## AUSTRIA (2 universities)
+**Tuition**: €25-€363/semester (EU rate)
+**Total Cost**: €29,000-€44,000
 
 ### 31. Johannes Kepler University Linz (JKU)
 - **Program**: BSc AI
@@ -400,9 +402,24 @@ This file contains the full database of 37 European universities offering underg
 - **Classification**: MATCH
 - **Fit Score**: 5/5
 - **Erasmus+**: Yes
-- **Total Cost**: €40-44k
+- **Total Cost**: €29-43k
+- **Tuition**: €25.20/semester (€151 total for 3 years)
 - **Website**: https://www.jku.at/en/degree-programs/types-of-degree-programs/bachelors-and-diploma-degree-programs/ba-artificial-intelligence/
-- **Notes**: Excellent value, strong AI program, English-taught
+- **Notes**: Excellent value, strong AI program, English-taught, one of Europe's first AI bachelor's programs
+
+### 32. St. Pölten University of Applied Sciences (FH St. Pölten)
+- **Program**: BSc Data Science & Artificial Intelligence
+- **Language**: English
+- **Duration**: 3 years
+- **Location**: St. Pölten (medium city, 25 min from Vienna)
+- **Classification**: MATCH
+- **Fit Score**: 5/5
+- **Erasmus+**: Yes
+- **Total Cost**: €29-41k
+- **Tuition**: €363/semester (€2,178 total for 3 years)
+- **Application Period**: October 1, 2025 - May 31, 2026
+- **Website**: https://www.ustp.at/en/study-programmes/computer-science-security/data-science-and-artificial-intelligence
+- **Notes**: Data Science focus (perfect for Sophia!), applied sciences approach, easy access to Vienna for internships and cultural life, modern curriculum combining AI and data analytics
 
 ---
 
@@ -506,19 +523,21 @@ This file contains the full database of 37 European universities offering underg
 
 **Under €35k Total Cost:**
 1. NOVA IMS Lisbon (€24-31k) - CHEAPEST
-2. Pavia (€33-40k)
+2. FH St. Pölten Austria (€29-41k) - Data Science focus
+3. JKU Linz Austria (€29-43k) - AI focus
+4. Pavia (€33-40k)
 
 **€35-45k Total Cost:**
-3. Karlstad Sweden (€36-40k)
-4. UPNA Pamplona (€38-44k)
-5. Zaragoza (€38-44k)
-6. All German universities (€40-45k)
-7. JKU Linz Austria (€40-44k)
-8. UPV Valencia (€44-50k)
+5. Karlstad Sweden (€36-40k)
+6. UPNA Pamplona (€38-44k)
+7. Zaragoza (€38-44k)
+8. All German universities (€40-45k)
+9. UPV Valencia (€44-50k)
 
 **Best Quality-to-Cost Ratio:**
-- NOVA IMS Lisbon (5/5 fit, €24-31k)
-- JKU Linz (5/5 fit, €40-44k)
+- NOVA IMS Lisbon (5/5 fit, €24-31k) - CHEAPEST
+- FH St. Pölten Austria (5/5 fit, €29-41k) - Data Science + near Vienna
+- JKU Linz Austria (5/5 fit, €29-43k) - First AI program in Europe
 - UPNA Pamplona (5/5 fit, €38-44k)
 - German universities (multiple 5/5 fit, €40-45k)
 - Maastricht (5/5 fit, €39-49k)

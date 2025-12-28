@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>Sophia's Scholarship Tracker - 2025-2026 (v3.2 - Git Sync)</title>
+    <style>
+        /* Include all existing styles from v3.0 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 0;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            max-width: 100%;
+            margin: 0;
+            background: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sticky-top {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 1.8em;
+            margin-bottom: 5px;
+        }
+
+        .header p {
+            font-size: 0.95em;
+            opacity: 0.9;
+        }
+
+        /* Sync status indicator */
+        .sync-status {
+            position: fixed;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            background: white;
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            font-size: 0.85em;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .sync-status.syncing {
+            background: #fff3cd;
+            color: #856404;
+        }
+
+        .sync-status.synced {
+            background: #d4edda;
+            color: #155724;
+        }
+
+        .sync-status.error {
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        .sync-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: currentColor;
+        }
+
+        .sync-button {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .sync-button:hover {
+            background: #218838;
+        }
+
+        .sync-button:disabled {
+            background: #6c757d;
+            cursor: not-allowed;
+        }
+
+        /* All other existing styles from v3.0 ... */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+            gap: 10px;
+            padding: 15px;
+            background: #f8f9fa;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 12px 8px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #667eea;
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: #666;
+            margin-top: 4px;
+            font-size: 0.75em;
+        }
+
+        .filters {
+            padding: 12px 15px;
+            background: white;
+            border-bottom: 2px solid #eee;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+            flex: 1;
+            min-width: 140px;
+        }
+
+        .filter-group label {
+            font-weight: 600;
+            color: #333;
+            font-size: 0.85em;
+            white-space: nowrap;
+        }
+
+        select, input[type="text"], button {
+            padding: 8px 12px;
+            border: 2px solid #ddd;
+            border-radius: 6px;
+            font-size: 13px;
+            transition: all 0.3s;
+            flex: 1;
+        }
+
+        .status-dropdown {
+            padding: 4px 8px;
+            font-size: 12px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            background: white;
+            cursor: pointer;
+        }
+
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .table-container {
+            padding: 15px;
+            overflow-x: auto;
+            flex: 1;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+        }
+
+        th {
+            background: #667eea;
+            color: white;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #eee;
+        }
+
+        tr:hover {
+            background: #f8f9fa;
+        }
+
+        .priority-HIGH {
+            background-color: #fee;
+            border-left: 4px solid #dc3545;
+        }
+
+        .priority-MEDIUM {
+            background-color: #ffc;
+            border-left: 4px solid #ffc107;
+        }
+
+        .priority-LOW {
+            background-color: #efe;
+            border-left: 4px solid #28a745;
+        }
+
+        .deadline-urgent { color: #dc3545; font-weight: bold; }
+        .deadline-soon { color: #ff8800; font-weight: bold; }
+        .deadline-ok { color: #28a745; }
+
+        .amount {
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        .link-btn {
+            background: #667eea;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-size: 0.85em;
+            display: inline-block;
+        }
+
+        .edit-btn {
+            background: #ffc107;
+            color: #333;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+            margin-right: 5px;
+        }
+
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .add-scholarship-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: #28a745;
+            color: white;
+            font-size: 2em;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 1000;
+            overflow-y: auto;
+        }
+
+        .modal-content {
+            background: white;
+            max-width: 600px;
+            margin: 50px auto;
+            border-radius: 16px;
+            padding: 30px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .form-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .form-buttons button {
+            flex: 1;
+            padding: 12px;
+        }
+
+        .cancel-btn {
+            background: #6c757d;
+        }
+
+        @media (max-width: 768px) {
+            .header h1 { font-size: 1.5em; }
+            .stats { grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 10px; }
+            .filter-group { min-width: calc(50% - 4px); }
+            table { font-size: 0.75em; }
+            th, td { padding: 8px 6px; }
+        }
+
+        @media (max-width: 480px) {
+            .stats { grid-template-columns: repeat(2, 1fr); }
+            .filter-group { min-width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Sync Status Indicator -->
+    <div class="sync-status" id="sync-status">
+        <div class="sync-dot"></div>
+        <span id="sync-text">Not configured</span>
+    </div>
+
+    <div class="container">
+        <div class="sticky-top">
+            <div class="header">
+                <h1>🎓 Sophia's Scholarship Tracker</h1>
+                <p>2025-2026 Academic Year | Target: €8,000-€20,000 | 🔄 Git Sync Enabled</p>
+            </div>
+
+            <div class="stats">
+                <div class="stat-card">
+                    <div class="stat-number" id="total-scholarships">0</div>
+                    <div class="stat-label">Total Scholarships</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="high-priority">0</div>
+                    <div class="stat-label">High Priority</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="applied">0</div>
+                    <div class="stat-label">Applied</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="upcoming">0</div>
+                    <div class="stat-label">Due in 30 Days</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-number" id="total-potential">$0</div>
+                    <div class="stat-label">Max Potential</div>
+                </div>
+            </div>
+
+            <div class="filters">
+                <div class="filter-group">
+                    <label>Priority:</label>
+                    <select id="filter-priority">
+                        <option value="all">All</option>
+                        <option value="HIGH">High</option>
+                        <option value="MEDIUM">Medium</option>
+                        <option value="LOW">Low</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Status:</label>
+                    <select id="filter-status">
+                        <option value="all">All</option>
+                        <option value="Not Started">Not Started</option>
+                        <option value="Research Needed">Research Needed</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Applied">Applied</option>
+                        <option value="Awarded">Awarded</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Category:</label>
+                    <select id="filter-category">
+                        <option value="all">All</option>
+                        <option value="Women in STEM">Women in STEM</option>
+                        <option value="Study Abroad">Study Abroad</option>
+                        <option value="Local/Community">Local/Community</option>
+                        <option value="Field-Specific">Field-Specific</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label>Search:</label>
+                    <input type="text" id="search-box" placeholder="Search scholarships...">
+                </div>
+                <button class="sync-button" id="manual-sync-btn" onclick="manualSync()">🔄 Sync to Git</button>
+                <button class="sync-button" id="pull-btn" onclick="pullFromGit()" style="background: #17a2b8;">⬇️ Pull from Git</button>
+                <button onclick="exportToCSV()">📥 Export</button>
+            </div>
+        </div>
+
+        <div class="table-container">
+            <table id="scholarship-table">
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('deadline')">Deadline ▼</th>
+                        <th onclick="sortTable('name')">Scholarship Name</th>
+                        <th onclick="sortTable('amount')">Amount</th>
+                        <th onclick="sortTable('priority')">Priority</th>
+                        <th>Status</th>
+                        <th>Category</th>
+                        <th>Link</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="scholarship-tbody">
+                    <!-- Scholarships will be loaded here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div style="text-align: center; padding: 20px; color: #666; font-size: 0.9em; border-top: 2px solid #eee;">
+            <p>Scholarship Tracker v3.2 (Git Sync) | Updated: December 27, 2024</p>
+            <p style="margin-top: 5px;">Auto-syncs to Git | Pull latest from GitHub | <a href="https://github.com/ymarquezla/UniversityAdvisor" target="_blank" style="color: #667eea;">View on GitHub</a></p>
+        </div>
+    </div>
+
+    <button class="add-scholarship-btn" onclick="openModal()" title="Add Scholarship">+</button>
+
+    <!-- Settings Modal for API Configuration -->
+    <div id="settings-modal" class="modal">
+        <div class="modal-content">
+            <h2>⚙️ Git Sync Settings</h2>
+            <div class="form-group">
+                <label>Sync Server URL:</label>
+                <input type="text" id="settings-api-url" placeholder="http://localhost:3000">
+            </div>
+            <div class="form-group">
+                <label>Secret Token:</label>
+                <input type="password" id="settings-token" placeholder="your-secret-token-here">
+            </div>
+            <div class="form-buttons">
+                <button type="button" class="cancel-btn" onclick="closeSettingsModal()">Cancel</button>
+                <button type="button" onclick="saveSettings()">Save Settings</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ===== CONFIGURATION =====
+        const CONFIG_KEY = 'scholarship-sync-config';
+        const STORAGE_KEY = 'scholarships';
+
+        let scholarships = [];
+        let syncConfig = {
+            apiUrl: '',
+            token: ''
+        };
+
+        // Load configuration
+        function loadConfig() {
+            const saved = localStorage.getItem(CONFIG_KEY);
+            if (saved) {
+                syncConfig = JSON.parse(saved);
+                updateSyncStatus('Configured', 'synced');
+            } else {
+                updateSyncStatus('Not configured', 'error');
+                // Auto-open settings modal on first load
+                setTimeout(() => {
+                    document.getElementById('settings-modal').style.display = 'block';
+                }, 1000);
+            }
+        }
+
+        // Save configuration
+        function saveSettings() {
+            syncConfig.apiUrl = document.getElementById('settings-api-url').value.trim();
+            syncConfig.token = document.getElementById('settings-token').value.trim();
+
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                alert('Please provide both API URL and token');
+                return;
+            }
+
+            localStorage.setItem(CONFIG_KEY, JSON.stringify(syncConfig));
+            closeSettingsModal();
+            updateSyncStatus('Configured', 'synced');
+            alert('Sync settings saved! Changes will now auto-sync to Git.');
+        }
+
+        function closeSettingsModal() {
+            document.getElementById('settings-modal').style.display = 'none';
+        }
+
+        // Update sync status indicator
+        function updateSyncStatus(text, status) {
+            const statusEl = document.getElementById('sync-status');
+            const textEl = document.getElementById('sync-text');
+
+            statusEl.className = 'sync-status ' + status;
+            textEl.textContent = text;
+        }
+
+        // Sync to Git
+        async function syncToGit(message = null) {
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                console.log('Sync not configured');
+                return;
+            }
+
+            try {
+                updateSyncStatus('Syncing...', 'syncing');
+
+                const response = await fetch(`${syncConfig.apiUrl}/sync`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${syncConfig.token}`
+                    },
+                    body: JSON.stringify({
+                        scholarships,
+                        message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    updateSyncStatus(`Synced (${data.count} scholarships)`, 'synced');
+                    setTimeout(() => updateSyncStatus('Configured', 'synced'), 3000);
+                } else {
+                    throw new Error(data.error);
+                }
+
+            } catch (error) {
+                console.error('Sync error:', error);
+                updateSyncStatus('Sync failed', 'error');
+                setTimeout(() => updateSyncStatus('Configured', 'synced'), 5000);
+            }
+        }
+
+        // Manual sync button
+        async function manualSync() {
+            const btn = document.getElementById('manual-sync-btn');
+            btn.disabled = true;
+            btn.textContent = '⏳ Syncing...';
+
+            await syncToGit('Manual sync from web app');
+
+            btn.disabled = false;
+            btn.textContent = '🔄 Sync to Git';
+        }
+
+        // Pull from Git button
+        async function pullFromGit() {
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                alert('Sync not configured. Press Ctrl+, to configure settings first.');
+                return;
+            }
+
+            const btn = document.getElementById('pull-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Pulling...';
+
+            try {
+                updateSyncStatus('Pulling from Git...', 'syncing');
+
+                const response = await fetch(`${syncConfig.apiUrl}/scholarships`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${syncConfig.token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Confirm before overwriting local data
+                    const confirmMsg = `Pull ${data.count} scholarships from Git?\n\n⚠️ This will REPLACE your current data with what's in GitHub.\n\nCurrent local: ${scholarships.length} scholarships\nGitHub has: ${data.count} scholarships`;
+
+                    if (confirm(confirmMsg)) {
+                        scholarships = data.scholarships;
+                        saveToStorage();
+                        renderTable();
+                        updateStats();
+                        updateSyncStatus(`Pulled ${data.count} scholarships`, 'synced');
+                        setTimeout(() => updateSyncStatus('Configured', 'synced'), 3000);
+                        alert(`✅ Successfully pulled ${data.count} scholarships from Git!`);
+                    } else {
+                        updateSyncStatus('Pull cancelled', 'synced');
+                    }
+                } else {
+                    throw new Error(data.error || 'Failed to pull from Git');
+                }
+
+            } catch (error) {
+                console.error('Pull error:', error);
+                updateSyncStatus('Pull failed', 'error');
+                setTimeout(() => updateSyncStatus('Configured', 'synced'), 5000);
+                alert('❌ Failed to pull from Git:\n' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
+        }
+
+        // Auto-save with Git sync
+        function saveToStorage() {
+            localStorage.setItem(STORAGE_KEY, JSON.stringify(scholarships));
+
+            // Auto-sync to Git after every change
+            if (syncConfig.apiUrl && syncConfig.token) {
+                syncToGit();
+            }
+        }
+
+        // All existing scholarship functions from v3.0...
+        function loadScholarships() {
+            const saved = localStorage.getItem(STORAGE_KEY);
+            if (saved) {
+                scholarships = JSON.parse(saved);
+            } else {
+                loadSampleData();
+            }
+            renderTable();
+            updateStats();
+        }
+
+        function loadSampleData() {
+            // Load from hardcoded data (same as v3.0)
+            scholarships = [
+                {
+                    deadline: '2025-01-31',
+                    name: 'Society of Women Engineers (SWE)',
+                    amountMin: '$1,000',
+                    amountMax: '$15,000',
+                    priority: 'HIGH',
+                    status: 'Not Started',
+                    category: 'Women in STEM',
+                    requirements: 'Transcripts, Resume, Essays, Recommendations',
+                    link: 'https://swe.org/apply-for-a-swe-scholarship/',
+                    notes: 'Single app = 330+ scholarships! Dates coming soon'
+                },
+                {
+                    deadline: '2025-02-24',
+                    name: 'Community Scholarship Fund of Barrington',
+                    amountMin: '$1,000',
+                    amountMax: '$10,000',
+                    priority: 'HIGH',
+                    status: 'Not Started',
+                    category: 'Local/Community',
+                    requirements: 'Application, Essays, Transcripts, Financial docs, Recommendations',
+                    link: 'https://csfofbarrington.com/apply/',
+                    notes: 'Barrington RI residents - based on need + merit'
+                }
+            ];
+            saveToStorage();
+            renderTable();
+            updateStats();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('scholarship-tbody');
+            const filterPriority = document.getElementById('filter-priority').value;
+            const filterStatus = document.getElementById('filter-status').value;
+            const filterCategory = document.getElementById('filter-category').value;
+            const searchText = document.getElementById('search-box').value.toLowerCase();
+
+            let filtered = scholarships.filter(s => {
+                if (filterPriority !== 'all' && s.priority !== filterPriority) return false;
+                if (filterStatus !== 'all' && s.status !== filterStatus) return false;
+                if (filterCategory !== 'all' && s.category !== filterCategory) return false;
+                if (searchText && !s.name.toLowerCase().includes(searchText)) return false;
+                return true;
+            });
+
+            tbody.innerHTML = filtered.map((s, idx) => {
+                const daysUntil = getDaysUntilDeadline(s.deadline);
+                const deadlineClass = daysUntil < 14 ? 'deadline-urgent' : daysUntil < 30 ? 'deadline-soon' : 'deadline-ok';
+                const actualIndex = scholarships.indexOf(s);
+
+                return `
+                    <tr class="priority-${s.priority}">
+                        <td class="${deadlineClass}">${formatDeadline(s.deadline, daysUntil)}</td>
+                        <td><strong>${s.name}</strong><br><small>${s.notes || ''}</small></td>
+                        <td class="amount">${s.amountMin} - ${s.amountMax}</td>
+                        <td><span class="status-badge priority-${s.priority}">${s.priority}</span></td>
+                        <td>
+                            <select class="status-dropdown" onchange="updateStatusInline(${actualIndex}, this.value)">
+                                <option value="Not Started" ${s.status === 'Not Started' ? 'selected' : ''}>Not Started</option>
+                                <option value="Research Needed" ${s.status === 'Research Needed' ? 'selected' : ''}>Research Needed</option>
+                                <option value="In Progress" ${s.status === 'In Progress' ? 'selected' : ''}>In Progress</option>
+                                <option value="Applied" ${s.status === 'Applied' ? 'selected' : ''}>Applied</option>
+                                <option value="Awarded" ${s.status === 'Awarded' ? 'selected' : ''}>Awarded</option>
+                            </select>
+                        </td>
+                        <td>${s.category}</td>
+                        <td>${s.link && s.link !== 'TBD' ? `<a href="${s.link}" target="_blank" class="link-btn">Apply</a>` : 'TBD'}</td>
+                        <td>
+                            <button class="edit-btn" onclick="editScholarship(${actualIndex})">Edit</button>
+                            <button class="delete-btn" onclick="deleteScholarship(${actualIndex})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function updateStatusInline(index, newStatus) {
+            scholarships[index].status = newStatus;
+            saveToStorage();
+            updateStats();
+        }
+
+        function getDaysUntilDeadline(deadline) {
+            if (!deadline || deadline === 'TBD') return 999;
+            const today = new Date();
+            const deadlineDate = new Date(deadline);
+            const diffTime = deadlineDate - today;
+            return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        }
+
+        function formatDeadline(deadline, daysUntil) {
+            if (!deadline || deadline === 'TBD') return 'TBD';
+            if (daysUntil < 0) return deadline + ' (PAST)';
+            if (daysUntil === 0) return deadline + ' (TODAY!)';
+            if (daysUntil < 30) return deadline + ` (${daysUntil}d)`;
+            return deadline;
+        }
+
+        function updateStats() {
+            const total = scholarships.length;
+            const highPriority = scholarships.filter(s => s.priority === 'HIGH').length;
+            const applied = scholarships.filter(s => s.status === 'Applied').length;
+
+            let upcoming = 0;
+            let totalMax = 0;
+            scholarships.forEach(s => {
+                if (getDaysUntilDeadline(s.deadline) <= 30 && getDaysUntilDeadline(s.deadline) >= 0) {
+                    upcoming++;
+                }
+                const max = parseFloat(s.amountMax.replace(/[$,€]/g, ''));
+                if (!isNaN(max)) totalMax += max;
+            });
+
+            document.getElementById('total-scholarships').textContent = total;
+            document.getElementById('high-priority').textContent = highPriority;
+            document.getElementById('applied').textContent = applied;
+            document.getElementById('upcoming').textContent = upcoming;
+            document.getElementById('total-potential').textContent = '$' + totalMax.toLocaleString();
+        }
+
+        function deleteScholarship(index) {
+            const scholarship = scholarships[index];
+            if (confirm(`Are you sure you want to delete "${scholarship.name}"?\n\nThis will sync to Git immediately.`)) {
+                scholarships.splice(index, 1);
+                saveToStorage();
+                renderTable();
+                updateStats();
+            }
+        }
+
+        function exportToCSV() {
+            const headers = 'Deadline Date,Scholarship Name,Amount Min,Amount Max,Priority,Status,Category,Requirements,Application Link,Notes\n';
+            const rows = scholarships.map(s =>
+                `${s.deadline},"${s.name}",${s.amountMin},${s.amountMax},${s.priority},${s.status},"${s.category}","${s.requirements}","${s.link}","${s.notes}"`
+            ).join('\n');
+
+            const csv = headers + rows;
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'sophia-scholarships-' + new Date().toISOString().split('T')[0] + '.csv';
+            a.click();
+        }
+
+        // Event listeners
+        document.getElementById('filter-priority').addEventListener('change', renderTable);
+        document.getElementById('filter-status').addEventListener('change', renderTable);
+        document.getElementById('filter-category').addEventListener('change', renderTable);
+        document.getElementById('search-box').addEventListener('input', renderTable);
+
+        // Keyboard shortcut to open settings (Ctrl+,)
+        document.addEventListener('keydown', (e) => {
+            if (e.ctrlKey && e.key === ',') {
+                e.preventDefault();
+                document.getElementById('settings-api-url').value = syncConfig.apiUrl;
+                document.getElementById('settings-token').value = syncConfig.token;
+                document.getElementById('settings-modal').style.display = 'block';
+            }
+        });
+
+        // Initialize
+        loadConfig();
+        loadScholarships();
+    </script>
+</body>
+</html>

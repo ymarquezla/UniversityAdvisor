@@ -1,0 +1,25 @@
+{
+  "name": "scholarship-tracker-sync-server",
+  "version": "1.0.0",
+  "description": "Two-way sync server for Scholarship Tracker - syncs web app changes to Git",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "keywords": [
+    "scholarship",
+    "tracker",
+    "git",
+    "sync"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2"
+  }
+}
