@@ -6,7 +6,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
-    <title>Sophia's Scholarship Tracker - 2025-2026 (v3.1 - Git Sync)</title>
+    <title>Sophia's Scholarship Tracker - 2025-2026 (v3.2 - Git Sync)</title>
     <style>
         /* Include all existing styles from v3.0 */
         * {
@@ -451,6 +451,7 @@
                     <input type="text" id="search-box" placeholder="Search scholarships...">
                 </div>
                 <button class="sync-button" id="manual-sync-btn" onclick="manualSync()">🔄 Sync to Git</button>
+                <button class="sync-button" id="pull-btn" onclick="pullFromGit()" style="background: #17a2b8;">⬇️ Pull from Git</button>
                 <button onclick="exportToCSV()">📥 Export</button>
             </div>
         </div>
@@ -476,8 +477,8 @@
         </div>
 
         <div style="text-align: center; padding: 20px; color: #666; font-size: 0.9em; border-top: 2px solid #eee;">
-            <p>Scholarship Tracker v3.1 (Git Sync) | Updated: December 27, 2024</p>
-            <p style="margin-top: 5px;">Auto-syncs to Git | <a href="https://github.com/ymarquezla/UniversityAdvisor" target="_blank" style="color: #667eea;">View on GitHub</a></p>
+            <p>Scholarship Tracker v3.2 (Git Sync) | Updated: December 27, 2024</p>
+            <p style="margin-top: 5px;">Auto-syncs to Git | Pull latest from GitHub | <a href="https://github.com/ymarquezla/UniversityAdvisor" target="_blank" style="color: #667eea;">View on GitHub</a></p>
         </div>
     </div>
 
@@ -605,6 +606,60 @@
 
             btn.disabled = false;
             btn.textContent = '🔄 Sync to Git';
+        }
+
+        // Pull from Git button
+        async function pullFromGit() {
+            if (!syncConfig.apiUrl || !syncConfig.token) {
+                alert('Sync not configured. Press Ctrl+, to configure settings first.');
+                return;
+            }
+
+            const btn = document.getElementById('pull-btn');
+            const originalText = btn.textContent;
+            btn.disabled = true;
+            btn.textContent = '⏳ Pulling...';
+
+            try {
+                updateSyncStatus('Pulling from Git...', 'syncing');
+
+                const response = await fetch(`${syncConfig.apiUrl}/scholarships`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${syncConfig.token}`
+                    }
+                });
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Confirm before overwriting local data
+                    const confirmMsg = `Pull ${data.count} scholarships from Git?\n\n⚠️ This will REPLACE your current data with what's in GitHub.\n\nCurrent local: ${scholarships.length} scholarships\nGitHub has: ${data.count} scholarships`;
+
+                    if (confirm(confirmMsg)) {
+                        scholarships = data.scholarships;
+                        saveToStorage();
+                        renderTable();
+                        updateStats();
+                        updateSyncStatus(`Pulled ${data.count} scholarships`, 'synced');
+                        setTimeout(() => updateSyncStatus('Configured', 'synced'), 3000);
+                        alert(`✅ Successfully pulled ${data.count} scholarships from Git!`);
+                    } else {
+                        updateSyncStatus('Pull cancelled', 'synced');
+                    }
+                } else {
+                    throw new Error(data.error || 'Failed to pull from Git');
+                }
+
+            } catch (error) {
+                console.error('Pull error:', error);
+                updateSyncStatus('Pull failed', 'error');
+                setTimeout(() => updateSyncStatus('Configured', 'synced'), 5000);
+                alert('❌ Failed to pull from Git:\n' + error.message);
+            } finally {
+                btn.disabled = false;
+                btn.textContent = originalText;
+            }
         }
 
         // Auto-save with Git sync
