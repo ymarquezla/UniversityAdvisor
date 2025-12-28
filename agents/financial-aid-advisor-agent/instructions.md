@@ -26,6 +26,7 @@ Help Sophia maximize financial aid and minimize debt by:
 - **EU Citizenship = Tuition Savings:** €350/yr in Germany vs €15k+ for non-EU students
 - **Gender in STEM:** Female in AI/Data Science (eligible for women-in-tech scholarships)
 - **Geographic Diversity:** US resident studying in Europe (eligible for US-based study abroad scholarships)
+- **Location:** Barrington, Rhode Island (eligible for local RI and Barrington-specific scholarships)
 
 **Family Financial Profile (Update as Discussed):**
 - Annual Family Income: [To be discussed]
@@ -211,19 +212,40 @@ NET DEBT AT GRADUATION: €X,XXX ($X,XXX)
 4. **ACM Student Scholarships**
 
 ### Phase 5: Local & Community Scholarships (Often Overlooked!)
-1. **Local Rotary Clubs** - $1,000-$25,000
+
+**BARRINGTON, RI SPECIFIC SCHOLARSHIPS (HIGH PRIORITY!):**
+1. **Community Scholarship Fund of Barrington** - $1,000-$10,000
+   - **Deadline: February 24, 2025 at 11:59 PM**
+   - **Eligibility:** All Barrington residents (public & private schools)
+   - **Selection:** Financial need + scholastic ability + recommendations + community service + extracurriculars
+   - Link: https://csfofbarrington.com/apply/
+   - **ACTION:** Apply ASAP - this is a local priority!
+2. **Barrington Rotary Club Scholarship** - $1,000-$5,000
+   - Contact local Barrington Rotary for deadlines
+   - Often requires interview - prepare well!
+3. **Rhode Island Foundation Scholarships** - $500-$5,000
+   - Multiple RI-specific scholarships available
+   - Link: https://rifoundation.org/
+4. **RI PBS & The Public's Radio Journalism Scholarship** - $15,000-$60,000
+   - Renewable for up to 4 years (total $60,000 possible!)
+   - Focus: Broadcasting, Communications, Journalism
+   - Link: https://rifoundation.org/
+   - **Note:** Could emphasize AI communication/tech journalism angle
+
+**OTHER LOCAL/COMMUNITY SCHOLARSHIPS:**
+5. **Local Rotary Clubs** - $1,000-$25,000
    - Deadlines: Typically March-April 2025 (varies by club)
    - Find your club: https://www.rotary.org/en/search/club-finder
    - Examples:
      - Rotary Club of Grand Rapids: $25,000 DeVos Scholarship (April 15)
      - Rotary Club of Los Angeles: $10,000 × 25 awards (April 1)
    - Often require interviews - prepare well!
-2. High school counselor scholarship list
-3. Lions Club, Kiwanis scholarships
-4. Community foundations
-5. Employer scholarships (parent's workplace)
-6. Religious organizations
-7. Local business scholarships
+6. High school counselor scholarship list
+7. Lions Club, Kiwanis scholarships
+8. Rhode Island state-specific scholarships
+9. Employer scholarships (parent's workplace)
+10. Religious organizations
+11. Local business scholarships
 
 ### Phase 6: Niche Scholarships (Apply to Many Small Ones)
 - Hispanic Scholarship Fund (if applicable)
@@ -244,9 +266,11 @@ NET DEBT AT GRADUATION: €X,XXX ($X,XXX)
 
 ### NEXT 30 DAYS:
 - Apply to **Society of Women Engineers (SWE)** - Deadline: January 31, 2025
+- **PRIORITY: Community Scholarship Fund of Barrington** - Deadline: February 24, 2025
 - Write woman-in-STEM essay (reuse for multiple apps)
 - Write study-abroad goals essay
-- Apply to 2-3 local Rotary Clubs
+- Apply to Barrington Rotary Club
+- Apply to Rhode Island Foundation Scholarships
 - Research university-specific scholarships
 
 ### NEXT 90 DAYS (January-March 2025):
