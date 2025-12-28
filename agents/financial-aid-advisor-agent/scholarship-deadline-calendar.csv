@@ -11,7 +11,6 @@ Deadline Date,Scholarship Name,Amount Min,Amount Max,Priority,Status,Category,Re
 TBD,"University of Passau Scholarships",€500,€2000,MEDIUM,Research Needed,"University-Specific","Check university website","https://www.uni-passau.de/en/","Research merit scholarships"
 TBD,"Maastricht University Scholarships",€3000,€5000,MEDIUM,Research Needed,"University-Specific","Check university website","https://www.maastrichtuniversity.nl/","Holland Scholarship & Merit awards"
 TBD,"UC3M Madrid Scholarships",€1000,€3000,MEDIUM,Research Needed,"University-Specific","Check university website","https://www.uc3m.es/","Spanish government scholarships"
-TBD,"Parent Employer Scholarship",$1000,$5000,MEDIUM,Research Needed,"Local/Community","Check HR department","Ask parent's workplace","Varies by employer"
 TBD,"State-Specific Scholarship (your state)",$500,$3000,MEDIUM,Research Needed,"State/Regional","Research state requirements","Search: [Your State] study abroad scholarships","Depends on home state"
 TBD,"Community Foundation #1",$500,$2000,LOW,Research Needed,"Local/Community","Ask school counselor","Check local community foundations",""
 TBD,"Community Foundation #2",$500,$2000,LOW,Research Needed,"Local/Community","Ask school counselor","Check local community foundations",""
