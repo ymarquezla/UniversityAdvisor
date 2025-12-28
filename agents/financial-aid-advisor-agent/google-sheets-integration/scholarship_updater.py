@@ -4,15 +4,21 @@ Update scholarship data programmatically via Google Sheets API
 """
 
 import os
+import sys
+import io
 from datetime import datetime, timedelta
 from typing import List, Dict, Optional
 from google.oauth2 import service_account
 from googleapiclient.discovery import build
 from googleapiclient.errors import HttpError
 
+# Fix Windows console encoding issues
+if sys.platform == 'win32':
+    sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8')
+
 # ===== CONFIGURATION =====
 # UPDATE THESE VALUES WITH YOUR INFORMATION
-SPREADSHEET_ID = "YOUR_SPREADSHEET_ID_HERE"  # Get from your Google Sheets URL
+SPREADSHEET_ID = "914091996-d5ogid1evqb1hkgirkvtlqht3c232q13.apps.googleusercontent.com"  # Get from your Google Sheets URL
 SHEET_NAME = "Sheet1"  # Or your sheet tab name
 CREDENTIALS_FILE = "credentials.json"  # Path to your service account JSON file
 

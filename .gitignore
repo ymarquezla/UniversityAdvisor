@@ -27,6 +27,10 @@ __pycache__/
 venv/
 *.egg-info/
 
+# Google API Credentials (NEVER COMMIT!)
+credentials.json
+**/credentials.json
+
 # Environment
 .env
 .env.local
