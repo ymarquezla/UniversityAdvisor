@@ -260,6 +260,20 @@
             background: #e0a800;
         }
 
+        .delete-btn {
+            background: #dc3545;
+            color: white;
+            border: none;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85em;
+        }
+
+        .delete-btn:hover {
+            background: #c82333;
+        }
+
         .add-scholarship-btn {
             position: fixed;
             bottom: 30px;
@@ -700,6 +714,7 @@
                         <td>${s.link && s.link !== 'TBD' ? `<a href="${s.link}" target="_blank" class="link-btn">Apply</a>` : 'TBD'}</td>
                         <td>
                             <button class="edit-btn" onclick="editScholarship(${scholarships.indexOf(s)})">Edit</button>
+                            <button class="delete-btn" onclick="deleteScholarship(${scholarships.indexOf(s)})">Delete</button>
                         </td>
                     </tr>
                 `;
@@ -800,6 +815,16 @@
             renderTable();
             updateStats();
             closeModal();
+        }
+
+        function deleteScholarship(index) {
+            const scholarship = scholarships[index];
+            if (confirm(`Are you sure you want to delete "${scholarship.name}"?\n\nThis action cannot be undone.`)) {
+                scholarships.splice(index, 1);
+                saveToStorage();
+                renderTable();
+                updateStats();
+            }
         }
 
         function sortTable(field) {
