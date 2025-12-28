@@ -518,9 +518,12 @@
         <div class="modal-content">
             <h2>⚙️ Settings</h2>
             <div class="form-group">
-                <label>Claude API Key</label>
-                <input type="password" id="apiKey" placeholder="sk-ant-...">
-                <small>Your API key is stored locally and never sent to any server except Anthropic's Claude API. Get your key at <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a></small>
+                <label>Claude API Key (Optional for Demo)</label>
+                <input type="password" id="apiKey" placeholder="sk-ant-... or leave empty for demo mode">
+                <small>
+                    <strong>Demo Mode:</strong> Leave empty to try the app with simulated responses.<br>
+                    <strong>Real Mode:</strong> Add your API key from <a href="https://console.anthropic.com/" target="_blank">console.anthropic.com</a> for actual AI-powered responses (~$0.01/conversation).
+                </small>
             </div>
             <div class="form-group">
                 <label>Student Profile (Optional)</label>
@@ -579,11 +582,8 @@
 
             if (!message) return;
 
-            if (!apiKey) {
-                alert('Please set your Claude API key in Settings first!');
-                openSettings();
-                return;
-            }
+            // Check if demo mode (no API key provided)
+            const isDemoMode = !apiKey;
 
             // Clear input
             input.value = '';
@@ -602,8 +602,21 @@
             document.getElementById('sendBtn').disabled = true;
 
             try {
-                // Call Claude API
-                const response = await callClaudeAPI(message);
+                let response;
+
+                if (isDemoMode) {
+                    // Demo mode - use mock responses
+                    await new Promise(resolve => setTimeout(resolve, 1500)); // Simulate API delay
+                    response = getDemoResponse(message);
+
+                    // Show demo notice on first message
+                    if (conversationHistory.filter(m => m.sender === 'agent').length === 0) {
+                        response = "**🎭 DEMO MODE** - You're seeing simulated responses. For real AI-powered chat, add your Claude API key in Settings.\n\n" + response;
+                    }
+                } else {
+                    // Real mode - call Claude API
+                    response = await callClaudeAPI(message);
+                }
 
                 // Remove loading
                 removeLoading(loadingId);
@@ -683,6 +696,224 @@
         function removeLoading(id) {
             const loading = document.getElementById(id);
             if (loading) loading.remove();
+        }
+
+        function getDemoResponse(message) {
+            const lowerMessage = message.toLowerCase();
+
+            // University Advisor responses
+            if (currentAgent === 'university') {
+                if (lowerMessage.includes('germany') || lowerMessage.includes('german')) {
+                    return `Great question! Here are some excellent universities in Germany for AI/Data Science:
+
+**Top Matches:**
+
+1. **University of Passau** - BSc Artificial Intelligence
+   - Total Cost: **€37-41k** (3 years)
+   - Tuition: €350/year (nearly free!)
+   - English-taught, small city
+   - Classification: MATCH ✅
+
+2. **University of Bayreuth** - BSc Data Science & AI
+   - Total Cost: **€37-41k** (3 years)
+   - Tuition: €350/year
+   - Modern facilities, Erasmus+ with 150+ partners
+   - Classification: MATCH ✅
+
+3. **TU Berlin** - B.Sc. AI & Data Engineering
+   - Total Cost: **€33-48k** (3 years)
+   - Brand new program (Oct 2025)
+   - In BERLIN - Europe's tech capital! 🏙️
+   - Classification: REACH (competitive)
+
+All German public universities charge only €350/year in tuition. The main cost is living expenses (€10-15k/year).
+
+Want me to compare these in detail or find scholarships for Germany?`;
+                }
+
+                if (lowerMessage.includes('compare') || lowerMessage.includes('vs')) {
+                    return `I can help compare universities! Here's what I look at:
+
+📊 **Comparison Criteria:**
+- Total 3-year cost (tuition + living)
+- Program focus (AI vs Data Science vs both)
+- Language of instruction
+- City size and location
+- Erasmus+ partnerships
+- Classification (Reach/Match/Safety)
+
+**Example Comparison:**
+**Passau vs TU Berlin**
+
+| Attribute | Passau | TU Berlin |
+|-----------|---------|-----------|
+| Cost | €37-41k | €33-48k |
+| Program | BSc AI | BSc AI & Data Eng |
+| City | Small (50k) | Large (3.7M) |
+| Erasmus+ | 250+ partners | Extensive |
+| Status | Match ✅ | Reach ⭐ |
+
+Which universities would you like me to compare?`;
+                }
+
+                if (lowerMessage.includes('cheap') || lowerMessage.includes('afford')) {
+                    return `Here are the **most affordable** English-taught AI/Data Science programs in Europe:
+
+🏆 **Top 5 Cheapest:**
+
+1. **NOVA IMS Lisbon** (Portugal) - **€24-31k total** 🥇
+   - BSc Data Science, 100% English
+   - Dedicated Data Science school
+   - Best value in Europe!
+
+2. **JKU Linz** (Austria) - **€29-43k total**
+   - BSc AI, English-taught
+   - Near-free tuition (€25/semester)
+   - One of Europe's first AI programs
+
+3. **KdG Antwerp** (Belgium) - **€34-38k total**
+   - BSc Applied CS with AI
+   - 100% English, no entrance exam
+   - Cheapest Belgian option
+
+4. **University of Passau** (Germany) - **€37-41k total**
+   - BSc AI, English-taught
+   - Nearly free tuition (€350/year)
+
+5. **UPNA Pamplona** (Spain) - **€38-44k total**
+   - BSc CS, 100% English
+   - Very affordable living costs
+
+All include tuition + living for full degree. Want details on any of these?`;
+                }
+
+                return `I can help you find the perfect European university for AI/Data Science! I have information on 38 universities across 9 countries.
+
+I can help with:
+- Finding universities by country, budget, or language
+- Comparing specific programs
+- Explaining Erasmus+ opportunities
+- Assessing reach/match/safety schools
+
+Try asking:
+- "Find me universities in Germany under €40k"
+- "Compare University of Passau and JKU Linz"
+- "What are the cheapest English programs?"
+
+What would you like to explore?`;
+            }
+
+            // Financial Aid Advisor responses
+            else {
+                if (lowerMessage.includes('austria') || lowerMessage.includes('linz') || lowerMessage.includes('pölten')) {
+                    return `Great question! Here are scholarships for studying in Austria:
+
+**Austria-Specific Scholarships:**
+
+1. **JKU Linz Merit Scholarship**
+   - Amount: **€500-€2,000**
+   - Eligibility: Academic merit, strong grades
+   - Type: University-specific
+   - Note: Government-funded for international students
+
+2. **FH St. Pölten Scholarships**
+   - Amount: **€500-€1,500**
+   - Eligibility: Academic merit
+   - Type: University-specific
+   - Contact: International Office for Data Science program
+
+3. **Austrian Government Scholarships**
+   - Various programs for international students
+   - Check: OeAD (Austrian Agency for International Cooperation)
+
+**Also Consider:**
+- DAAD Undergraduate Scholarships (for studying in German-speaking countries)
+- Women in STEM scholarships (AnitaB.org, SWE)
+- Erasmus+ grants if you're doing exchange
+
+**Cost Context:**
+Austrian public universities charge €25-363/semester in tuition - already incredibly affordable!
+
+Want me to calculate total funding package for a specific Austrian university?`;
+                }
+
+                if (lowerMessage.includes('women') || lowerMessage.includes('stem')) {
+                    return `Excellent! As a woman in STEM, you have access to many specialized scholarships:
+
+**Top Women in STEM Scholarships:**
+
+1. **Society of Women Engineers (SWE) Scholarship**
+   - Amount: **$1,000-$15,000**
+   - Deadline: Varies (Feb-May typically)
+   - For women in engineering/CS
+
+2. **AnitaB.org Scholarship (Grace Hopper)**
+   - Amount: **$2,000** + conference pass
+   - Includes: Travel to Grace Hopper Celebration
+   - Great for networking!
+
+3. **Girls Who Code Scholarship**
+   - Amount: **$2,500-$10,000**
+   - For undergrad women in CS
+
+4. **NCWIT Collegiate Award**
+   - Amount: **$500-$10,000**
+   - Recognition + cash award
+
+5. **Microsoft Women in Technology Scholarship**
+   - Full tuition coverage possible
+   - Highly competitive
+
+**Strategy:**
+Stack these with country-specific scholarships (e.g., DAAD for Germany, Erasmus+ grants) to maximize funding!
+
+Want me to help calculate a complete funding package?`;
+                }
+
+                if (lowerMessage.includes('calculate') || lowerMessage.includes('total') || lowerMessage.includes('cost')) {
+                    return `Let me help calculate total cost with scholarships! Here's an example:
+
+**Example: University of Passau (Germany)**
+
+💰 **Total 3-Year Cost:**
+- Tuition: €1,050 (€350/year × 3)
+- Living: €36,600 (€12,200/year × 3)
+- **Total: €37,650**
+
+🎓 **Available Scholarships:**
+- DAAD Undergraduate: €5,000
+- SWE Scholarship: $10,000 (€9,200)
+- University merit award: €2,000
+- **Total Scholarships: €16,200**
+
+📊 **Net Cost:**
+€37,650 - €16,200 = **€21,450** (for entire degree!)
+
+**That's only €7,150/year** - very affordable!
+
+**Family Contribution:**
+If your family can contribute €14,700/year, you'd have:
+- €14,700 × 3 = €44,100 total
+- Net cost: €21,450
+- **Surplus: €22,650** (safety buffer!)
+
+Which university would you like me to calculate for?`;
+                }
+
+                return `I can help you find scholarships and build a funding package! I specialize in:
+
+- University-specific scholarships
+- Women in STEM funding
+- Country-specific study abroad grants
+- Calculating total cost with aid
+
+Ask me:
+- "What scholarships are available for Austria?"
+- "Calculate total cost for University of Passau with scholarships"
+- "Find women in STEM scholarships"
+
+What would you like to explore?`;
+            }
         }
 
         async function callClaudeAPI(message) {
@@ -843,10 +1074,25 @@ Be practical, encouraging, and focus on actionable funding opportunities.`
             }
         }
 
-        // Show settings modal if no API key
-        if (!apiKey) {
-            setTimeout(() => openSettings(), 500);
+        // Update header to show demo/real mode
+        function updateModeIndicator() {
+            const headerTitle = document.querySelector('.header h1');
+            if (!apiKey) {
+                headerTitle.innerHTML = '🎓 University Advisor AI Chat <span style="background: rgba(255,255,255,0.2); padding: 4px 8px; border-radius: 4px; font-size: 0.7em; margin-left: 8px;">DEMO MODE</span>';
+            } else {
+                headerTitle.textContent = '🎓 University Advisor AI Chat';
+            }
         }
+
+        // Call on load and after settings save
+        updateModeIndicator();
+
+        // Update saveSettings to refresh mode indicator
+        const originalSaveSettings = window.saveSettings;
+        window.saveSettings = function() {
+            originalSaveSettings();
+            updateModeIndicator();
+        };
     </script>
 </body>
 </html>
