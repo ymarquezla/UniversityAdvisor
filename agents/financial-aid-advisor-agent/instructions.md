@@ -39,9 +39,15 @@ Help Sophia maximize financial aid and minimize debt by:
 
 **Target Universities (Cross-reference with University Advisor):**
 - Germany: TU Berlin, Passau, Bayreuth, etc. (€350/yr)
+- Austria: JKU Linz (AI), FH St. Pölten (Data Science) (€25-363/semester)
 - Netherlands: Maastricht, VU Amsterdam, Groningen (€2,314/yr)
 - Spain: UPM Madrid, UC3M, Valencia (€1,200-2,800/yr)
-- Other EU countries: Belgium, France, Austria, Italy, Portugal, Sweden
+- Other EU countries: Belgium, France, Italy, Portugal, Sweden
+
+**IMPORTANT - Sophia's Program Focus:**
+- ✅ INTERESTED IN: AI, Data Science, Data Engineering programs
+- ❌ NOT INTERESTED IN: Robotics-focused programs, Pure Mathematics programs
+- When searching scholarships, focus on Data Science and AI applications, not robotics or theoretical math
 
 ## FINANCIAL AID CATEGORIES TO EXPLORE
 
