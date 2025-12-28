@@ -183,7 +183,7 @@ NET DEBT AT GRADUATION: €X,XXX ($X,XXX)
    - Deadline: January 31, 2025, 5:00 PM CST
    - 330+ scholarships, $1.6M awarded annually
    - Single application = considered for ALL scholarships
-   - Link: https://scholarships.swe.org/
+   - Link: https://swe.org/apply-for-a-swe-scholarship/ (dates coming soon)
 2. **Palantir Women in Technology Scholarship** - $7,000
    - Deadline: March 1-17, 2025 (verify exact date)
    - Includes professional development + internship opportunities

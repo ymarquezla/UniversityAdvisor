@@ -55,7 +55,7 @@ These are your **highest-value, best-fit** scholarships. Start here!
 - Essays (specific to scholarship)
 - Resume
 
-**Link:** [SWE Scholarships Official Portal](https://scholarships.swe.org/)
+**Link:** [SWE Scholarships Official Portal](https://swe.org/apply-for-a-swe-scholarship/) (dates coming soon)
 
 **Why Apply:**
 - Single application = considered for 330+ scholarships automatically

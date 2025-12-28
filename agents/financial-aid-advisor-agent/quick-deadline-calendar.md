@@ -299,7 +299,7 @@ Set up recurring Google Calendar or Outlook reminders
 - Counselor: _________________ Email: _________________
 
 **Scholarship Organizations:**
-- SWE: scholarships.swe.org
+- SWE: swe.org/apply-for-a-swe-scholarship (dates coming soon)
 - Gilman: www.gilmanscholarship.org
 - Palantir: Check scholarship site
 - Microsoft: microsoft.com/diversity/scholarships
