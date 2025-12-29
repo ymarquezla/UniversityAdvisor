@@ -10,6 +10,8 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: #1a1a2e;
+            color: #eaeaea;
         }
         .app-nav {
             position: sticky;
@@ -17,7 +19,7 @@
             z-index: 50;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             padding: 10px 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             display: flex;
             gap: 15px;
             align-items: center;
@@ -51,9 +53,10 @@
             position: sticky;
             top: 48px;
             z-index: 40;
-            background: white;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            background: #16213e;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
             padding: 12px 20px;
+            border-bottom: 1px solid #2a3f5f;
         }
 
         /* Compact stats */
@@ -63,6 +66,7 @@
             gap: 4px;
             margin-right: 16px;
             font-size: 0.875rem;
+            color: #eaeaea;
         }
         .stat-number {
             font-weight: 700;
@@ -72,15 +76,42 @@
         /* Compact table */
         table {
             font-size: 0.875rem;
+            background: #16213e;
         }
         th {
             padding: 8px 6px !important;
             font-size: 0.75rem;
             font-weight: 600;
+            background: #0f1626;
+            color: #a8b2d1;
+            border-bottom: 1px solid #2a3f5f;
         }
         td {
             padding: 6px !important;
             vertical-align: top;
+            border-bottom: 1px solid #1a2332;
+            color: #ccd6f6;
+        }
+        tr:hover td {
+            background: #1a2942;
+        }
+
+        /* Country abbreviations */
+        .country-abbr {
+            display: inline-block;
+            padding: 2px 6px;
+            background: #2a3f5f;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.7rem;
+            color: #64ffda;
+        }
+
+        /* Program wrapping */
+        .program-text {
+            max-width: 150px;
+            word-wrap: break-word;
+            line-height: 1.3;
         }
 
         /* Status dropdown styling */
@@ -99,6 +130,11 @@
         .status-select.Rejected { background: #fee2e2; color: #991b1b; }
 
         /* Compact inputs */
+        input[type="date"], select, textarea {
+            background: #0f1626;
+            color: #eaeaea;
+            border: 1px solid #2a3f5f;
+        }
         input[type="date"] {
             padding: 4px;
             font-size: 0.75rem;
@@ -107,6 +143,9 @@
         textarea {
             font-size: 0.75rem;
             min-height: 50px;
+        }
+        select {
+            cursor: pointer;
         }
 
         /* Icon buttons */
@@ -117,18 +156,37 @@
             text-decoration: none;
             border-radius: 4px;
             transition: all 0.2s;
+            color: inherit;
         }
         .icon-btn:hover {
-            background: #f3f4f6;
+            background: #2a3f5f;
+        }
+
+        /* Empty state */
+        .empty-state-bg {
+            background: #16213e;
+            border: 1px solid #2a3f5f;
+            color: #a8b2d1;
+        }
+        .empty-state-bg a {
+            color: #64ffda;
+        }
+
+        /* Table container */
+        .table-container {
+            background: #16213e;
+            border: 1px solid #2a3f5f;
         }
 
         @media print {
             .no-print { display: none; }
             .app-nav, .sticky-controls { position: static; }
+            body { background: white; color: black; }
+            table, th, td { background: white; color: black; border-color: #ccc; }
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body>
     <!-- Navigation Bar -->
     <nav class="app-nav no-print">
         <a href="index.html">
@@ -148,30 +206,30 @@
             <!-- Stats inline -->
             <div class="flex flex-wrap items-center">
                 <span class="stat-inline">
-                    <span class="stat-number text-purple-600" id="stat-total">0</span>
-                    <span class="text-gray-600">Total</span>
+                    <span class="stat-number" style="color: #c792ea;" id="stat-total">0</span>
+                    <span>Total</span>
                 </span>
                 <span class="stat-inline">
-                    <span class="stat-number text-blue-600" id="stat-planning">0</span>
-                    <span class="text-gray-600">Planning</span>
+                    <span class="stat-number" style="color: #82aaff;" id="stat-planning">0</span>
+                    <span>Planning</span>
                 </span>
                 <span class="stat-inline">
-                    <span class="stat-number text-yellow-600" id="stat-applied">0</span>
-                    <span class="text-gray-600">Applied</span>
+                    <span class="stat-number" style="color: #ffcb6b;" id="stat-applied">0</span>
+                    <span>Applied</span>
                 </span>
                 <span class="stat-inline">
-                    <span class="stat-number text-green-600" id="stat-accepted">0</span>
-                    <span class="text-gray-600">Accepted</span>
+                    <span class="stat-number" style="color: #c3e88d;" id="stat-accepted">0</span>
+                    <span>Accepted</span>
                 </span>
                 <span class="stat-inline">
-                    <span class="stat-number text-red-600" id="stat-rejected">0</span>
-                    <span class="text-gray-600">Rejected</span>
+                    <span class="stat-number" style="color: #f07178;" id="stat-rejected">0</span>
+                    <span>Rejected</span>
                 </span>
             </div>
 
             <!-- Actions -->
             <div class="flex items-center gap-2">
-                <select id="filterStatus" class="px-3 py-1.5 text-sm border rounded">
+                <select id="filterStatus" class="px-3 py-1.5 text-sm rounded" style="background: #0f1626; border: 1px solid #2a3f5f;">
                     <option value="all">All Statuses</option>
                     <option value="Planning">📋 Planning</option>
                     <option value="Applied">📤 Applied</option>
@@ -179,10 +237,10 @@
                     <option value="Accepted">✅ Accepted</option>
                     <option value="Rejected">❌ Rejected</option>
                 </select>
-                <button onclick="window.print()" class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
+                <button onclick="window.print()" class="px-3 py-1.5 text-sm text-white rounded" style="background: #82aaff;">
                     🖨️ Print
                 </button>
-                <button onclick="exportToCSV()" class="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700">
+                <button onclick="exportToCSV()" class="px-3 py-1.5 text-sm text-white rounded" style="background: #c3e88d; color: #0f1626;">
                     📊 CSV
                 </button>
             </div>
@@ -192,24 +250,24 @@
     <!-- Main Content -->
     <div class="max-w-full px-4 py-4">
         <!-- Empty State -->
-        <div id="empty-state" class="bg-white rounded-lg shadow p-8 text-center text-gray-500 hidden">
+        <div id="empty-state" class="empty-state-bg rounded-lg shadow p-8 text-center hidden">
             <p class="text-lg mb-2">No universities shortlisted yet</p>
-            <p class="text-sm">Go to the <a href="index.html" class="text-blue-600 underline">Universities page</a> and click "+ Shortlist" on universities you want to apply to!</p>
+            <p class="text-sm">Go to the <a href="index.html" class="underline">Universities page</a> and click "+ Shortlist" on universities you want to apply to!</p>
         </div>
 
         <!-- Applications Table -->
-        <div class="bg-white rounded-lg shadow overflow-x-auto">
+        <div class="table-container rounded-lg shadow overflow-x-auto">
             <table class="w-full" id="applications-table" style="display: none;">
-                <thead class="bg-gray-50 border-b">
+                <thead>
                     <tr>
                         <th class="text-left">University</th>
-                        <th class="text-left">Country</th>
-                        <th class="text-left">Program</th>
-                        <th class="text-left">Cost</th>
-                        <th class="text-left">Status</th>
-                        <th class="text-left">Deadline</th>
-                        <th class="text-left" style="min-width: 250px;">Notes / Next Steps</th>
-                        <th class="text-center no-print" style="width: 60px;">Actions</th>
+                        <th class="text-left" style="width: 50px;">Ctry</th>
+                        <th class="text-left" style="width: 150px;">Program</th>
+                        <th class="text-left" style="width: 80px;">Cost</th>
+                        <th class="text-left" style="width: 110px;">Status</th>
+                        <th class="text-left" style="width: 110px;">Deadline</th>
+                        <th class="text-left" style="min-width: 300px;">Notes / Next Steps</th>
+                        <th class="text-center no-print" style="width: 50px;">Del</th>
                     </tr>
                 </thead>
                 <tbody id="applications-tbody">
@@ -256,25 +314,41 @@
                 if (appData.status === 'Accepted') accepted++;
                 if (appData.status === 'Rejected') rejected++;
 
+                // Country abbreviations
+                const countryAbbr = {
+                    'Germany': 'DE',
+                    'Netherlands': 'NL',
+                    'Belgium': 'BE',
+                    'Spain': 'ES',
+                    'France': 'FR',
+                    'Austria': 'AT',
+                    'Italy': 'IT',
+                    'Sweden': 'SE',
+                    'Portugal': 'PT'
+                };
+
                 const row = document.createElement('tr');
-                row.className = 'border-b hover:bg-gray-50';
                 row.innerHTML = `
                     <td>
-                        <div class="font-semibold text-gray-900">${uni.name}</div>
+                        <div class="font-semibold">${uni.name}</div>
                         <div class="flex gap-2 mt-1">
-                            <a href="${uni.url}" target="_blank" class="icon-btn text-blue-600" title="Visit Website">
+                            <a href="${uni.url}" target="_blank" class="icon-btn" title="Visit Website">
                                 🔗
                             </a>
                             ${uni.admissionsEmail ? `
-                                <a href="mailto:${uni.admissionsEmail}" class="icon-btn text-purple-600" title="${uni.admissionsEmail}">
+                                <a href="mailto:${uni.admissionsEmail}" class="icon-btn" title="${uni.admissionsEmail}">
                                     📧
                                 </a>
                             ` : ''}
                         </div>
                     </td>
-                    <td class="text-sm text-gray-700">${uni.country}</td>
-                    <td class="text-sm text-gray-700">${uni.program}</td>
-                    <td class="text-sm font-semibold text-gray-900">${uni.cost}</td>
+                    <td>
+                        <span class="country-abbr">${countryAbbr[uni.country] || uni.country}</span>
+                    </td>
+                    <td>
+                        <div class="program-text">${uni.program}</div>
+                    </td>
+                    <td class="font-semibold">${uni.cost}</td>
                     <td>
                         <select
                             class="status-select ${appData.status}"
@@ -292,7 +366,7 @@
                             type="date"
                             value="${appData.deadline || ''}"
                             onchange="updateDeadline(${uni.id}, this.value)"
-                            class="border rounded"
+                            class="rounded"
                         />
                     </td>
                     <td>
@@ -300,13 +374,14 @@
                             onchange="updateNotes(${uni.id}, this.value)"
                             placeholder="Add notes..."
                             rows="2"
-                            class="w-full px-2 py-1 border rounded resize-y"
+                            class="w-full px-2 py-1 rounded resize-y"
                         >${appData.notes || ''}</textarea>
                     </td>
                     <td class="text-center no-print">
                         <button
                             onclick="removeApplication(${uni.id})"
-                            class="text-red-600 hover:text-red-800 text-sm"
+                            class="text-sm"
+                            style="color: #f07178;"
                             title="Remove from shortlist"
                         >
                             ✕
