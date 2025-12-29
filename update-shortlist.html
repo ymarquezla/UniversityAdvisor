@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Shortlist</title>
+</head>
+<body>
+    <h1>Adding Universities to Shortlist...</h1>
+    <div id="status"></div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+
+        // Get existing applications
+        const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+
+        // Add University of Passau (ID: 1)
+        applications[1] = {
+            status: 'Planning',
+            deadline: '2025-07-15',
+            notes: 'EU students: Direct application June 15-Sept 30. Non-EU: uni-assist by July 15. B2 English required. Contact: ai-admissions@uni-passau.de',
+            addedDate: new Date().toISOString()
+        };
+
+        // Add KdG Antwerp (ID: 15 - Belgium)
+        applications[15] = {
+            status: 'Planning',
+            deadline: '2026-05-28',
+            notes: 'EU students: Rolling admission (no deadline). Non-EU: May 28, 2026. Payment by June 10, 2026. September 2026 intake. 100% English-taught.',
+            addedDate: new Date().toISOString()
+        };
+
+        // Save to localStorage
+        localStorage.setItem('universityApplications', JSON.stringify(applications));
+
+        statusDiv.innerHTML = `
+            <h2 style="color: green;">✅ Successfully added to shortlist!</h2>
+            <ul>
+                <li><strong>University of Passau</strong> - Deadline: July 15, 2025 (non-EU) / Sept 30, 2025 (EU)</li>
+                <li><strong>KdG Antwerp</strong> - Deadline: May 28, 2026 (non-EU) / Rolling (EU)</li>
+            </ul>
+            <p><a href="application-tracker.html" style="color: blue; font-size: 18px;">📊 Open Application Tracker</a></p>
+            <p><a href="index.html" style="color: blue; font-size: 18px;">🎓 Back to Universities</a></p>
+        `;
+
+        // Auto-redirect after 3 seconds
+        setTimeout(() => {
+            window.location.href = 'application-tracker.html';
+        }, 3000);
+    </script>
+</body>
+</html>
