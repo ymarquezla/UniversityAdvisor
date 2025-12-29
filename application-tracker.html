@@ -80,12 +80,32 @@
             background: #16213e;
         }
         th {
+            position: sticky;
+            top: 100px;
+            z-index: 30;
             padding: 8px 6px !important;
             font-size: 0.75rem;
             font-weight: 600;
             background: #0f1626;
             color: #a8b2d1;
             border-bottom: 1px solid #2a3f5f;
+            cursor: pointer;
+            user-select: none;
+        }
+        th:hover {
+            background: #1a2332;
+        }
+        th.sortable::after {
+            content: ' ⇅';
+            opacity: 0.3;
+        }
+        th.sorted-asc::after {
+            content: ' ↑';
+            opacity: 1;
+        }
+        th.sorted-desc::after {
+            content: ' ↓';
+            opacity: 1;
         }
         td {
             padding: 6px !important;
@@ -261,12 +281,12 @@
             <table class="w-full" id="applications-table" style="display: none;">
                 <thead>
                     <tr>
-                        <th class="text-left">University</th>
-                        <th class="text-left" style="width: 50px;">Ctry</th>
-                        <th class="text-left" style="width: 150px;">Program</th>
-                        <th class="text-left" style="width: 80px;">Cost</th>
-                        <th class="text-left" style="width: 110px;">Status</th>
-                        <th class="text-left" style="width: 110px;">Deadline</th>
+                        <th class="text-left sortable" onclick="sortTable('university')">University</th>
+                        <th class="text-left sortable" onclick="sortTable('country')" style="width: 50px;">Ctry</th>
+                        <th class="text-left sortable" onclick="sortTable('program')" style="width: 150px;">Program</th>
+                        <th class="text-left sortable" onclick="sortTable('cost')" style="width: 80px;">Cost</th>
+                        <th class="text-left sortable" onclick="sortTable('status')" style="width: 110px;">Status</th>
+                        <th class="text-left sortable" onclick="sortTable('deadline')" style="width: 110px;">Deadline</th>
                         <th class="text-left" style="min-width: 300px;">Notes / Next Steps</th>
                         <th class="text-center no-print" style="width: 50px;">Del</th>
                     </tr>
@@ -279,6 +299,29 @@
 
     <script src="universities-data.js"></script>
     <script>
+        let currentSort = { field: null, direction: 'asc' };
+
+        function sortTable(field) {
+            // Toggle direction if clicking same field
+            if (currentSort.field === field) {
+                currentSort.direction = currentSort.direction === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.direction = 'asc';
+            }
+
+            // Update header styling
+            document.querySelectorAll('th').forEach(th => {
+                th.classList.remove('sorted-asc', 'sorted-desc');
+            });
+            const clickedHeader = event.target;
+            clickedHeader.classList.add(currentSort.direction === 'asc' ? 'sorted-asc' : 'sorted-desc');
+
+            // Re-render with sorting
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            renderApplications(applications);
+        }
+
         function loadData() {
             const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
             const unis = Object.keys(applications).map(id => parseInt(id));
@@ -302,10 +345,53 @@
 
             let total = 0, planning = 0, applied = 0, accepted = 0, rejected = 0;
 
-            Object.entries(applications).forEach(([uniId, appData]) => {
+            // Convert to array for sorting
+            let entries = Object.entries(applications).map(([uniId, appData]) => {
                 const uni = UNIVERSITIES_DATA.find(u => u.id === parseInt(uniId));
-                if (!uni) return;
+                return { uniId, appData, uni };
+            }).filter(item => item.uni); // Remove entries where uni not found
 
+            // Apply sorting
+            if (currentSort.field) {
+                entries.sort((a, b) => {
+                    let aVal, bVal;
+
+                    switch(currentSort.field) {
+                        case 'university':
+                            aVal = a.uni.name.toLowerCase();
+                            bVal = b.uni.name.toLowerCase();
+                            break;
+                        case 'country':
+                            aVal = a.uni.country.toLowerCase();
+                            bVal = b.uni.country.toLowerCase();
+                            break;
+                        case 'program':
+                            aVal = a.uni.program.toLowerCase();
+                            bVal = b.uni.program.toLowerCase();
+                            break;
+                        case 'cost':
+                            aVal = a.uni.costMin;
+                            bVal = b.uni.costMin;
+                            break;
+                        case 'status':
+                            aVal = a.appData.status;
+                            bVal = b.appData.status;
+                            break;
+                        case 'deadline':
+                            aVal = a.appData.deadline || '9999-12-31';
+                            bVal = b.appData.deadline || '9999-12-31';
+                            break;
+                        default:
+                            return 0;
+                    }
+
+                    if (aVal < bVal) return currentSort.direction === 'asc' ? -1 : 1;
+                    if (aVal > bVal) return currentSort.direction === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }
+
+            entries.forEach(({uniId, appData, uni}) => {
                 // Filter
                 if (filterStatus !== 'all' && appData.status !== filterStatus) return;
 
