@@ -428,11 +428,11 @@
         <a href="../../index.html">
             🎓 Universities
         </a>
-        <a href="scholarship-tracker-sync.html" class="active">
+        <a href="scholarship-tracker.html" class="active">
             💰 Scholarships
         </a>
-        <a href="../chat-app/index.html">
-            💬 AI Chat
+        <a href="../../application-tracker.html">
+            📝 My Applications
         </a>
     </nav>
 
@@ -724,7 +724,20 @@
         }
 
         // All existing scholarship functions from v3.0...
-        function loadScholarships() {
+        async function loadScholarships() {
+            // Try to auto-pull from Git first if configured
+            if (syncConfig.apiUrl && syncConfig.token) {
+                try {
+                    await pullFromGit();
+                    // After successful pull, data is already loaded
+                    return;
+                } catch (error) {
+                    console.log('Auto-pull failed, loading from localStorage:', error.message);
+                    // Fall back to localStorage if pull fails
+                }
+            }
+
+            // Load from localStorage or sample data
             const saved = localStorage.getItem(STORAGE_KEY);
             if (saved) {
                 scholarships = JSON.parse(saved);

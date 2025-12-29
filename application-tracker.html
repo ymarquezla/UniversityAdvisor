@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My University Applications | University Advisor</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+        }
+        .app-nav {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 10px 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            justify-content: center;
+        }
+        .app-nav a {
+            color: white;
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            background: rgba(255, 255, 255, 0.1);
+        }
+        .app-nav a:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+        .app-nav a.active {
+            background: white;
+            color: #667eea;
+            font-weight: 600;
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-Planning { background: #e0e7ff; color: #4338ca; }
+        .status-Applied { background: #dbeafe; color: #1e40af; }
+        .status-Pending { background: #fef3c7; color: #92400e; }
+        .status-Accepted { background: #d1fae5; color: #065f46; }
+        .status-Rejected { background: #fee2e2; color: #991b1b; }
+
+        @media print {
+            .no-print {
+                display: none;
+            }
+            .app-nav {
+                position: static;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation Bar -->
+    <nav class="app-nav no-print">
+        <a href="index.html">
+            🎓 Universities
+        </a>
+        <a href="agents/financial-aid-advisor-agent/scholarship-tracker.html">
+            💰 Scholarships
+        </a>
+        <a href="application-tracker.html" class="active">
+            📝 My Applications
+        </a>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 py-8">
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-gray-900 mb-2">📝 My University Applications</h1>
+            <p class="text-gray-600">Track your application progress for shortlisted universities</p>
+        </div>
+
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="text-2xl font-bold text-purple-600" id="stat-total">0</div>
+                <div class="text-sm text-gray-600">Total Shortlisted</div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="text-2xl font-bold text-blue-600" id="stat-planning">0</div>
+                <div class="text-sm text-gray-600">Planning</div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="text-2xl font-bold text-yellow-600" id="stat-applied">0</div>
+                <div class="text-sm text-gray-600">Applied</div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="text-2xl font-bold text-green-600" id="stat-accepted">0</div>
+                <div class="text-sm text-gray-600">Accepted</div>
+            </div>
+            <div class="bg-white rounded-lg shadow p-4">
+                <div class="text-2xl font-bold text-red-600" id="stat-rejected">0</div>
+                <div class="text-sm text-gray-600">Rejected</div>
+            </div>
+        </div>
+
+        <!-- Filter/Sort -->
+        <div class="bg-white rounded-lg shadow p-4 mb-6 no-print">
+            <div class="flex flex-wrap gap-4">
+                <select id="filterStatus" class="px-4 py-2 border rounded">
+                    <option value="all">All Statuses</option>
+                    <option value="Planning">📋 Planning</option>
+                    <option value="Applied">📤 Applied</option>
+                    <option value="Pending">⏳ Pending</option>
+                    <option value="Accepted">✅ Accepted</option>
+                    <option value="Rejected">❌ Rejected</option>
+                </select>
+                <button onclick="window.print()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    🖨️ Print Report
+                </button>
+                <button onclick="exportToCSV()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
+                    📊 Export CSV
+                </button>
+            </div>
+        </div>
+
+        <!-- Applications Table -->
+        <div id="applications-container" class="bg-white rounded-lg shadow overflow-hidden">
+            <div class="p-8 text-center text-gray-500" id="empty-state">
+                <p class="text-lg mb-2">No universities shortlisted yet</p>
+                <p class="text-sm">Go to the <a href="index.html" class="text-blue-600 underline">Universities page</a> and click "+ Shortlist" on universities you want to apply to!</p>
+            </div>
+
+            <table class="w-full hidden" id="applications-table">
+                <thead class="bg-gray-50 border-b">
+                    <tr>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">University</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Country</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Program</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Total Cost</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Deadline</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Next Steps / Notes</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Admissions Email</th>
+                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 no-print">Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="applications-tbody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="universities-data.js"></script>
+    <script>
+        // UNIVERSITIES_DATA is now loaded from universities-data.js
+
+        function loadData() {
+            // Load applications from localStorage
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            const unis = Object.keys(applications).map(id => parseInt(id));
+
+            if (unis.length === 0) {
+                document.getElementById('empty-state').classList.remove('hidden');
+                document.getElementById('applications-table').classList.add('hidden');
+                return;
+            }
+
+            document.getElementById('empty-state').classList.add('hidden');
+            document.getElementById('applications-table').classList.remove('hidden');
+
+            renderApplications(applications);
+        }
+
+        function renderApplications(applications) {
+            const filterStatus = document.getElementById('filterStatus').value;
+            const tbody = document.getElementById('applications-tbody');
+            tbody.innerHTML = '';
+
+            let total = 0, planning = 0, applied = 0, accepted = 0, rejected = 0;
+
+            Object.entries(applications).forEach(([uniId, appData]) => {
+                const uni = UNIVERSITIES_DATA.find(u => u.id === parseInt(uniId));
+                if (!uni) return;
+
+                // Filter
+                if (filterStatus !== 'all' && appData.status !== filterStatus) return;
+
+                total++;
+                if (appData.status === 'Planning') planning++;
+                if (appData.status === 'Applied' || appData.status === 'Pending') applied++;
+                if (appData.status === 'Accepted') accepted++;
+                if (appData.status === 'Rejected') rejected++;
+
+                const row = document.createElement('tr');
+                row.className = 'border-b hover:bg-gray-50';
+                row.innerHTML = `
+                    <td class="px-4 py-3">
+                        <div class="font-semibold text-gray-900">${uni.name}</div>
+                        <a href="${uni.url}" target="_blank" class="text-xs text-blue-600 hover:underline">
+                            🔗 Visit Website
+                        </a>
+                    </td>
+                    <td class="px-4 py-3 text-sm">${uni.country}</td>
+                    <td class="px-4 py-3 text-sm">${uni.program}</td>
+                    <td class="px-4 py-3 text-sm font-semibold">${uni.cost}</td>
+                    <td class="px-4 py-3">
+                        <span class="status-badge status-${appData.status}">
+                            ${appData.status}
+                        </span>
+                    </td>
+                    <td class="px-4 py-3">
+                        <input
+                            type="date"
+                            value="${appData.deadline || ''}"
+                            onchange="updateDeadline(${uni.id}, this.value)"
+                            class="px-2 py-1 border rounded text-sm"
+                        />
+                    </td>
+                    <td class="px-4 py-3">
+                        <textarea
+                            onchange="updateNotes(${uni.id}, this.value)"
+                            placeholder="Add notes or next steps..."
+                            rows="2"
+                            class="w-full px-2 py-1 border rounded text-sm resize-y"
+                        >${appData.notes || ''}</textarea>
+                    </td>
+                    <td class="px-4 py-3 text-sm">
+                        ${uni.admissionsEmail ? `
+                            <a href="mailto:${uni.admissionsEmail}" class="text-blue-600 hover:underline">
+                                ${uni.admissionsEmail}
+                            </a>
+                        ` : '<span class="text-gray-400">N/A</span>'}
+                    </td>
+                    <td class="px-4 py-3 no-print">
+                        <button
+                            onclick="removeApplication(${uni.id})"
+                            class="text-red-600 hover:text-red-800 text-sm"
+                        >
+                            ✕ Remove
+                        </button>
+                    </td>
+                `;
+                tbody.appendChild(row);
+            });
+
+            // Update stats
+            document.getElementById('stat-total').textContent = total;
+            document.getElementById('stat-planning').textContent = planning;
+            document.getElementById('stat-applied').textContent = applied;
+            document.getElementById('stat-accepted').textContent = accepted;
+            document.getElementById('stat-rejected').textContent = rejected;
+        }
+
+        function updateDeadline(uniId, deadline) {
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            if (applications[uniId]) {
+                applications[uniId].deadline = deadline;
+                localStorage.setItem('universityApplications', JSON.stringify(applications));
+            }
+        }
+
+        function updateNotes(uniId, notes) {
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            if (applications[uniId]) {
+                applications[uniId].notes = notes;
+                localStorage.setItem('universityApplications', JSON.stringify(applications));
+            }
+        }
+
+        function removeApplication(uniId) {
+            if (!confirm('Remove this university from your application tracker?')) return;
+
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            delete applications[uniId];
+            localStorage.setItem('universityApplications', JSON.stringify(applications));
+            loadData();
+        }
+
+        function exportToCSV() {
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+
+            let csv = 'University,Country,Program,Total Cost,Status,Deadline,Admissions Email,Website\n';
+
+            Object.entries(applications).forEach(([uniId, appData]) => {
+                const uni = UNIVERSITIES_DATA.find(u => u.id === parseInt(uniId));
+                if (!uni) return;
+
+                csv += `"${uni.name}","${uni.country}","${uni.program}","${uni.cost}","${appData.status}","${appData.deadline || ''}","${uni.admissionsEmail || ''}","${uni.url}"\n`;
+            });
+
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `university-applications-${new Date().toISOString().split('T')[0]}.csv`;
+            a.click();
+        }
+
+        // Event listeners
+        document.getElementById('filterStatus').addEventListener('change', () => {
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            renderApplications(applications);
+        });
+
+        // Load data on page load
+        loadData();
+
+        // Reload when localStorage changes (from other tabs)
+        window.addEventListener('storage', loadData);
+    </script>
+</body>
+</html>
