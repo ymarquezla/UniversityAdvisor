@@ -15,21 +15,25 @@
         // Get existing applications
         const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
 
-        // Add University of Passau (ID: 1)
-        applications[1] = {
-            status: 'Planning',
-            deadline: '2025-07-15',
-            notes: 'EU students: Direct application June 15-Sept 30. Non-EU: uni-assist by July 15. B2 English required. Contact: ai-admissions@uni-passau.de',
-            addedDate: new Date().toISOString()
-        };
+        // Add University of Passau (ID: 1) - Only if not already added
+        if (!applications[1]) {
+            applications[1] = {
+                status: 'Planning',
+                deadline: '2025-07-15',
+                notes: 'EU students: Direct application June 15-Sept 30. Non-EU: uni-assist by July 15. B2 English required. Contact: ai-admissions@uni-passau.de',
+                addedDate: new Date().toISOString()
+            };
+        }
 
-        // Add KdG Antwerp (ID: 15 - Belgium)
-        applications[15] = {
-            status: 'Planning',
-            deadline: '2026-05-28',
-            notes: 'EU students: Rolling admission (no deadline). Non-EU: May 28, 2026. Payment by June 10, 2026. September 2026 intake. 100% English-taught.',
-            addedDate: new Date().toISOString()
-        };
+        // Add KdG Antwerp (ID: 15 - Belgium) - Only if not already added
+        if (!applications[15]) {
+            applications[15] = {
+                status: 'Planning',
+                deadline: '2026-05-28',
+                notes: 'EU students: Rolling admission (no deadline). Non-EU: May 28, 2026. Payment by June 10, 2026. September 2026 intake. 100% English-taught.',
+                addedDate: new Date().toISOString()
+            };
+        }
 
         // Save to localStorage
         localStorage.setItem('universityApplications', JSON.stringify(applications));
