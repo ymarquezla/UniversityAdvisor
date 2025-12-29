@@ -1808,19 +1808,22 @@
                                     {/* View Mode Buttons */}
                                     <button
                                         onClick={() => setViewMode('grid')}
-                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-white'}`}
+                                        style={{background: viewMode === 'grid' ? '' : '#2a3f5f'}}
                                     >
                                         📱 Grid
                                     </button>
                                     <button
                                         onClick={() => setViewMode('table')}
-                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
+                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'text-white'}`}
+                                        style={{background: viewMode === 'table' ? '' : '#2a3f5f'}}
                                     >
                                         📊 Table
                                     </button>
                                     <button
                                         onClick={() => setShowMap(!showMap)}
-                                        className={`px-3 py-1 text-xs rounded ${showMap ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}
+                                        className={`px-3 py-1 text-xs rounded ${showMap ? 'bg-indigo-600 text-white' : 'text-white'}`}
+                                        style={{background: showMap ? '' : '#2a3f5f'}}
                                     >
                                         🗺️ Map ({showMap ? 'On' : 'Off'})
                                     </button>
@@ -1829,20 +1832,21 @@
                                             setCompareMode(!compareMode);
                                             if (!compareMode) setSelectedForCompare([]);
                                         }}
-                                        className={`px-3 py-1 text-xs rounded ${compareMode ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
+                                        className={`px-3 py-1 text-xs rounded ${compareMode ? 'bg-green-600 text-white' : 'text-white'}`}
+                                        style={{background: compareMode ? '' : '#2a3f5f'}}
                                     >
                                         ⚖️ Compare ({selectedForCompare.length}/4)
                                     </button>
 
                                     {/* Erasmus+ Toggle */}
-                                    <label className="flex items-center space-x-1 cursor-pointer px-2 py-1 bg-purple-50 rounded border border-purple-200">
+                                    <label className="flex items-center space-x-1 cursor-pointer px-2 py-1 rounded border" style={{background: 'rgba(168, 85, 247, 0.1)', borderColor: '#a855f7'}}>
                                         <input
                                             type="checkbox"
                                             checked={erasmusFilter}
                                             onChange={(e) => setErasmusFilter(e.target.checked)}
                                             className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                                         />
-                                        <span className="text-xs font-medium text-purple-700">🇪🇺 Erasmus+ only</span>
+                                        <span className="text-xs font-medium" style={{color: '#c084fc'}}>🇪🇺 Erasmus+ only</span>
                                     </label>
 
                                     {/* Buy Me a Coffee */}
@@ -1851,15 +1855,16 @@
                                             href="https://www.buymeacoffee.com/smarquez"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="px-2 py-1 bg-yellow-50 rounded border border-yellow-300 hover:bg-yellow-100 transition-colors"
+                                            className="px-2 py-1 rounded border transition-colors"
+                                            style={{background: 'rgba(251, 191, 36, 0.2)', borderColor: '#fbbf24', color: '#fbbf24'}}
                                         >
-                                            <span className="text-xs font-medium text-yellow-800">☕ Support</span>
+                                            <span className="text-xs font-medium">☕ Support</span>
                                         </a>
-                                        <span className="text-[10px] text-gray-500 hidden sm:inline">Help keep this tool free!</span>
+                                        <span className="text-[10px] hidden sm:inline" style={{color: '#a8b2d1'}}>Help keep this tool free!</span>
                                     </div>
 
                                     {/* Results Counter */}
-                                    <div className="ml-auto text-xs text-gray-600 font-semibold">
+                                    <div className="ml-auto text-xs font-semibold" style={{color: '#64ffda'}}>
                                         {filteredUniversities.length} of {universities.length} universities
                                     </div>
                                 </div>
