@@ -197,6 +197,13 @@
         .table-container {
             background: #16213e;
             border: 1px solid #2a3f5f;
+            overflow-x: auto;
+            overflow-y: visible;
+        }
+
+        /* Ensure table can be wider than container for horizontal scroll */
+        .table-wrapper {
+            position: relative;
         }
 
         @media print {
@@ -277,7 +284,7 @@
         </div>
 
         <!-- Applications Table -->
-        <div class="table-container rounded-lg shadow overflow-x-auto">
+        <div class="table-container rounded-lg shadow">
             <table class="w-full" id="applications-table" style="display: none;">
                 <thead>
                     <tr>
