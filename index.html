@@ -18,6 +18,8 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+            background: #1a1a2e;
+            color: #eaeaea;
         }
         .app-nav {
             position: sticky;
@@ -58,14 +60,70 @@
             position: sticky;
             top: 48px;
             z-index: 40;
-            background: white;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background: #16213e;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+            border-bottom: 1px solid #2a3f5f;
         }
         .details-table {
             font-size: 0.75rem;
         }
         .details-table td {
             padding: 0.25rem 0.5rem;
+        }
+        /* Dark mode table styles */
+        table {
+            background: #16213e;
+            color: #ccd6f6;
+        }
+        table thead {
+            background: #0f1626;
+            color: #a8b2d1;
+        }
+        table th {
+            padding: 8px 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            border-bottom: 1px solid #2a3f5f;
+            cursor: pointer;
+            user-select: none;
+        }
+        table th:hover {
+            background: #1a2332;
+        }
+        table tbody tr {
+            border-bottom: 1px solid #1a2332;
+        }
+        table tbody tr:hover {
+            background: #1a2942;
+        }
+        table td {
+            padding: 6px;
+            vertical-align: top;
+        }
+        /* Dark mode for cards */
+        .uni-card {
+            background: #16213e;
+            border: 1px solid #2a3f5f;
+            color: #ccd6f6;
+        }
+        .uni-card:hover {
+            border-color: #334155;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+        }
+        /* Dark inputs */
+        input, select, button {
+            background: #0f1626;
+            color: #eaeaea;
+            border-color: #2a3f5f;
+        }
+        input::placeholder {
+            color: #64748b;
+        }
+        input:focus, select:focus {
+            background: #1a2332;
+            border-color: #64ffda;
+            outline: none;
+            box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
         }
     </style>
 </head>
@@ -1320,6 +1378,8 @@
             const [showMap, setShowMap] = useState(true);
             const [mapInstance, setMapInstance] = useState(null);
             const [markersLayer, setMarkersLayer] = useState(null);
+            const [sortField, setSortField] = useState('name');
+            const [sortDirection, setSortDirection] = useState('asc');
 
             // Load applications from localStorage (stores {uniId, status, deadline, notes})
             const [applications, setApplications] = useState(() => {
@@ -1430,11 +1490,11 @@
             }, []);
 
             const filteredUniversities = useMemo(() => {
-                return universities.filter(uni => {
+                const filtered = universities.filter(uni => {
                     const matchesCountry = countryFilter === 'all' || uni.country === countryFilter;
                     const matchesLanguage = languageFilter === 'all' || uni.language.includes(languageFilter);
                     const matchesCost = uni.costMin >= costFilter[0] && uni.costMax <= costFilter[1];
-                    const matchesSearch = searchQuery === '' || 
+                    const matchesSearch = searchQuery === '' ||
                         uni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         uni.program.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         uni.country.toLowerCase().includes(searchQuery.toLowerCase());
@@ -1444,7 +1504,51 @@
 
                     return matchesCountry && matchesLanguage && matchesCost && matchesSearch && matchesStars && matchesDuration && matchesErasmus;
                 });
-            }, [countryFilter, languageFilter, costFilter, searchQuery, minStars, durationFilter, erasmusFilter]);
+
+                // Apply sorting
+                return filtered.sort((a, b) => {
+                    let aVal, bVal;
+
+                    switch(sortField) {
+                        case 'name':
+                            aVal = a.name.toLowerCase();
+                            bVal = b.name.toLowerCase();
+                            break;
+                        case 'country':
+                            aVal = a.country.toLowerCase();
+                            bVal = b.country.toLowerCase();
+                            break;
+                        case 'cost':
+                            aVal = a.costMin;
+                            bVal = b.costMin;
+                            break;
+                        case 'duration':
+                            aVal = a.duration;
+                            bVal = b.duration;
+                            break;
+                        case 'fit':
+                            aVal = a.fitScore;
+                            bVal = b.fitScore;
+                            break;
+                        default:
+                            return 0;
+                    }
+
+                    if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
+                    if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
+                    return 0;
+                });
+            }, [countryFilter, languageFilter, costFilter, searchQuery, minStars, durationFilter, erasmusFilter, sortField, sortDirection]);
+
+            // Handle column header click for sorting
+            const handleSort = (field) => {
+                if (sortField === field) {
+                    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
+                } else {
+                    setSortField(field);
+                    setSortDirection('asc');
+                }
+            };
 
             // Map initialization effect
             useEffect(() => {
@@ -1606,7 +1710,7 @@
             };
 
             return (
-                <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+                <div className="min-h-screen" style={{background: '#1a1a2e'}}>
                     {/* Navigation Bar */}
                     <nav className="app-nav">
                         <a href="index.html" className="active">
@@ -1621,12 +1725,12 @@
                     </nav>
 
                     {/* Header - Scrolls away */}
-                    <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
+                    <div style={{background: '#1a1a2e', borderBottom: '1px solid #2a3f5f'}}>
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                            <h1 className="text-2xl font-bold text-gray-900 mb-1">
+                            <h1 className="text-2xl font-bold mb-1" style={{color: '#eaeaea'}}>
                                 🎓 European AI & Data Science Universities
                             </h1>
-                            <p className="text-gray-600 text-xs">
+                            <p className="text-xs" style={{color: '#a8b2d1'}}>
                                 Comprehensive comparison tool • Cost breakdowns • Erasmus+ programs • 37 universities across 9 countries
                             </p>
                         </div>
@@ -1635,7 +1739,7 @@
                     {/* Filters - Sticky and Compact */}
                     <div className="sticky-controls">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-                            <div className="bg-white rounded-lg shadow-md p-3">
+                            <div className="rounded-lg shadow-md p-3" style={{background: '#16213e', border: '1px solid #2a3f5f'}}>
                                 {/* First Row: Search and Main Filters */}
                                 <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-2 mb-2">
                                     {/* Search - Takes more space */}
@@ -1777,8 +1881,8 @@
                             <div className={`${showMap ? 'lg:w-1/2' : 'w-full'}`}>
                                 {/* Comparison Panel */}
                                 {compareMode && selectedForCompare.length > 0 && (
-                            <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
-                                <h2 className="text-lg font-bold mb-3">Comparing {selectedForCompare.length} Universities</h2>
+                            <div className="uni-card rounded-lg shadow-lg p-4 mb-4">
+                                <h2 className="text-lg font-bold mb-3" style={{color: '#eaeaea'}}>Comparing {selectedForCompare.length} Universities</h2>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead className="bg-gray-50">
@@ -1850,9 +1954,9 @@
                         {viewMode === 'grid' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {filteredUniversities.map(uni => (
-                                    <div key={uni.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 flex flex-col">
+                                    <div key={uni.id} className="uni-card rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 flex flex-col">
                                         <div className="flex justify-between items-start mb-2">
-                                            <h3 className="text-lg font-bold text-gray-900 flex-1">
+                                            <h3 className="text-lg font-bold flex-1" style={{color: '#eaeaea'}}>
                                                 {uni.name}
                                                 {uni.new && <span className="ml-2 bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded">NEW</span>}
                                             </h3>
@@ -2000,20 +2104,30 @@
                                 ))}
                             </div>
                         ) : (
-                            <div className="bg-white rounded-lg shadow-lg overflow-x-auto mb-4">
+                            <div className="uni-card rounded-lg shadow-lg overflow-x-auto mb-4">
                                 <table className="w-full text-sm">
-                                    <thead className="bg-gray-50 border-b">
+                                    <thead className="sticky" style={{top: '104px', zIndex: 30}}>
                                         <tr>
                                             {compareMode && <th className="p-2 text-left text-xs">Compare</th>}
-                                            <th className="p-2 text-left text-xs">University</th>
-                                            <th className="p-2 text-left text-xs">Country</th>
+                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('name')}>
+                                                University {sortField === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                            </th>
+                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('country')}>
+                                                Country {sortField === 'country' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                            </th>
                                             <th className="p-2 text-left text-xs">Program</th>
-                                            <th className="p-2 text-left text-xs">Duration</th>
+                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('duration')}>
+                                                Duration {sortField === 'duration' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                            </th>
                                             <th className="p-2 text-left text-xs">Tuition/Yr</th>
                                             <th className="p-2 text-left text-xs">Living/Yr</th>
-                                            <th className="p-2 text-left text-xs">Total</th>
+                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('cost')}>
+                                                Total {sortField === 'cost' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                            </th>
                                             <th className="p-2 text-left text-xs">Erasmus+</th>
-                                            <th className="p-2 text-left text-xs">Fit</th>
+                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('fit')}>
+                                                Fit {sortField === 'fit' && (sortDirection === 'asc' ? '↑' : '↓')}
+                                            </th>
                                             <th className="p-2 text-left text-xs">Link</th>
                                         </tr>
                                     </thead>
@@ -2064,12 +2178,12 @@
                     </div>
 
                     {/* Footer */}
-                    <footer className="bg-white border-t border-gray-200 mt-8 py-4">
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
+                    <footer className="mt-8 py-4" style={{background: '#16213e', borderTop: '1px solid #2a3f5f'}}>
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs" style={{color: '#a8b2d1'}}>
                             <p className="mb-2">
                                 Built with 🤖 AI assistance by Sophia |
                                 <a href="https://github.com/ymarquezla/UniversityAdvisor"
-                                   className="text-blue-600 hover:underline ml-1">
+                                   className="hover:underline ml-1" style={{color: '#64ffda'}}>
                                     View Source on GitHub
                                 </a>
                             </p>
@@ -2082,7 +2196,7 @@
                                          style={{height: '40px', width: '145px', display: 'inline-block'}} />
                                 </a>
                             </p>
-                            <p className="text-[10px] text-gray-500">
+                            <p className="text-[10px]" style={{color: '#64748b'}}>
                                 Last updated: December 2025 • Data includes tuition, living costs, duration, and Erasmus+ participation
                             </p>
                         </div>

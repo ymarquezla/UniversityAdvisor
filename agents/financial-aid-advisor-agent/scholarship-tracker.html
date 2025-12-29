@@ -263,12 +263,21 @@
         }
 
         th {
+            position: sticky;
+            top: 186px;
+            z-index: 90;
             background: #0f1626;
             color: #a8b2d1;
             padding: 15px;
             text-align: left;
             font-weight: 600;
             border-bottom: 1px solid #2a3f5f;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        th:hover {
+            background: #1a2332;
         }
 
         td {
