@@ -45,26 +45,86 @@
             color: #667eea;
             font-weight: 600;
         }
-        .status-badge {
-            display: inline-block;
-            padding: 4px 12px;
-            border-radius: 12px;
+
+        /* Sticky controls bar */
+        .sticky-controls {
+            position: sticky;
+            top: 48px;
+            z-index: 40;
+            background: white;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            padding: 12px 20px;
+        }
+
+        /* Compact stats */
+        .stat-inline {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            margin-right: 16px;
+            font-size: 0.875rem;
+        }
+        .stat-number {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        /* Compact table */
+        table {
+            font-size: 0.875rem;
+        }
+        th {
+            padding: 8px 6px !important;
             font-size: 0.75rem;
             font-weight: 600;
         }
-        .status-Planning { background: #e0e7ff; color: #4338ca; }
-        .status-Applied { background: #dbeafe; color: #1e40af; }
-        .status-Pending { background: #fef3c7; color: #92400e; }
-        .status-Accepted { background: #d1fae5; color: #065f46; }
-        .status-Rejected { background: #fee2e2; color: #991b1b; }
+        td {
+            padding: 6px !important;
+            vertical-align: top;
+        }
+
+        /* Status dropdown styling */
+        .status-select {
+            padding: 4px 8px;
+            border-radius: 6px;
+            border: 1px solid #d1d5db;
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 100px;
+        }
+        .status-select.Planning { background: #e0e7ff; color: #4338ca; }
+        .status-select.Applied { background: #dbeafe; color: #1e40af; }
+        .status-select.Pending { background: #fef3c7; color: #92400e; }
+        .status-select.Accepted { background: #d1fae5; color: #065f46; }
+        .status-select.Rejected { background: #fee2e2; color: #991b1b; }
+
+        /* Compact inputs */
+        input[type="date"] {
+            padding: 4px;
+            font-size: 0.75rem;
+            width: 110px;
+        }
+        textarea {
+            font-size: 0.75rem;
+            min-height: 50px;
+        }
+
+        /* Icon buttons */
+        .icon-btn {
+            display: inline-block;
+            padding: 4px 8px;
+            font-size: 0.875rem;
+            text-decoration: none;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+        .icon-btn:hover {
+            background: #f3f4f6;
+        }
 
         @media print {
-            .no-print {
-                display: none;
-            }
-            .app-nav {
-                position: static;
-            }
+            .no-print { display: none; }
+            .app-nav, .sticky-controls { position: static; }
         }
     </style>
 </head>
@@ -82,40 +142,36 @@
         </a>
     </nav>
 
-    <div class="max-w-7xl mx-auto px-4 py-8">
-        <div class="mb-8">
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">📝 My University Applications</h1>
-            <p class="text-gray-600">Track your application progress for shortlisted universities</p>
-        </div>
+    <!-- Sticky Controls Bar -->
+    <div class="sticky-controls no-print">
+        <div class="flex flex-wrap items-center justify-between gap-3">
+            <!-- Stats inline -->
+            <div class="flex flex-wrap items-center">
+                <span class="stat-inline">
+                    <span class="stat-number text-purple-600" id="stat-total">0</span>
+                    <span class="text-gray-600">Total</span>
+                </span>
+                <span class="stat-inline">
+                    <span class="stat-number text-blue-600" id="stat-planning">0</span>
+                    <span class="text-gray-600">Planning</span>
+                </span>
+                <span class="stat-inline">
+                    <span class="stat-number text-yellow-600" id="stat-applied">0</span>
+                    <span class="text-gray-600">Applied</span>
+                </span>
+                <span class="stat-inline">
+                    <span class="stat-number text-green-600" id="stat-accepted">0</span>
+                    <span class="text-gray-600">Accepted</span>
+                </span>
+                <span class="stat-inline">
+                    <span class="stat-number text-red-600" id="stat-rejected">0</span>
+                    <span class="text-gray-600">Rejected</span>
+                </span>
+            </div>
 
-        <!-- Stats Cards -->
-        <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="text-2xl font-bold text-purple-600" id="stat-total">0</div>
-                <div class="text-sm text-gray-600">Total Shortlisted</div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="text-2xl font-bold text-blue-600" id="stat-planning">0</div>
-                <div class="text-sm text-gray-600">Planning</div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="text-2xl font-bold text-yellow-600" id="stat-applied">0</div>
-                <div class="text-sm text-gray-600">Applied</div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="text-2xl font-bold text-green-600" id="stat-accepted">0</div>
-                <div class="text-sm text-gray-600">Accepted</div>
-            </div>
-            <div class="bg-white rounded-lg shadow p-4">
-                <div class="text-2xl font-bold text-red-600" id="stat-rejected">0</div>
-                <div class="text-sm text-gray-600">Rejected</div>
-            </div>
-        </div>
-
-        <!-- Filter/Sort -->
-        <div class="bg-white rounded-lg shadow p-4 mb-6 no-print">
-            <div class="flex flex-wrap gap-4">
-                <select id="filterStatus" class="px-4 py-2 border rounded">
+            <!-- Actions -->
+            <div class="flex items-center gap-2">
+                <select id="filterStatus" class="px-3 py-1.5 text-sm border rounded">
                     <option value="all">All Statuses</option>
                     <option value="Planning">📋 Planning</option>
                     <option value="Applied">📤 Applied</option>
@@ -123,34 +179,37 @@
                     <option value="Accepted">✅ Accepted</option>
                     <option value="Rejected">❌ Rejected</option>
                 </select>
-                <button onclick="window.print()" class="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-                    🖨️ Print Report
+                <button onclick="window.print()" class="px-3 py-1.5 text-sm bg-blue-600 text-white rounded hover:bg-blue-700">
+                    🖨️ Print
                 </button>
-                <button onclick="exportToCSV()" class="px-4 py-2 bg-green-600 text-white rounded hover:bg-green-700">
-                    📊 Export CSV
+                <button onclick="exportToCSV()" class="px-3 py-1.5 text-sm bg-green-600 text-white rounded hover:bg-green-700">
+                    📊 CSV
                 </button>
             </div>
         </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="max-w-full px-4 py-4">
+        <!-- Empty State -->
+        <div id="empty-state" class="bg-white rounded-lg shadow p-8 text-center text-gray-500 hidden">
+            <p class="text-lg mb-2">No universities shortlisted yet</p>
+            <p class="text-sm">Go to the <a href="index.html" class="text-blue-600 underline">Universities page</a> and click "+ Shortlist" on universities you want to apply to!</p>
+        </div>
 
         <!-- Applications Table -->
-        <div id="applications-container" class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="p-8 text-center text-gray-500" id="empty-state">
-                <p class="text-lg mb-2">No universities shortlisted yet</p>
-                <p class="text-sm">Go to the <a href="index.html" class="text-blue-600 underline">Universities page</a> and click "+ Shortlist" on universities you want to apply to!</p>
-            </div>
-
-            <table class="w-full hidden" id="applications-table">
+        <div class="bg-white rounded-lg shadow overflow-x-auto">
+            <table class="w-full" id="applications-table" style="display: none;">
                 <thead class="bg-gray-50 border-b">
                     <tr>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">University</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Country</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Program</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Total Cost</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Deadline</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Next Steps / Notes</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700">Admissions Email</th>
-                        <th class="px-4 py-3 text-left text-sm font-semibold text-gray-700 no-print">Actions</th>
+                        <th class="text-left">University</th>
+                        <th class="text-left">Country</th>
+                        <th class="text-left">Program</th>
+                        <th class="text-left">Cost</th>
+                        <th class="text-left">Status</th>
+                        <th class="text-left">Deadline</th>
+                        <th class="text-left" style="min-width: 250px;">Notes / Next Steps</th>
+                        <th class="text-center no-print" style="width: 60px;">Actions</th>
                     </tr>
                 </thead>
                 <tbody id="applications-tbody">
@@ -161,21 +220,18 @@
 
     <script src="universities-data.js"></script>
     <script>
-        // UNIVERSITIES_DATA is now loaded from universities-data.js
-
         function loadData() {
-            // Load applications from localStorage
             const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
             const unis = Object.keys(applications).map(id => parseInt(id));
 
             if (unis.length === 0) {
                 document.getElementById('empty-state').classList.remove('hidden');
-                document.getElementById('applications-table').classList.add('hidden');
+                document.getElementById('applications-table').style.display = 'none';
                 return;
             }
 
             document.getElementById('empty-state').classList.add('hidden');
-            document.getElementById('applications-table').classList.remove('hidden');
+            document.getElementById('applications-table').style.display = 'table';
 
             renderApplications(applications);
         }
@@ -203,49 +259,57 @@
                 const row = document.createElement('tr');
                 row.className = 'border-b hover:bg-gray-50';
                 row.innerHTML = `
-                    <td class="px-4 py-3">
+                    <td>
                         <div class="font-semibold text-gray-900">${uni.name}</div>
-                        <a href="${uni.url}" target="_blank" class="text-xs text-blue-600 hover:underline">
-                            🔗 Visit Website
-                        </a>
+                        <div class="flex gap-2 mt-1">
+                            <a href="${uni.url}" target="_blank" class="icon-btn text-blue-600" title="Visit Website">
+                                🔗
+                            </a>
+                            ${uni.admissionsEmail ? `
+                                <a href="mailto:${uni.admissionsEmail}" class="icon-btn text-purple-600" title="${uni.admissionsEmail}">
+                                    📧
+                                </a>
+                            ` : ''}
+                        </div>
                     </td>
-                    <td class="px-4 py-3 text-sm">${uni.country}</td>
-                    <td class="px-4 py-3 text-sm">${uni.program}</td>
-                    <td class="px-4 py-3 text-sm font-semibold">${uni.cost}</td>
-                    <td class="px-4 py-3">
-                        <span class="status-badge status-${appData.status}">
-                            ${appData.status}
-                        </span>
+                    <td class="text-sm text-gray-700">${uni.country}</td>
+                    <td class="text-sm text-gray-700">${uni.program}</td>
+                    <td class="text-sm font-semibold text-gray-900">${uni.cost}</td>
+                    <td>
+                        <select
+                            class="status-select ${appData.status}"
+                            onchange="updateStatus(${uni.id}, this.value)"
+                        >
+                            <option value="Planning" ${appData.status === 'Planning' ? 'selected' : ''}>📋 Planning</option>
+                            <option value="Applied" ${appData.status === 'Applied' ? 'selected' : ''}>📤 Applied</option>
+                            <option value="Pending" ${appData.status === 'Pending' ? 'selected' : ''}>⏳ Pending</option>
+                            <option value="Accepted" ${appData.status === 'Accepted' ? 'selected' : ''}>✅ Accepted</option>
+                            <option value="Rejected" ${appData.status === 'Rejected' ? 'selected' : ''}>❌ Rejected</option>
+                        </select>
                     </td>
-                    <td class="px-4 py-3">
+                    <td>
                         <input
                             type="date"
                             value="${appData.deadline || ''}"
                             onchange="updateDeadline(${uni.id}, this.value)"
-                            class="px-2 py-1 border rounded text-sm"
+                            class="border rounded"
                         />
                     </td>
-                    <td class="px-4 py-3">
+                    <td>
                         <textarea
                             onchange="updateNotes(${uni.id}, this.value)"
-                            placeholder="Add notes or next steps..."
+                            placeholder="Add notes..."
                             rows="2"
-                            class="w-full px-2 py-1 border rounded text-sm resize-y"
+                            class="w-full px-2 py-1 border rounded resize-y"
                         >${appData.notes || ''}</textarea>
                     </td>
-                    <td class="px-4 py-3 text-sm">
-                        ${uni.admissionsEmail ? `
-                            <a href="mailto:${uni.admissionsEmail}" class="text-blue-600 hover:underline">
-                                ${uni.admissionsEmail}
-                            </a>
-                        ` : '<span class="text-gray-400">N/A</span>'}
-                    </td>
-                    <td class="px-4 py-3 no-print">
+                    <td class="text-center no-print">
                         <button
                             onclick="removeApplication(${uni.id})"
                             class="text-red-600 hover:text-red-800 text-sm"
+                            title="Remove from shortlist"
                         >
-                            ✕ Remove
+                            ✕
                         </button>
                     </td>
                 `;
@@ -258,6 +322,15 @@
             document.getElementById('stat-applied').textContent = applied;
             document.getElementById('stat-accepted').textContent = accepted;
             document.getElementById('stat-rejected').textContent = rejected;
+        }
+
+        function updateStatus(uniId, status) {
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+            if (applications[uniId]) {
+                applications[uniId].status = status;
+                localStorage.setItem('universityApplications', JSON.stringify(applications));
+                loadData(); // Reload to update styling
+            }
         }
 
         function updateDeadline(uniId, deadline) {
@@ -288,13 +361,13 @@
         function exportToCSV() {
             const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
 
-            let csv = 'University,Country,Program,Total Cost,Status,Deadline,Admissions Email,Website\n';
+            let csv = 'University,Country,Program,Total Cost,Status,Deadline,Notes,Admissions Email,Website\n';
 
             Object.entries(applications).forEach(([uniId, appData]) => {
                 const uni = UNIVERSITIES_DATA.find(u => u.id === parseInt(uniId));
                 if (!uni) return;
 
-                csv += `"${uni.name}","${uni.country}","${uni.program}","${uni.cost}","${appData.status}","${appData.deadline || ''}","${uni.admissionsEmail || ''}","${uni.url}"\n`;
+                csv += `"${uni.name}","${uni.country}","${uni.program}","${uni.cost}","${appData.status}","${appData.deadline || ''}","${appData.notes || ''}","${uni.admissionsEmail || ''}","${uni.url}"\n`;
             });
 
             const blob = new Blob([csv], { type: 'text/csv' });
