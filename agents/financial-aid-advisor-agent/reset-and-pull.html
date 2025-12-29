@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reset & Pull Scholarships</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            max-width: 700px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #667eea;
+            margin-bottom: 20px;
+        }
+        .status {
+            padding: 15px;
+            border-radius: 8px;
+            margin: 10px 0;
+            font-size: 14px;
+        }
+        .success {
+            background: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .error {
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .warning {
+            background: #fff3cd;
+            color: #856404;
+            border: 1px solid #ffeaa7;
+        }
+        .info {
+            background: #d1ecf1;
+            color: #0c5460;
+            border: 1px solid #bee5eb;
+        }
+        button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 6px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        button.danger {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔄 Reset & Pull All Scholarships from Git</h1>
+
+        <div class="warning">
+            <strong>⚠️ Warning:</strong> This will clear your browser's scholarship data and pull fresh data from Git (33 scholarships).
+        </div>
+
+        <div id="status"></div>
+
+        <button class="danger" onclick="resetAndPull()">🗑️ Clear localStorage & Pull from Git</button>
+        <button onclick="justPull()">🔄 Just Pull (Keep localStorage)</button>
+        <button onclick="showCurrentData()">📊 Show Current Data</button>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:3000';
+        const TOKEN = '795dd2a87579337c0c181f67994775dca0512941a15be80c188906e101b4117a';
+        const statusDiv = document.getElementById('status');
+
+        async function resetAndPull() {
+            statusDiv.innerHTML = '<div class="info">Clearing localStorage...</div>';
+
+            // Clear scholarship data
+            localStorage.removeItem('scholarships');
+
+            statusDiv.innerHTML += '<div class="success">✅ localStorage cleared</div>';
+
+            // Pull from Git
+            await justPull();
+        }
+
+        async function justPull() {
+            statusDiv.innerHTML += '<div class="info">Pulling scholarships from Git...</div>';
+
+            try {
+                const response = await fetch(`${API_URL}/scholarships`, {
+                    method: 'GET',
+                    headers: {
+                        'Authorization': `Bearer ${TOKEN}`,
+                        'Content-Type': 'application/json'
+                    }
+                });
+
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${await response.text()}`);
+                }
+
+                const data = await response.json();
+
+                if (data.success) {
+                    // Save to localStorage
+                    localStorage.setItem('scholarships', JSON.stringify(data.scholarships));
+
+                    statusDiv.innerHTML += `
+                        <div class="success">
+                            ✅ Successfully pulled <strong>${data.count} scholarships</strong> from Git!<br>
+                            <small>Saved to localStorage</small>
+                        </div>
+                    `;
+
+                    // Also save sync config
+                    const syncConfig = {
+                        apiUrl: API_URL,
+                        token: TOKEN
+                    };
+                    localStorage.setItem('scholarshipSyncConfig', JSON.stringify(syncConfig));
+
+                    statusDiv.innerHTML += `
+                        <div class="success">
+                            ✅ Sync configuration saved<br>
+                            <button onclick="window.open('scholarship-tracker.html', '_blank')" style="margin-top: 10px;">
+                                📊 Open Scholarship Tracker
+                            </button>
+                        </div>
+                    `;
+                } else {
+                    statusDiv.innerHTML += `<div class="error">❌ Pull failed: ${data.error}</div>`;
+                }
+            } catch (error) {
+                statusDiv.innerHTML += `
+                    <div class="error">
+                        ❌ Pull failed:<br>
+                        <strong>${error.message}</strong><br>
+                        <small>Make sure the sync server is running: npm start</small>
+                    </div>
+                `;
+            }
+        }
+
+        async function showCurrentData() {
+            const scholarships = localStorage.getItem('scholarships');
+            const syncConfig = localStorage.getItem('scholarshipSyncConfig');
+
+            if (!scholarships) {
+                statusDiv.innerHTML = '<div class="warning">⚠️ No scholarship data in localStorage</div>';
+                return;
+            }
+
+            try {
+                const data = JSON.parse(scholarships);
+                const config = syncConfig ? JSON.parse(syncConfig) : null;
+
+                statusDiv.innerHTML = `
+                    <div class="info">
+                        <strong>Current Data:</strong><br>
+                        📊 Scholarships: ${data.length}<br>
+                        🔗 Server: ${config ? config.apiUrl : 'Not configured'}<br>
+                        🔑 Token: ${config && config.token ? config.token.substring(0, 20) + '...' : 'Not configured'}
+                    </div>
+                `;
+            } catch (e) {
+                statusDiv.innerHTML = '<div class="error">❌ localStorage data is corrupted</div>';
+            }
+        }
+
+        // Show current status on load
+        window.addEventListener('load', showCurrentData);
+    </script>
+</body>
+</html>

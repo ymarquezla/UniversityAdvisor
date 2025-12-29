@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Application Tracker Test</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+        .success { background: #d4edda; border-color: #c3e6cb; }
+        .error { background: #f8d7da; border-color: #f5c6cb; }
+        .info { background: #d1ecf1; border-color: #bee5eb; }
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        button:hover { opacity: 0.9; }
+        pre {
+            background: #f5f5f5;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 Application Tracker Test Suite</h1>
+
+    <div class="test-section info">
+        <h2>Test Controls</h2>
+        <button onclick="runAllTests()">▶️ Run All Tests</button>
+        <button onclick="clearTestData()">🗑️ Clear Test Data</button>
+        <button onclick="addSampleApplication()">➕ Add Sample Application</button>
+        <button onclick="window.open('application-tracker.html', '_blank')">📊 Open Tracker</button>
+    </div>
+
+    <div id="results"></div>
+
+    <script src="universities-data.js"></script>
+    <script>
+        const resultsDiv = document.getElementById('results');
+
+        function log(title, message, type = 'info') {
+            const section = document.createElement('div');
+            section.className = `test-section ${type}`;
+            section.innerHTML = `<h3>${title}</h3><pre>${message}</pre>`;
+            resultsDiv.appendChild(section);
+        }
+
+        function clearTestData() {
+            localStorage.removeItem('universityApplications');
+            log('🗑️ Clear Data', 'Removed universityApplications from localStorage', 'success');
+        }
+
+        function addSampleApplication() {
+            const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+
+            // Add University of Passau (id: 1) as sample
+            applications[1] = {
+                status: 'Planning',
+                deadline: '2025-05-15',
+                notes: 'Need to prepare motivation letter and check application requirements.',
+                addedDate: new Date().toISOString()
+            };
+
+            // Add Maastricht University (id: 9) as sample
+            applications[9] = {
+                status: 'Applied',
+                deadline: '2025-04-01',
+                notes: 'Application submitted. Waiting for confirmation email.',
+                addedDate: new Date().toISOString()
+            };
+
+            localStorage.setItem('universityApplications', JSON.stringify(applications));
+            log('➕ Sample Data Added', `Added 2 sample applications:\n${JSON.stringify(applications, null, 2)}`, 'success');
+        }
+
+        function runAllTests() {
+            resultsDiv.innerHTML = '';
+
+            // Test 1: Check if universities-data.js loaded
+            try {
+                if (typeof UNIVERSITIES_DATA === 'undefined') {
+                    log('❌ Test 1: Load universities-data.js', 'FAILED: UNIVERSITIES_DATA is not defined', 'error');
+                } else {
+                    log('✅ Test 1: Load universities-data.js',
+                        `SUCCESS: Found ${UNIVERSITIES_DATA.length} universities\n` +
+                        `First university: ${UNIVERSITIES_DATA[0].name}\n` +
+                        `Last university: ${UNIVERSITIES_DATA[UNIVERSITIES_DATA.length - 1].name}`,
+                        'success');
+                }
+            } catch (e) {
+                log('❌ Test 1: Load universities-data.js', `ERROR: ${e.message}`, 'error');
+            }
+
+            // Test 2: Check localStorage functionality
+            try {
+                const testKey = 'test_' + Date.now();
+                localStorage.setItem(testKey, 'test');
+                const value = localStorage.getItem(testKey);
+                localStorage.removeItem(testKey);
+
+                if (value === 'test') {
+                    log('✅ Test 2: localStorage', 'SUCCESS: localStorage is working', 'success');
+                } else {
+                    log('❌ Test 2: localStorage', 'FAILED: localStorage read/write failed', 'error');
+                }
+            } catch (e) {
+                log('❌ Test 2: localStorage', `ERROR: ${e.message}`, 'error');
+            }
+
+            // Test 3: Check current application data
+            try {
+                const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+                const count = Object.keys(applications).length;
+
+                if (count === 0) {
+                    log('ℹ️ Test 3: Current Applications',
+                        'No applications found in localStorage.\nClick "Add Sample Application" to create test data.',
+                        'info');
+                } else {
+                    const appList = Object.entries(applications).map(([id, data]) => {
+                        const uni = UNIVERSITIES_DATA.find(u => u.id === parseInt(id));
+                        return `  ID ${id}: ${uni ? uni.name : 'Unknown'} - Status: ${data.status}`;
+                    }).join('\n');
+
+                    log('✅ Test 3: Current Applications',
+                        `Found ${count} application(s):\n${appList}`,
+                        'success');
+                }
+            } catch (e) {
+                log('❌ Test 3: Current Applications', `ERROR: ${e.message}`, 'error');
+            }
+
+            // Test 4: Verify university data structure
+            try {
+                const sampleUni = UNIVERSITIES_DATA[0];
+                const requiredFields = ['id', 'name', 'country', 'program', 'cost', 'admissionsEmail'];
+                const missingFields = requiredFields.filter(field => !(field in sampleUni));
+
+                if (missingFields.length === 0) {
+                    log('✅ Test 4: Data Structure',
+                        `SUCCESS: All required fields present\nSample: ${sampleUni.name}\nEmail: ${sampleUni.admissionsEmail}`,
+                        'success');
+                } else {
+                    log('❌ Test 4: Data Structure',
+                        `FAILED: Missing fields: ${missingFields.join(', ')}`,
+                        'error');
+                }
+            } catch (e) {
+                log('❌ Test 4: Data Structure', `ERROR: ${e.message}`, 'error');
+            }
+
+            // Test 5: Simulate renderApplications function
+            try {
+                const applications = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+                let renderSuccess = true;
+                let errorMsg = '';
+
+                Object.entries(applications).forEach(([uniId, appData]) => {
+                    const uni = UNIVERSITIES_DATA.find(u => u.id === parseInt(uniId));
+                    if (!uni) {
+                        renderSuccess = false;
+                        errorMsg += `\nCouldn't find university with ID ${uniId}`;
+                    }
+                });
+
+                if (Object.keys(applications).length === 0) {
+                    log('ℹ️ Test 5: Render Simulation', 'No applications to render', 'info');
+                } else if (renderSuccess) {
+                    log('✅ Test 5: Render Simulation',
+                        `SUCCESS: All ${Object.keys(applications).length} application(s) can be rendered`,
+                        'success');
+                } else {
+                    log('❌ Test 5: Render Simulation', `FAILED: ${errorMsg}`, 'error');
+                }
+            } catch (e) {
+                log('❌ Test 5: Render Simulation', `ERROR: ${e.message}`, 'error');
+            }
+
+            log('🏁 Test Summary', 'All tests completed. Check results above.', 'info');
+        }
+
+        // Run tests on page load
+        window.addEventListener('load', runAllTests);
+    </script>
+</body>
+</html>

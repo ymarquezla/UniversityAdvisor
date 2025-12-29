@@ -3,6 +3,9 @@
  * Receives updates from web app and commits to Git
  */
 
+// Load environment variables from .env file
+require('dotenv').config();
+
 const express = require('express');
 const cors = require('cors');
 const { exec } = require('child_process');
@@ -14,12 +17,16 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 
 // ===== CONFIGURATION =====
-const REPO_PATH = path.join(__dirname, '..', '..');
+const REPO_PATH = process.env.REPO_PATH || path.join(__dirname, '..', '..');
 const CSV_PATH = path.join(__dirname, '..', 'scholarship-deadline-calendar.csv');
-const SECRET_TOKEN = process.env.SYNC_SECRET || 'your-secret-token-here'; // CHANGE THIS!
+const SECRET_TOKEN = process.env.SYNC_SECRET || 'your-secret-token-here';
+const ALLOWED_ORIGINS = process.env.ALLOWED_ORIGINS ? process.env.ALLOWED_ORIGINS.split(',') : ['http://localhost:*', 'file://*'];
 
-// Middleware
-app.use(cors());
+// Middleware - CORS (allow all origins for local development)
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 app.use(express.json());
 
 // Authentication middleware
