@@ -1335,6 +1335,28 @@
                 localStorage.setItem('universityApplications', JSON.stringify(applications));
             }, [applications]);
 
+            // Calculate suggested application deadline based on country and typical cycles
+            const getSuggestedDeadline = (uniId) => {
+                const uni = universities.find(u => u.id === uniId);
+                if (!uni) return '';
+
+                // Most European programs start in September/October
+                // Application deadlines vary by country:
+                const deadlineMonths = {
+                    'Germany': 'July 15, 2025',      // uni-assist deadline
+                    'Netherlands': 'May 1, 2025',    // Studielink deadline for non-EU
+                    'Belgium': 'April 30, 2025',     // Typical Belgian deadline
+                    'Spain': 'June 30, 2025',        // PAU + local deadlines
+                    'France': 'March 15, 2025',      // Campus France deadline
+                    'Austria': 'September 5, 2025',  // Later deadline, rolling
+                    'Italy': 'April 30, 2025',       // Universitaly deadline
+                    'Sweden': 'January 15, 2025',    // Already passed, but for reference
+                    'Portugal': 'July 31, 2025'      // DGES deadline
+                };
+
+                return deadlineMonths[uni.country] || 'May 1, 2025';
+            };
+
             // Toggle university in applying list
             const toggleApplying = (uniId) => {
                 setApplications(prev => {
@@ -1344,13 +1366,16 @@
                         delete newApps[uniId];
                         return newApps;
                     } else {
-                        // Add to applications with default status
+                        // Add to applications with suggested deadline
+                        const suggestedDeadline = getSuggestedDeadline(uniId);
+                        const uni = universities.find(u => u.id === uniId);
+
                         return {
                             ...prev,
                             [uniId]: {
                                 status: 'Planning',
-                                deadline: '',
-                                notes: '',
+                                deadline: suggestedDeadline,
+                                notes: `Check official ${uni.country} application portal for exact deadline.`,
                                 addedDate: new Date().toISOString()
                             }
                         };
