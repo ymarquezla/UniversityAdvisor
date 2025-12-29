@@ -253,9 +253,7 @@
 
         .table-container {
             padding: 15px;
-            overflow-x: auto;
             flex: 1;
-            -webkit-overflow-scrolling: touch;
         }
 
         table {
@@ -809,6 +807,56 @@
             saveToStorage();
             renderTable();
             updateStats();
+        }
+
+        let currentSortField = null;
+        let currentSortDirection = 'asc';
+
+        function sortTable(field) {
+            if (currentSortField === field) {
+                currentSortDirection = currentSortDirection === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSortField = field;
+                currentSortDirection = 'asc';
+            }
+
+            // Update visual indicators
+            document.querySelectorAll('th').forEach(th => {
+                const text = th.textContent.replace(/ [▼▲]$/, '');
+                th.textContent = text;
+            });
+            event.target.textContent += currentSortDirection === 'asc' ? ' ▲' : ' ▼';
+
+            // Sort scholarships array
+            scholarships.sort((a, b) => {
+                let aVal, bVal;
+                switch(field) {
+                    case 'deadline':
+                        aVal = a.deadline || 'ZZZ';
+                        bVal = b.deadline || 'ZZZ';
+                        break;
+                    case 'name':
+                        aVal = a.name.toLowerCase();
+                        bVal = b.name.toLowerCase();
+                        break;
+                    case 'amount':
+                        aVal = parseFloat(a.amountMax.replace(/[$,€]/g, ''));
+                        bVal = parseFloat(b.amountMax.replace(/[$,€]/g, ''));
+                        break;
+                    case 'priority':
+                        const priorityOrder = { 'HIGH': 1, 'MEDIUM': 2, 'LOW': 3 };
+                        aVal = priorityOrder[a.priority] || 4;
+                        bVal = priorityOrder[b.priority] || 4;
+                        break;
+                    default:
+                        return 0;
+                }
+                if (aVal < bVal) return currentSortDirection === 'asc' ? -1 : 1;
+                if (aVal > bVal) return currentSortDirection === 'asc' ? 1 : -1;
+                return 0;
+            });
+
+            renderTable();
         }
 
         function renderTable() {
