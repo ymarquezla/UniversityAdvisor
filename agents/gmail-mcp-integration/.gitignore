@@ -1,0 +1,17 @@
+# OAuth Credentials - NEVER COMMIT THESE
+gcp-oauth.keys.json
+credentials.json
+
+# Node modules
+node_modules/
+package-lock.json
+
+# Environment files
+.env
+.env.local
+
+# Test files
+test-emails.json
+
+# Logs
+*.log
