@@ -197,13 +197,20 @@
         .table-container {
             background: #16213e;
             border: 1px solid #2a3f5f;
-            overflow-x: auto;
-            overflow-y: visible;
         }
 
-        /* Ensure table can be wider than container for horizontal scroll */
-        .table-wrapper {
-            position: relative;
+        /* Sync button */
+        .sync-btn {
+            background: #64ffda;
+            color: #0f1626;
+            font-weight: 600;
+        }
+        .sync-btn:hover {
+            background: #4dd4ba;
+        }
+        .sync-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
         }
 
         @media print {
@@ -270,6 +277,9 @@
                 </button>
                 <button onclick="exportToCSV()" class="px-3 py-1.5 text-sm text-white rounded" style="background: #c3e88d; color: #0f1626;">
                     📊 CSV
+                </button>
+                <button id="syncBtn" onclick="syncToGit()" class="px-3 py-1.5 text-sm rounded sync-btn">
+                    🔄 Sync
                 </button>
             </div>
         </div>
@@ -553,8 +563,122 @@
             renderApplications(applications);
         });
 
-        // Load data on page load
-        loadData();
+        // ==================== GIT SYNC FUNCTIONALITY ====================
+
+        const SYNC_SERVER_URL = 'http://localhost:3000';
+        const DATA_FILE = 'applications-data.json';
+
+        async function pullFromGit() {
+            try {
+                const response = await fetch(`${SYNC_SERVER_URL}/pull`);
+                const result = await response.json();
+
+                if (result.success) {
+                    console.log('✅ Git pull successful');
+                    return true;
+                } else {
+                    console.error('❌ Git pull failed:', result.message);
+                    return false;
+                }
+            } catch (error) {
+                console.error('❌ Pull error:', error);
+                return false;
+            }
+        }
+
+        async function loadFromGit() {
+            try {
+                const response = await fetch(`/${DATA_FILE}?t=${Date.now()}`);
+                if (!response.ok) {
+                    console.warn('⚠️ Could not load applications-data.json, using localStorage');
+                    return null;
+                }
+                const gitData = await response.json();
+                return gitData;
+            } catch (error) {
+                console.warn('⚠️ Error loading from Git:', error);
+                return null;
+            }
+        }
+
+        async function syncToGit() {
+            const syncBtn = document.getElementById('syncBtn');
+            syncBtn.disabled = true;
+            syncBtn.textContent = '⏳ Syncing...';
+
+            try {
+                // Get current localStorage data
+                const localData = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+
+                // Save to applications-data.json via server
+                const saveResponse = await fetch(`${SYNC_SERVER_URL}/save`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        filePath: DATA_FILE,
+                        content: JSON.stringify(localData, null, 2)
+                    })
+                });
+
+                const saveResult = await saveResponse.json();
+
+                if (!saveResult.success) {
+                    throw new Error(saveResult.message);
+                }
+
+                // Commit and push
+                const commitResponse = await fetch(`${SYNC_SERVER_URL}/commit-push`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: `Update applications data - ${new Date().toISOString()}`
+                    })
+                });
+
+                const commitResult = await commitResponse.json();
+
+                if (commitResult.success) {
+                    syncBtn.textContent = '✅ Synced!';
+                    setTimeout(() => {
+                        syncBtn.textContent = '🔄 Sync';
+                        syncBtn.disabled = false;
+                    }, 2000);
+                } else {
+                    throw new Error(commitResult.message);
+                }
+            } catch (error) {
+                console.error('❌ Sync failed:', error);
+                syncBtn.textContent = '❌ Sync Failed';
+                setTimeout(() => {
+                    syncBtn.textContent = '🔄 Sync';
+                    syncBtn.disabled = false;
+                }, 3000);
+            }
+        }
+
+        async function autoLoadOnStart() {
+            // Pull latest from Git
+            const pulled = await pullFromGit();
+
+            if (pulled) {
+                // Load from Git file
+                const gitData = await loadFromGit();
+
+                if (gitData) {
+                    // Merge with localStorage (Git takes precedence)
+                    const localData = JSON.parse(localStorage.getItem('universityApplications') || '{}');
+                    const merged = { ...localData, ...gitData };
+                    localStorage.setItem('universityApplications', JSON.stringify(merged));
+                    console.log('✅ Loaded applications from Git');
+                }
+            }
+
+            // Load the UI
+            loadData();
+        }
+
+        // Load data on page load (with Git sync)
+        autoLoadOnStart();
 
         // Reload when localStorage changes (from other tabs)
         window.addEventListener('storage', loadData);
