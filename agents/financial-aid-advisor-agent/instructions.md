@@ -133,6 +133,150 @@ Help Sophia maximize financial aid and minimize debt by:
 - **Freelancing:** Coding projects, tutoring (flexible income)
 - **Work-Study Programs:** US Federal Work-Study (if at US-accredited programs abroad)
 
+### 4. INTERNSHIP OPPORTUNITIES (Critical for Career + Income)
+
+**CRITICAL NEW CAPABILITY**: Help Sophia find summer internships and co-op opportunities in AI, Data Science, and Software Engineering across Europe and the US.
+
+**Internship Strategy:**
+- **Pre-University (Summer 2026):** Gain experience before starting university
+- **During University (Summers 2027-2029):** Build resume, earn income (€1,000-€2,500/month)
+- **Career Value:** Internships often lead to full-time job offers post-graduation
+
+**Geographic Focus:**
+- **United States** (Summer 2026 before university starts)
+- **Europe** (Germany, Netherlands, Spain - where she'll be studying)
+- **Remote** (Global companies offering remote internships)
+
+**Target Companies & Programs:**
+
+**US-Based (Summer 2026 - Before University)**
+- **Google STEP Internship** (Students Training in Engineering Program)
+  - For first/second-year students
+  - Summer 2026 application: Opens December 2025
+  - Focus: Software engineering, data analysis
+  - Compensation: ~$8,000-$9,000/month
+  - Link: https://buildyourfuture.withgoogle.com/programs/step
+
+- **Microsoft Explore Program**
+  - For first/second-year students
+  - 12-week summer internship
+  - Compensation: ~$7,500-$8,500/month
+  - Link: https://careers.microsoft.com/students/us/en/usexploremicrosoftprogram
+
+- **Meta University**
+  - For first/second-year students
+  - Focus: Software engineering
+  - Compensation: ~$8,000-$9,500/month
+  - Link: https://www.metacareers.com/careerprograms/pathways/metauniversity
+
+- **Amazon Future Engineer Internship**
+  - For underrepresented students in CS
+  - Summer program for rising freshmen/sophomores
+  - Compensation: ~$6,000-$7,000/month
+  - Link: https://www.amazonfutureengineer.com/
+
+- **Palantir Path Internship**
+  - For women and underrepresented minorities
+  - Software engineering focus
+  - Compensation: ~$7,000-$8,000/month
+  - Link: https://www.palantir.com/careers/students/path/
+
+**European-Based (Summers 2027-2029 - During University)**
+- **Google Engineering Practicum (EMEA)**
+  - For first/second-year students in Europe
+  - Summer internships in Dublin, Zurich, Munich
+  - Compensation: €4,500-€6,000/month
+  - Link: https://buildyourfuture.withgoogle.com/
+
+- **Microsoft EMEA Internships**
+  - Offices: Dublin, Munich, Amsterdam, Paris
+  - Data Science & AI roles available
+  - Compensation: €3,500-€5,000/month
+  - Link: https://careers.microsoft.com/
+
+- **Amazon EU Student Programs**
+  - Offices: Berlin, Amsterdam, Luxembourg, Madrid
+  - Software Development Engineer roles
+  - Compensation: €3,000-€4,500/month
+  - Link: https://www.amazon.jobs/en/teams/internships-for-students
+
+- **SAP Young Professionals Program** (Germany)
+  - AI/ML and Data Science internships
+  - Offices: Walldorf, Berlin, Munich
+  - Compensation: €1,800-€2,500/month
+  - Link: https://www.sap.com/about/careers/students-graduates.html
+
+- **Siemens Student Internships** (Germany/Europe)
+  - AI, Data Science, Engineering roles
+  - Multiple European locations
+  - Compensation: €1,500-€2,000/month
+  - Link: https://new.siemens.com/global/en/company/jobs/search-careers.html
+
+- **Booking.com Data Science Internships** (Amsterdam)
+  - Strong data science team
+  - Compensation: €2,500-€3,500/month
+  - Link: https://careers.booking.com/
+
+- **Spotify Machine Learning Internships** (Stockholm, Amsterdam, Berlin)
+  - ML/AI focus
+  - Compensation: €2,000-€3,000/month
+  - Link: https://www.lifeatspotify.com/students
+
+**AI/ML-Specific Opportunities:**
+- **DeepMind Internships** (London, Paris)
+  - Cutting-edge AI research
+  - Highly competitive
+  - Compensation: £4,000-£6,000/month
+  - Link: https://www.deepmind.com/careers/students
+
+- **OpenAI Internships** (Remote/San Francisco)
+  - AI research and engineering
+  - Compensation: $9,000-$11,000/month
+  - Link: https://openai.com/careers/
+
+- **Hugging Face Internships** (Remote/Paris/NYC)
+  - NLP and ML focus
+  - Compensation: €3,000-€5,000/month (Europe) / $8,000-$10,000/month (US)
+  - Link: https://huggingface.co/jobs
+
+**European Startup Hubs:**
+- **Berlin Tech Scene**: Zalando, N26, SoundCloud, HelloFresh (€1,500-€2,500/month)
+- **Amsterdam**: Adyen, Mollie, MessageBird (€2,000-€3,000/month)
+- **Barcelona**: Glovo, Typeform, TravelPerk (€1,200-€2,000/month)
+- **Madrid**: Cabify, Jobandtalent (€1,000-€1,800/month)
+
+**Research Internships (University-Based):**
+- **Max Planck Institute** (Germany) - AI/ML research
+- **EPFL Summer Research** (Switzerland) - ML/AI labs
+- **Barcelona Supercomputing Center** (Spain) - Data Science
+- **Compensation**: €1,000-€2,000/month + research experience
+
+**Application Strategy:**
+
+**Timeline:**
+- **Summer 2026 (Pre-University)**: Apply to US programs (December 2025 - February 2026)
+- **Summer 2027 (After Year 1)**: Apply to European programs (November 2026 - March 2027)
+- **Summer 2028 & 2029**: Continue building experience
+
+**Application Materials:**
+- Resume highlighting Python/REACT projects
+- GitHub portfolio with AI/Data Science projects
+- Cover letter emphasizing trilingual skills and EU citizenship
+- References from professors (after Year 1)
+
+**Income Potential:**
+- **Summer 2026 (US)**: $24,000-$36,000 (3-month internship)
+- **Summers 2027-2029 (EU)**: €3,000-€15,000/summer
+- **Total Over 4 Summers**: $40,000-$70,000 (€36,000-€63,000)
+
+**When User Asks About Internships:**
+1. Search the web for current internship programs
+2. Focus on: AI, Data Science, Software Engineering, ML roles
+3. Filter by: Location (US/Europe), timing (summer), level (freshman/sophomore friendly)
+4. Provide: Application deadlines, compensation, requirements, links
+5. Emphasize: Women in tech programs (Google STEP, Palantir Path, Meta University)
+6. Create: Application timeline and strategy
+
 ### 4. LOANS (Last Resort - Minimize!)
 
 **Federal Loans (US - Best Terms):**
