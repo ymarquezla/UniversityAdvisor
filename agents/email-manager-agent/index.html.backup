@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Manager - University Advisor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            min-height: 100vh;
+        }
+
+        .header {
+            background: #0f3460;
+            padding: 1.5rem 2rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+        }
+
+        .header h1 {
+            color: #64ffda;
+            font-size: 1.8rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .nav-links a {
+            color: #64ffda;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            transition: background 0.3s;
+        }
+
+        .nav-links a:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .controls {
+            background: #16213e;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 300px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #64ffda;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .filter-group {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .filter-group label {
+            color: #64ffda;
+            font-size: 0.9rem;
+        }
+
+        .filter-group select {
+            padding: 0.5rem;
+            border: 1px solid #64ffda;
+            background: #1a1a2e;
+            color: #e0e0e0;
+            border-radius: 4px;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: #64ffda;
+            color: #1a1a2e;
+            font-weight: 600;
+        }
+
+        .btn-primary:hover {
+            background: #4dd9ba;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary {
+            background: #0f3460;
+            color: #64ffda;
+            border: 1px solid #64ffda;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(100, 255, 218, 0.1);
+        }
+
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .email-list {
+            background: #16213e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .email-list h2 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .email-item {
+            background: #1a1a2e;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 6px;
+            border-left: 4px solid #64ffda;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .email-item:hover {
+            background: #0f3460;
+            transform: translateX(5px);
+        }
+
+        .email-item.selected {
+            background: #0f3460;
+            border-left-color: #ff6b6b;
+        }
+
+        .email-item.unread {
+            border-left-color: #ffd93d;
+        }
+
+        .email-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .email-from {
+            color: #64ffda;
+            font-weight: 600;
+        }
+
+        .email-date {
+            color: #888;
+            font-size: 0.85rem;
+        }
+
+        .email-subject {
+            color: #e0e0e0;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .email-preview {
+            color: #aaa;
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .email-tags {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+
+        .tag {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            background: #0f3460;
+            color: #64ffda;
+        }
+
+        .tag.urgent {
+            background: #ff6b6b;
+            color: white;
+        }
+
+        .tag.university {
+            background: #4ecdc4;
+            color: #1a1a2e;
+        }
+
+        .tag.scholarship {
+            background: #ffd93d;
+            color: #1a1a2e;
+        }
+
+        .email-detail {
+            background: #16213e;
+            border-radius: 8px;
+            padding: 1.5rem;
+            max-height: 700px;
+            overflow-y: auto;
+        }
+
+        .email-detail h2 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        .detail-header {
+            background: #1a1a2e;
+            padding: 1rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .detail-row {
+            display: flex;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-label {
+            color: #64ffda;
+            font-weight: 600;
+            width: 80px;
+        }
+
+        .detail-value {
+            color: #e0e0e0;
+            flex: 1;
+        }
+
+        .detail-body {
+            background: #1a1a2e;
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        .reply-section {
+            background: #1a1a2e;
+            padding: 1.5rem;
+            border-radius: 6px;
+        }
+
+        .reply-section h3 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+        }
+
+        .reply-section textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 1rem;
+            border: 1px solid #64ffda;
+            background: #16213e;
+            color: #e0e0e0;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            resize: vertical;
+        }
+
+        .reply-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: #64ffda;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #888;
+        }
+
+        .empty-state h3 {
+            color: #64ffda;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 1024px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .stats {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: #16213e;
+            padding: 1rem;
+            border-radius: 8px;
+            flex: 1;
+            text-align: center;
+            border-left: 4px solid #64ffda;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            color: #64ffda;
+            font-weight: 600;
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📧 Email Manager</h1>
+        <p style="color: #aaa;">Organize and manage your university application emails</p>
+        <div class="nav-links">
+            <a href="../../index.html">🎓 Universities</a>
+            <a href="../financial-aid-advisor-agent/scholarship-tracker.html">💰 Scholarships</a>
+            <a href="../../application-tracker.html">📝 My Applications</a>
+            <a href="index.html" style="background: rgba(100, 255, 218, 0.1);">📧 Emails</a>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="stats">
+            <div class="stat-card">
+                <div class="stat-number" id="totalEmails">0</div>
+                <div class="stat-label">Total Emails</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="unreadEmails">0</div>
+                <div class="stat-label">Unread</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" id="urgentEmails">0</div>
+                <div class="stat-label">Urgent</div>
+            </div>
+        </div>
+
+        <div class="controls">
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Search emails by subject, sender, or keywords...">
+            </div>
+            <div class="filter-group">
+                <label>Filter:</label>
+                <select id="filterType">
+                    <option value="all">All Emails</option>
+                    <option value="unread">Unread</option>
+                    <option value="university">Universities</option>
+                    <option value="scholarship">Scholarships</option>
+                    <option value="urgent">Urgent</option>
+                    <option value="today">Today</option>
+                    <option value="week">This Week</option>
+                </select>
+            </div>
+            <button class="btn btn-primary" onclick="loadEmails()">🔄 Refresh</button>
+            <button class="btn btn-secondary" onclick="composeNew()">✉️ Compose New</button>
+        </div>
+
+        <div class="main-content">
+            <div class="email-list">
+                <h2>📬 Inbox</h2>
+                <div id="emailListContainer">
+                    <div class="loading">Loading emails...</div>
+                </div>
+            </div>
+
+            <div class="email-detail">
+                <h2>📧 Email Details</h2>
+                <div id="emailDetailContainer">
+                    <div class="empty-state">
+                        <h3>Select an email to view</h3>
+                        <p>Click on any email from the list to read and reply</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script type="module">
+        let allEmails = [];
+        let selectedEmail = null;
+
+        // Load emails on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadEmails();
+        });
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            filterEmails();
+        });
+
+        document.getElementById('filterType').addEventListener('change', () => {
+            filterEmails();
+        });
+
+        async function loadEmails() {
+            const container = document.getElementById('emailListContainer');
+            container.innerHTML = '<div class="loading">Loading emails...</div>';
+
+            try {
+                // Search for university and scholarship related emails
+                const queries = [
+                    'university OR admission OR application',
+                    'scholarship OR financial aid',
+                    'mytripabroad',
+                    'deadline OR urgent'
+                ];
+
+                const emailsMap = new Map();
+
+                for (const query of queries) {
+                    const response = await fetch('/api/gmail/search', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ query })
+                    });
+
+                    if (response.ok) {
+                        const emails = await response.json();
+                        emails.forEach(email => {
+                            if (!emailsMap.has(email.id)) {
+                                emailsMap.set(email.id, email);
+                            }
+                        });
+                    }
+                }
+
+                allEmails = Array.from(emailsMap.values());
+                allEmails.sort((a, b) => new Date(b.date) - new Date(a.date));
+
+                updateStats();
+                renderEmails(allEmails);
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error loading emails</h3>
+                        <p>${error.message}</p>
+                        <button class="btn btn-primary" onclick="loadEmails()" style="margin-top: 1rem;">Try Again</button>
+                    </div>
+                `;
+            }
+        }
+
+        function updateStats() {
+            document.getElementById('totalEmails').textContent = allEmails.length;
+            document.getElementById('unreadEmails').textContent = allEmails.filter(e => e.unread).length;
+            document.getElementById('urgentEmails').textContent = allEmails.filter(e => e.urgent).length;
+        }
+
+        function renderEmails(emails) {
+            const container = document.getElementById('emailListContainer');
+
+            if (emails.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>No emails found</h3>
+                        <p>Try adjusting your filters or search query</p>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = emails.map(email => `
+                <div class="email-item ${email.unread ? 'unread' : ''} ${selectedEmail?.id === email.id ? 'selected' : ''}"
+                     onclick="selectEmail('${email.id}')">
+                    <div class="email-header">
+                        <span class="email-from">${email.from}</span>
+                        <span class="email-date">${formatDate(email.date)}</span>
+                    </div>
+                    <div class="email-subject">${email.subject}</div>
+                    <div class="email-preview">${email.preview}</div>
+                    <div class="email-tags">
+                        ${email.unread ? '<span class="tag">Unread</span>' : ''}
+                        ${email.urgent ? '<span class="tag urgent">Urgent</span>' : ''}
+                        ${email.category === 'university' ? '<span class="tag university">University</span>' : ''}
+                        ${email.category === 'scholarship' ? '<span class="tag scholarship">Scholarship</span>' : ''}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterEmails() {
+            const searchTerm = document.getElementById('searchInput').value.toLowerCase();
+            const filterType = document.getElementById('filterType').value;
+
+            let filtered = allEmails;
+
+            // Apply search filter
+            if (searchTerm) {
+                filtered = filtered.filter(email =>
+                    email.subject.toLowerCase().includes(searchTerm) ||
+                    email.from.toLowerCase().includes(searchTerm) ||
+                    email.preview.toLowerCase().includes(searchTerm)
+                );
+            }
+
+            // Apply type filter
+            if (filterType !== 'all') {
+                filtered = filtered.filter(email => {
+                    switch(filterType) {
+                        case 'unread': return email.unread;
+                        case 'university': return email.category === 'university';
+                        case 'scholarship': return email.category === 'scholarship';
+                        case 'urgent': return email.urgent;
+                        case 'today': return isToday(email.date);
+                        case 'week': return isThisWeek(email.date);
+                        default: return true;
+                    }
+                });
+            }
+
+            renderEmails(filtered);
+        }
+
+        window.selectEmail = async function(emailId) {
+            selectedEmail = allEmails.find(e => e.id === emailId);
+
+            const container = document.getElementById('emailDetailContainer');
+            container.innerHTML = '<div class="loading">Loading email details...</div>';
+
+            try {
+                const response = await fetch(`/api/gmail/message/${emailId}`);
+                const emailDetail = await response.json();
+
+                container.innerHTML = `
+                    <div class="detail-header">
+                        <div class="detail-row">
+                            <span class="detail-label">From:</span>
+                            <span class="detail-value">${emailDetail.from}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">To:</span>
+                            <span class="detail-value">${emailDetail.to}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Date:</span>
+                            <span class="detail-value">${emailDetail.date}</span>
+                        </div>
+                        <div class="detail-row">
+                            <span class="detail-label">Subject:</span>
+                            <span class="detail-value">${emailDetail.subject}</span>
+                        </div>
+                    </div>
+
+                    <div class="detail-body">
+                        ${emailDetail.body}
+                    </div>
+
+                    <div class="reply-section">
+                        <h3>💬 Reply</h3>
+                        <textarea id="replyText" placeholder="Type your reply here..."></textarea>
+                        <div class="reply-actions">
+                            <button class="btn btn-primary" onclick="sendReply()">📤 Send Reply</button>
+                            <button class="btn btn-secondary" onclick="generateAIReply()">✨ AI Assist</button>
+                            <button class="btn btn-secondary" onclick="saveDraft()">💾 Save Draft</button>
+                        </div>
+                    </div>
+                `;
+
+                // Refresh email list to update selection
+                filterEmails();
+            } catch (error) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error loading email</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        window.sendReply = async function() {
+            const replyText = document.getElementById('replyText').value;
+            if (!replyText.trim()) {
+                alert('Please enter a reply message');
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/gmail/reply', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        emailId: selectedEmail.id,
+                        message: replyText
+                    })
+                });
+
+                if (response.ok) {
+                    alert('✅ Reply sent successfully!');
+                    document.getElementById('replyText').value = '';
+                } else {
+                    alert('❌ Failed to send reply');
+                }
+            } catch (error) {
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        window.generateAIReply = async function() {
+            const replyBox = document.getElementById('replyText');
+            replyBox.value = 'Generating AI-assisted reply...';
+
+            try {
+                const response = await fetch('/api/gmail/ai-reply', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        emailId: selectedEmail.id
+                    })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    replyBox.value = data.reply;
+                } else {
+                    replyBox.value = '';
+                    alert('❌ Failed to generate AI reply');
+                }
+            } catch (error) {
+                replyBox.value = '';
+                alert('❌ Error: ' + error.message);
+            }
+        }
+
+        window.saveDraft = function() {
+            const replyText = document.getElementById('replyText').value;
+            if (!replyText.trim()) return;
+
+            localStorage.setItem(`draft_${selectedEmail.id}`, replyText);
+            alert('💾 Draft saved!');
+        }
+
+        window.composeNew = function() {
+            // TODO: Implement compose new email functionality
+            alert('Compose new email feature coming soon!');
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const diffMs = now - date;
+            const diffMins = Math.floor(diffMs / 60000);
+            const diffHours = Math.floor(diffMs / 3600000);
+            const diffDays = Math.floor(diffMs / 86400000);
+
+            if (diffMins < 60) return `${diffMins}m ago`;
+            if (diffHours < 24) return `${diffHours}h ago`;
+            if (diffDays < 7) return `${diffDays}d ago`;
+            return date.toLocaleDateString();
+        }
+
+        function isToday(dateStr) {
+            const date = new Date(dateStr);
+            const today = new Date();
+            return date.toDateString() === today.toDateString();
+        }
+
+        function isThisWeek(dateStr) {
+            const date = new Date(dateStr);
+            const now = new Date();
+            const weekAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            return date >= weekAgo;
+        }
+
+        // Make loadEmails available globally
+        window.loadEmails = loadEmails;
+    </script>
+</body>
+</html>

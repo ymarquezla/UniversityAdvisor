@@ -1,13 +1,12 @@
 {
   "name": "gmail-mcp-integration",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "description": "Gmail MCP integration for University Advisor",
+  "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "search": "node search-email.js"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs"
+  "dependencies": {
+    "googleapis": "^144.0.0"
+  }
 }

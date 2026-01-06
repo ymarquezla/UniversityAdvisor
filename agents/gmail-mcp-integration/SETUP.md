@@ -19,8 +19,7 @@ Once set up, your University Advisor agents can:
 - Google Cloud Console access
 
 ---
-
-## Step 1: Create Google Cloud Project & Enable Gmail API
+te Google Cloud Project & Enable Gmail API
 
 1. Go to [Google Cloud Console](https://console.cloud.google.com/)
 2. Click **"Create Project"**
@@ -57,6 +56,7 @@ Once set up, your University Advisor agents can:
 5. **Download the JSON file**:
    - Click the download icon next to your newly created OAuth client
    - Rename the downloaded file to: `gcp-oauth.keys.json`
+## Step 1: Crea
 
 ## Step 3: Authenticate Gmail MCP Server
 
