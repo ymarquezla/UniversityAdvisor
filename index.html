@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>European AI/Data Science University Shortlist - 37 Universities (with Map)</title>
+    <title>European AI/Data Science University Shortlist - 38 Universities (with Map)</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
@@ -18,112 +18,19 @@
             margin: 0;
             padding: 0;
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
-            background: #1a1a2e;
-            color: #eaeaea;
-        }
-        .app-nav {
-            position: sticky;
-            top: 0;
-            z-index: 50;
-            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
-            padding: 10px 20px;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid #334155;
-            display: flex;
-            gap: 15px;
-            align-items: center;
-            justify-content: center;
-        }
-        .app-nav a {
-            color: white;
-            text-decoration: none;
-            padding: 8px 16px;
-            border-radius: 6px;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: all 0.2s ease;
-            background: rgba(255, 255, 255, 0.1);
-        }
-        .app-nav a:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-1px);
-        }
-        .app-nav a.active {
-            background: #64ffda;
-            color: #0f172a;
-            font-weight: 600;
         }
         .sticky-controls {
             position: sticky;
-            top: 48px;
+            top: 0;
             z-index: 40;
-            background: #16213e;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
-            border-bottom: 1px solid #2a3f5f;
+            background: white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
         .details-table {
             font-size: 0.75rem;
         }
         .details-table td {
             padding: 0.25rem 0.5rem;
-        }
-        /* Dark mode table styles */
-        table {
-            background: #16213e;
-            color: #ccd6f6;
-        }
-        table thead {
-            background: #0f1626;
-            color: #a8b2d1;
-        }
-        table th {
-            padding: 8px 6px;
-            font-size: 0.75rem;
-            font-weight: 600;
-            border-bottom: 1px solid #2a3f5f;
-            cursor: pointer;
-            user-select: none;
-        }
-        table th:hover {
-            background: #1a2332;
-        }
-        table tbody tr {
-            border-bottom: 1px solid #1a2332;
-        }
-        table tbody tr:hover {
-            background: #1a2942;
-        }
-        table td {
-            padding: 6px;
-            vertical-align: top;
-        }
-        /* Dark mode for cards */
-        .uni-card {
-            background: #16213e;
-            border: 1px solid #2a3f5f;
-            color: #ccd6f6;
-        }
-        .uni-card:hover {
-            border-color: #334155;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
-        }
-        /* Dark inputs */
-        input, select, button {
-            background: #0f1626;
-            color: #eaeaea;
-            border-color: #2a3f5f;
-        }
-        input::placeholder {
-            color: #64748b;
-        }
-        input:focus, select:focus {
-            background: #1a2332;
-            border-color: #64ffda;
-            outline: none;
-            box-shadow: 0 0 0 2px rgba(100, 255, 218, 0.2);
         }
     </style>
 </head>
@@ -850,6 +757,38 @@
             },
             {
                 id: 22,
+                name: "CUNEF Universidad",
+                country: "Spain",
+                program: "BSc Computer Science/Math/Engineering",
+                language: "Spanish/English",
+                lat: 40.4168,
+                lng: -3.7038,
+                tuitionPerYear: "€10,000-15,000",
+                livingPerYear: "€10,800-12,000",
+                duration: 4,
+                cost: "€40-60k total (PRIVATE)",
+                costMin: 40000,
+                costMax: 60000,
+                erasmusPlus: true,
+                erasmusPartners: "Limited",
+                classification: "Match",
+                fitScore: 4,
+                citySize: "Large city",
+                admissionsEmail: "admision@cunef.edu",
+                openHouseDates: "March 24 - May 15, 2025",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://www.cunef.edu/en/",
+                highlights: [
+                    "Private university in Madrid",
+                    "Scholarships up to 100% tuition available",
+                    "Academic Excellence & Talent Grants: €1,000-€5,000",
+                    "Spanish/English program options",
+                    "Application period: March 24 - May 15, 2025"
+                ],
+                url: "https://www.cunef.edu/en/scholarships/"
+            },
+            {
+                id: 24,
                 name: "UPNA Pamplona",
                 country: "Spain",
                 program: "BSc Computer Science",
@@ -880,7 +819,7 @@
                 url: "https://www.unavarra.es/sites/grados/informatica/informatica-english.html"
             },
             {
-                id: 23,
+                id: 25,
                 name: "UPV Valencia",
                 country: "Spain",
                 program: "BSc Data Science",
@@ -911,7 +850,7 @@
                 url: "https://www.upv.es/titulaciones/GCIEDDATOS/indexi.html"
             },
             {
-                id: 24,
+                id: 26,
                 name: "UAB Barcelona",
                 country: "Spain",
                 program: "BSc Artificial Intelligence",
@@ -942,7 +881,7 @@
                 url: "https://www.uab.cat/web/estudiar/graus/artificial-intelligence-1345467812802.html"
             },
             {
-                id: 25,
+                id: 27,
                 name: "TECNUN San Sebastián",
                 country: "Spain",
                 program: "BSc AI Engineering",
@@ -973,7 +912,7 @@
                 url: "https://www.tecnun.es/en/ingenio/undergraduate-degrees/artificial-intelligence-engineering"
             },
             {
-                id: 26,
+                id: 28,
                 name: "Universidad de Zaragoza",
                 country: "Spain",
                 program: "BSc Computer Science",
@@ -1005,7 +944,7 @@
             },
 
             {
-                id: 27,
+                id: 29,
                 name: "Universitat Pompeu Fabra (UPF)",
                 country: "Spain",
                 program: "BSc Data Science",
@@ -1043,7 +982,7 @@
 
             // FRANCE (3 universities)
             {
-                id: 28,
+                id: 30,
                 name: "PSL Paris",
                 country: "France",
                 program: "International BSc AI",
@@ -1074,7 +1013,7 @@
                 url: "https://www.psl.eu/en/education/bachelors-degree/psl-international-bachelors-degree-sciences"
             },
             {
-                id: 29,
+                id: 31,
                 name: "Paris-Saclay",
                 country: "France",
                 program: "BSc CS + AI track",
@@ -1105,7 +1044,7 @@
                 url: "https://www.universite-paris-saclay.fr/en"
             },
             {
-                id: 30,
+                id: 32,
                 name: "DSTI Paris",
                 country: "France",
                 program: "BSc Data Science & AI (PRIVATE)",
@@ -1138,7 +1077,7 @@
 
             // AUSTRIA (2 universities)
             {
-                id: 31,
+                id: 33,
                 name: "JKU Linz",
                 country: "Austria",
                 program: "BSc Artificial Intelligence",
@@ -1202,7 +1141,7 @@
 
             // ITALY (3 universities)
             {
-                id: 32,
+                id: 34,
                 name: "University of Milan",
                 country: "Italy",
                 program: "BSc Artificial Intelligence",
@@ -1233,7 +1172,7 @@
                 url: "https://www.unimi.it/en/education/bachelor-programme/artificial-intelligence"
             },
             {
-                id: 33,
+                id: 35,
                 name: "University of Pavia",
                 country: "Italy",
                 program: "BSc Artificial Intelligence",
@@ -1264,7 +1203,7 @@
                 url: "https://web.unipv.it/artificial-intelligence/"
             },
             {
-                id: 34,
+                id: 36,
                 name: "H-FARM College",
                 country: "Italy",
                 program: "BSc AI & Data Science (PRIVATE)",
@@ -1297,7 +1236,7 @@
 
             // SWEDEN (1 university)
             {
-                id: 35,
+                id: 37,
                 name: "Karlstad University",
                 country: "Sweden",
                 program: "BSc CS (AI & ML track)",
@@ -1330,7 +1269,7 @@
 
             // PORTUGAL (1 university)
             {
-                id: 36,
+                id: 37,
                 name: "NOVA IMS Lisbon",
                 country: "Portugal",
                 program: "BSc Data Science",
@@ -1378,104 +1317,6 @@
             const [showMap, setShowMap] = useState(true);
             const [mapInstance, setMapInstance] = useState(null);
             const [markersLayer, setMarkersLayer] = useState(null);
-            const [sortField, setSortField] = useState('name');
-            const [sortDirection, setSortDirection] = useState('asc');
-
-            // Load applications from localStorage (stores {uniId, status, deadline, notes})
-            const [applications, setApplications] = useState(() => {
-                try {
-                    const saved = localStorage.getItem('universityApplications');
-                    return saved ? JSON.parse(saved) : {};
-                } catch {
-                    return {};
-                }
-            });
-
-            // Save to localStorage whenever applications change
-            useEffect(() => {
-                localStorage.setItem('universityApplications', JSON.stringify(applications));
-            }, [applications]);
-
-            // Calculate suggested application deadline based on country and typical cycles
-            const getSuggestedDeadline = (uniId) => {
-                const uni = universities.find(u => u.id === uniId);
-                if (!uni) return '';
-
-                // Most European programs start in September/October
-                // Application deadlines vary by country (in YYYY-MM-DD format for date inputs):
-                const deadlineMonths = {
-                    'Germany': '2025-07-15',      // uni-assist deadline
-                    'Netherlands': '2025-05-01',    // Studielink deadline for non-EU
-                    'Belgium': '2025-04-30',     // Typical Belgian deadline
-                    'Spain': '2025-06-30',        // PAU + local deadlines
-                    'France': '2025-03-15',      // Campus France deadline
-                    'Austria': '2025-09-05',  // Later deadline, rolling
-                    'Italy': '2025-04-30',       // Universitaly deadline
-                    'Sweden': '2025-01-15',    // Already passed, but for reference
-                    'Portugal': '2025-07-31'      // DGES deadline
-                };
-
-                return deadlineMonths[uni.country] || '2025-05-01';
-            };
-
-            // Toggle university in applying list
-            const toggleApplying = (uniId) => {
-                setApplications(prev => {
-                    if (prev[uniId]) {
-                        // Remove from applications
-                        const newApps = {...prev};
-                        delete newApps[uniId];
-                        return newApps;
-                    } else {
-                        // Add to applications with suggested deadline
-                        const suggestedDeadline = getSuggestedDeadline(uniId);
-                        const uni = universities.find(u => u.id === uniId);
-
-                        return {
-                            ...prev,
-                            [uniId]: {
-                                status: 'Planning',
-                                deadline: suggestedDeadline,
-                                notes: `Check official ${uni.country} application portal for exact deadline.`,
-                                addedDate: new Date().toISOString()
-                            }
-                        };
-                    }
-                });
-            };
-
-            // Update application status
-            const updateApplicationStatus = (uniId, status) => {
-                setApplications(prev => ({
-                    ...prev,
-                    [uniId]: {
-                        ...prev[uniId],
-                        status
-                    }
-                }));
-            };
-
-            // Update application deadline
-            const updateApplicationDeadline = (uniId, deadline) => {
-                setApplications(prev => ({
-                    ...prev,
-                    [uniId]: {
-                        ...prev[uniId],
-                        deadline
-                    }
-                }));
-            };
-
-            // Update application notes
-            const updateApplicationNotes = (uniId, notes) => {
-                setApplications(prev => ({
-                    ...prev,
-                    [uniId]: {
-                        ...prev[uniId],
-                        notes
-                    }
-                }));
-            };
 
             const countries = useMemo(() => {
                 return ['all', ...new Set(universities.map(u => u.country))].sort();
@@ -1490,11 +1331,11 @@
             }, []);
 
             const filteredUniversities = useMemo(() => {
-                const filtered = universities.filter(uni => {
+                return universities.filter(uni => {
                     const matchesCountry = countryFilter === 'all' || uni.country === countryFilter;
                     const matchesLanguage = languageFilter === 'all' || uni.language.includes(languageFilter);
                     const matchesCost = uni.costMin >= costFilter[0] && uni.costMax <= costFilter[1];
-                    const matchesSearch = searchQuery === '' ||
+                    const matchesSearch = searchQuery === '' || 
                         uni.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         uni.program.toLowerCase().includes(searchQuery.toLowerCase()) ||
                         uni.country.toLowerCase().includes(searchQuery.toLowerCase());
@@ -1504,51 +1345,7 @@
 
                     return matchesCountry && matchesLanguage && matchesCost && matchesSearch && matchesStars && matchesDuration && matchesErasmus;
                 });
-
-                // Apply sorting
-                return filtered.sort((a, b) => {
-                    let aVal, bVal;
-
-                    switch(sortField) {
-                        case 'name':
-                            aVal = a.name.toLowerCase();
-                            bVal = b.name.toLowerCase();
-                            break;
-                        case 'country':
-                            aVal = a.country.toLowerCase();
-                            bVal = b.country.toLowerCase();
-                            break;
-                        case 'cost':
-                            aVal = a.costMin;
-                            bVal = b.costMin;
-                            break;
-                        case 'duration':
-                            aVal = a.duration;
-                            bVal = b.duration;
-                            break;
-                        case 'fit':
-                            aVal = a.fitScore;
-                            bVal = b.fitScore;
-                            break;
-                        default:
-                            return 0;
-                    }
-
-                    if (aVal < bVal) return sortDirection === 'asc' ? -1 : 1;
-                    if (aVal > bVal) return sortDirection === 'asc' ? 1 : -1;
-                    return 0;
-                });
-            }, [countryFilter, languageFilter, costFilter, searchQuery, minStars, durationFilter, erasmusFilter, sortField, sortDirection]);
-
-            // Handle column header click for sorting
-            const handleSort = (field) => {
-                if (sortField === field) {
-                    setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-                } else {
-                    setSortField(field);
-                    setSortDirection('asc');
-                }
-            };
+            }, [countryFilter, languageFilter, costFilter, searchQuery, minStars, durationFilter, erasmusFilter]);
 
             // Map initialization effect
             useEffect(() => {
@@ -1710,28 +1507,15 @@
             };
 
             return (
-                <div className="min-h-screen" style={{background: '#1a1a2e'}}>
-                    {/* Navigation Bar */}
-                    <nav className="app-nav">
-                        <a href="index.html" className="active">
-                            🎓 Universities
-                        </a>
-                        <a href="agents/financial-aid-advisor-agent/scholarship-tracker.html">
-                            💰 Scholarships
-                        </a>
-                        <a href="application-tracker.html">
-                            📝 My Applications
-                        </a>
-                    </nav>
-
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-50">
                     {/* Header - Scrolls away */}
-                    <div style={{background: '#1a1a2e', borderBottom: '1px solid #2a3f5f'}}>
+                    <div className="bg-gradient-to-br from-blue-50 via-white to-indigo-50">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-                            <h1 className="text-2xl font-bold mb-1" style={{color: '#eaeaea'}}>
+                            <h1 className="text-2xl font-bold text-gray-900 mb-1">
                                 🎓 European AI & Data Science Universities
                             </h1>
-                            <p className="text-xs" style={{color: '#a8b2d1'}}>
-                                Comprehensive comparison tool • Cost breakdowns • Erasmus+ programs • 38 universities across 9 countries
+                            <p className="text-gray-600 text-xs">
+                                Comprehensive comparison tool • Cost breakdowns • Erasmus+ programs • 37 universities across 9 countries
                             </p>
                         </div>
                     </div>
@@ -1739,7 +1523,7 @@
                     {/* Filters - Sticky and Compact */}
                     <div className="sticky-controls">
                         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-2">
-                            <div className="rounded-lg shadow-md p-3" style={{background: '#16213e', border: '1px solid #2a3f5f'}}>
+                            <div className="bg-white rounded-lg shadow-md p-3">
                                 {/* First Row: Search and Main Filters */}
                                 <div className="grid grid-cols-1 md:grid-cols-6 lg:grid-cols-12 gap-2 mb-2">
                                     {/* Search - Takes more space */}
@@ -1808,22 +1592,19 @@
                                     {/* View Mode Buttons */}
                                     <button
                                         onClick={() => setViewMode('grid')}
-                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'text-white'}`}
-                                        style={{background: viewMode === 'grid' ? '' : '#2a3f5f'}}
+                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'grid' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
                                     >
                                         📱 Grid
                                     </button>
                                     <button
                                         onClick={() => setViewMode('table')}
-                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'text-white'}`}
-                                        style={{background: viewMode === 'table' ? '' : '#2a3f5f'}}
+                                        className={`px-3 py-1 text-xs rounded ${viewMode === 'table' ? 'bg-blue-600 text-white' : 'bg-gray-200'}`}
                                     >
                                         📊 Table
                                     </button>
                                     <button
                                         onClick={() => setShowMap(!showMap)}
-                                        className={`px-3 py-1 text-xs rounded ${showMap ? 'bg-indigo-600 text-white' : 'text-white'}`}
-                                        style={{background: showMap ? '' : '#2a3f5f'}}
+                                        className={`px-3 py-1 text-xs rounded ${showMap ? 'bg-indigo-600 text-white' : 'bg-gray-200'}`}
                                     >
                                         🗺️ Map ({showMap ? 'On' : 'Off'})
                                     </button>
@@ -1832,21 +1613,20 @@
                                             setCompareMode(!compareMode);
                                             if (!compareMode) setSelectedForCompare([]);
                                         }}
-                                        className={`px-3 py-1 text-xs rounded ${compareMode ? 'bg-green-600 text-white' : 'text-white'}`}
-                                        style={{background: compareMode ? '' : '#2a3f5f'}}
+                                        className={`px-3 py-1 text-xs rounded ${compareMode ? 'bg-green-600 text-white' : 'bg-gray-200'}`}
                                     >
                                         ⚖️ Compare ({selectedForCompare.length}/4)
                                     </button>
 
                                     {/* Erasmus+ Toggle */}
-                                    <label className="flex items-center space-x-1 cursor-pointer px-2 py-1 rounded border" style={{background: 'rgba(168, 85, 247, 0.1)', borderColor: '#a855f7'}}>
+                                    <label className="flex items-center space-x-1 cursor-pointer px-2 py-1 bg-purple-50 rounded border border-purple-200">
                                         <input
                                             type="checkbox"
                                             checked={erasmusFilter}
                                             onChange={(e) => setErasmusFilter(e.target.checked)}
                                             className="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
                                         />
-                                        <span className="text-xs font-medium" style={{color: '#c084fc'}}>🇪🇺 Erasmus+ only</span>
+                                        <span className="text-xs font-medium text-purple-700">🇪🇺 Erasmus+ only</span>
                                     </label>
 
                                     {/* Buy Me a Coffee */}
@@ -1855,16 +1635,15 @@
                                             href="https://www.buymeacoffee.com/smarquez"
                                             target="_blank"
                                             rel="noopener noreferrer"
-                                            className="px-2 py-1 rounded border transition-colors"
-                                            style={{background: 'rgba(251, 191, 36, 0.2)', borderColor: '#fbbf24', color: '#fbbf24'}}
+                                            className="px-2 py-1 bg-yellow-50 rounded border border-yellow-300 hover:bg-yellow-100 transition-colors"
                                         >
-                                            <span className="text-xs font-medium">☕ Support</span>
+                                            <span className="text-xs font-medium text-yellow-800">☕ Support</span>
                                         </a>
-                                        <span className="text-[10px] hidden sm:inline" style={{color: '#a8b2d1'}}>Help keep this tool free!</span>
+                                        <span className="text-[10px] text-gray-500 hidden sm:inline">Help keep this tool free!</span>
                                     </div>
 
                                     {/* Results Counter */}
-                                    <div className="ml-auto text-xs font-semibold" style={{color: '#64ffda'}}>
+                                    <div className="ml-auto text-xs text-gray-600 font-semibold">
                                         {filteredUniversities.length} of {universities.length} universities
                                     </div>
                                 </div>
@@ -1886,8 +1665,8 @@
                             <div className={`${showMap ? 'lg:w-1/2' : 'w-full'}`}>
                                 {/* Comparison Panel */}
                                 {compareMode && selectedForCompare.length > 0 && (
-                            <div className="uni-card rounded-lg shadow-lg p-4 mb-4">
-                                <h2 className="text-lg font-bold mb-3" style={{color: '#eaeaea'}}>Comparing {selectedForCompare.length} Universities</h2>
+                            <div className="bg-white rounded-lg shadow-lg p-4 mb-4">
+                                <h2 className="text-lg font-bold mb-3">Comparing {selectedForCompare.length} Universities</h2>
                                 <div className="overflow-x-auto">
                                     <table className="w-full text-sm">
                                         <thead className="bg-gray-50">
@@ -1959,9 +1738,9 @@
                         {viewMode === 'grid' ? (
                             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                 {filteredUniversities.map(uni => (
-                                    <div key={uni.id} className="uni-card rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 flex flex-col">
+                                    <div key={uni.id} className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow p-4 flex flex-col">
                                         <div className="flex justify-between items-start mb-2">
-                                            <h3 className="text-lg font-bold flex-1" style={{color: '#eaeaea'}}>
+                                            <h3 className="text-lg font-bold text-gray-900 flex-1">
                                                 {uni.name}
                                                 {uni.new && <span className="ml-2 bg-yellow-400 text-yellow-900 text-xs px-2 py-1 rounded">NEW</span>}
                                             </h3>
@@ -2050,89 +1829,47 @@
                                                 ))}
                                             </ul>
                                         </div>
-                                        <div className="space-y-2 mt-auto">
-                                            {/* Apply Button and Status */}
-                                            <div className="flex gap-2">
+                                        <div className="flex gap-2 mt-auto">
+                                            <a 
+                                                href={uni.url} 
+                                                target="_blank" 
+                                                rel="noopener noreferrer"
+                                                className="flex-1 bg-blue-600 text-white px-3 py-1.5 rounded text-center hover:bg-blue-700 text-xs"
+                                            >
+                                                🔗 Visit Website
+                                            </a>
+                                            {compareMode && (
                                                 <button
-                                                    onClick={() => toggleApplying(uni.id)}
-                                                    className={`flex-1 px-3 py-1.5 rounded text-xs font-semibold ${
-                                                        applications[uni.id]
-                                                            ? 'bg-green-600 text-white hover:bg-green-700'
-                                                            : 'bg-purple-600 text-white hover:bg-purple-700'
+                                                    onClick={() => toggleCompare(uni)}
+                                                    className={`px-3 py-1.5 rounded text-xs ${
+                                                        selectedForCompare.find(u => u.id === uni.id)
+                                                            ? 'bg-green-600 text-white'
+                                                            : 'bg-gray-200 text-gray-800'
                                                     }`}
-                                                    title={applications[uni.id] ? 'Remove from application tracker' : 'Add to application tracker'}
+                                                    disabled={!selectedForCompare.find(u => u.id === uni.id) && selectedForCompare.length >= 4}
                                                 >
-                                                    {applications[uni.id] ? '✓ Shortlisted' : '+ Shortlist'}
+                                                    {selectedForCompare.find(u => u.id === uni.id) ? '✓' : '+'}
                                                 </button>
-                                                {applications[uni.id] && (
-                                                    <select
-                                                        value={applications[uni.id].status}
-                                                        onChange={(e) => updateApplicationStatus(uni.id, e.target.value)}
-                                                        className="px-2 py-1.5 rounded text-xs border border-gray-300 bg-white"
-                                                        onClick={(e) => e.stopPropagation()}
-                                                    >
-                                                        <option value="Planning">📋 Planning</option>
-                                                        <option value="Applied">📤 Applied</option>
-                                                        <option value="Pending">⏳ Pending</option>
-                                                        <option value="Accepted">✅ Accepted</option>
-                                                        <option value="Rejected">❌ Rejected</option>
-                                                    </select>
-                                                )}
-                                            </div>
-
-                                            {/* Other buttons */}
-                                            <div className="flex gap-2">
-                                                <a
-                                                    href={uni.url}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="flex-1 bg-blue-600 text-white px-3 py-1.5 rounded text-center hover:bg-blue-700 text-xs"
-                                                >
-                                                    🔗 Visit Website
-                                                </a>
-                                                {compareMode && (
-                                                    <button
-                                                        onClick={() => toggleCompare(uni)}
-                                                        className={`px-3 py-1.5 rounded text-xs ${
-                                                            selectedForCompare.find(u => u.id === uni.id)
-                                                                ? 'bg-green-600 text-white'
-                                                                : 'bg-gray-200 text-gray-800'
-                                                        }`}
-                                                        disabled={!selectedForCompare.find(u => u.id === uni.id) && selectedForCompare.length >= 4}
-                                                    >
-                                                        {selectedForCompare.find(u => u.id === uni.id) ? '✓' : '+'}
-                                                    </button>
-                                                )}
-                                            </div>
+                                            )}
                                         </div>
                                     </div>
                                 ))}
                             </div>
                         ) : (
-                            <div className="uni-card rounded-lg shadow-lg overflow-x-auto mb-4">
+                            <div className="bg-white rounded-lg shadow-lg overflow-x-auto mb-4">
                                 <table className="w-full text-sm">
-                                    <thead className="sticky" style={{top: '104px', zIndex: 30}}>
+                                    <thead className="bg-gray-50 border-b">
                                         <tr>
                                             {compareMode && <th className="p-2 text-left text-xs">Compare</th>}
-                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('name')}>
-                                                University {sortField === 'name' && (sortDirection === 'asc' ? '↑' : '↓')}
-                                            </th>
-                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('country')}>
-                                                Country {sortField === 'country' && (sortDirection === 'asc' ? '↑' : '↓')}
-                                            </th>
+                                            <th className="p-2 text-left text-xs">University</th>
+                                            <th className="p-2 text-left text-xs">Country</th>
                                             <th className="p-2 text-left text-xs">Program</th>
-                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('duration')}>
-                                                Duration {sortField === 'duration' && (sortDirection === 'asc' ? '↑' : '↓')}
-                                            </th>
+                                            <th className="p-2 text-left text-xs">Duration</th>
                                             <th className="p-2 text-left text-xs">Tuition/Yr</th>
                                             <th className="p-2 text-left text-xs">Living/Yr</th>
-                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('cost')}>
-                                                Total {sortField === 'cost' && (sortDirection === 'asc' ? '↑' : '↓')}
-                                            </th>
+                                            <th className="p-2 text-left text-xs">Total</th>
                                             <th className="p-2 text-left text-xs">Erasmus+</th>
-                                            <th className="p-2 text-left text-xs" onClick={() => handleSort('fit')}>
-                                                Fit {sortField === 'fit' && (sortDirection === 'asc' ? '↑' : '↓')}
-                                            </th>
+                                            <th className="p-2 text-left text-xs">Fit</th>
                                             <th className="p-2 text-left text-xs">Link</th>
                                         </tr>
                                     </thead>
@@ -2183,12 +1920,12 @@
                     </div>
 
                     {/* Footer */}
-                    <footer className="mt-8 py-4" style={{background: '#16213e', borderTop: '1px solid #2a3f5f'}}>
-                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs" style={{color: '#a8b2d1'}}>
+                    <footer className="bg-white border-t border-gray-200 mt-8 py-4">
+                        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-xs text-gray-600">
                             <p className="mb-2">
                                 Built with 🤖 AI assistance by Sophia |
                                 <a href="https://github.com/ymarquezla/UniversityAdvisor"
-                                   className="hover:underline ml-1" style={{color: '#64ffda'}}>
+                                   className="text-blue-600 hover:underline ml-1">
                                     View Source on GitHub
                                 </a>
                             </p>
@@ -2201,7 +1938,7 @@
                                          style={{height: '40px', width: '145px', display: 'inline-block'}} />
                                 </a>
                             </p>
-                            <p className="text-[10px]" style={{color: '#64748b'}}>
+                            <p className="text-[10px] text-gray-500">
                                 Last updated: December 2025 • Data includes tuition, living costs, duration, and Erasmus+ participation
                             </p>
                         </div>
