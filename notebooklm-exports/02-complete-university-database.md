@@ -1,7 +1,7 @@
 # Complete European University Database
 ## AI, Data Science & Data Engineering Programs for Sophia
 
-**Total Universities**: 37 programs across 9 European countries
+**Total Universities**: 38 programs across 9 European countries
 **Classification**: REACH (apply 2-3) | MATCH (apply 4-5) | SAFETY (apply 2-3)
 **Target Applications**: 9-11 universities total
 
@@ -12,15 +12,15 @@
 **Language**: Primarily English-taught programs available
 
 ### 1. Technical University of Berlin (TU Berlin)
-- **Program**: B.Sc. Artificial Intelligence & Data Engineering
-- **Language**: English
-- **Fit Score**: 5/5
+- **Program**: B.Sc. Computer Science (with AI specialization available)
+- **Language**: German (with AI/ML electives)
+- **Fit Score**: 4/5
 - **Classification**: REACH
 - **Total Cost**: €42,000-€48,000 (4 years)
 - **City**: Berlin (3.6M people, major tech hub)
-- **Why Apply**: Top-tier German tech university, strong industry connections, vibrant startup scene
-- **Requirements**: High school diploma, B2 English, competitive GPA
-- **Website**: https://www.tu.berlin/en/studying/study-programs/all-programs-offered/study-course/artificial-intelligence-b-sc/
+- **Why Apply**: Top-tier German tech university, strong industry connections, vibrant startup scene, can specialize in AI
+- **Requirements**: High school diploma, German language proficiency, competitive GPA
+- **Website**: https://www.tu.berlin/en/studying/study-programs/all-programs-offered/study-course/computer-science-b-sc
 
 ### 2. University of Passau
 - **Program**: BSc Artificial Intelligence
@@ -31,7 +31,7 @@
 - **City**: Passau (52K people, small university town)
 - **Why Apply**: 100% English-taught, beautiful location, manageable size, strong AI focus
 - **Application Deadline**: July 15, 2026 (uni-assist for international)
-- **Website**: https://www.uni-passau.de/en/bachelor-artificial-intelligence/
+- **Website**: https://www.uni-passau.de/en/bsc-artificial-intelligence
 
 ### 3. University of Bayreuth
 - **Program**: BSc Data Science and Artificial Intelligence
@@ -176,7 +176,20 @@
 - **Challenge**: Very expensive, likely not worth the premium
 - **Website**: https://www.ie.edu/
 
-### 16. UPNA Pamplona (Universidad Pública de Navarra)
+### 16. CUNEF Universidad (Madrid)
+- **Program**: Bachelor programs in Computer Science, Mathematics, Engineering
+- **Language**: Spanish/English options
+- **Fit Score**: 4/5
+- **Classification**: MATCH
+- **Total Cost**: Varies by program (private university, estimate €40,000-€60,000 for 4 years)
+- **City**: Madrid (3.3M people, capital city)
+- **Why Apply**: Specialized programs, scholarship opportunities up to 100% tuition
+- **Scholarships**: €1,000-€5,000 available (Academic Excellence, Sports, Talent Grants, Family Discounts)
+- **Application Period**: March 24 - May 15, 2025 (for 2025-2026)
+- **Website**: https://www.cunef.edu/en/
+- **Scholarship Info**: https://www.cunef.edu/en/scholarships/
+
+### 17. UPNA Pamplona (Universidad Pública de Navarra)
 - **Program**: BSc Computer Science
 - **Language**: English
 - **Fit Score**: 5/5
@@ -187,7 +200,7 @@
 - **Strong Safety**: High acceptance rate for EU students
 - **Website**: https://www.unavarra.es/
 
-### 17. UPV Valencia (Universitat Politècnica de València)
+### 18. UPV Valencia (Universitat Politècnica de València)
 - **Program**: BSc Data Science
 - **Language**: Spanish/English options
 - **Fit Score**: 5/5
@@ -197,7 +210,7 @@
 - **Why Apply**: Strong engineering focus, bilingual options, good value
 - **Website**: https://www.upv.es/
 
-### 18. UAB Barcelona (Universitat Autònoma de Barcelona)
+### 19. UAB Barcelona (Universitat Autònoma de Barcelona)
 - **Program**: BSc Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 5/5
@@ -208,7 +221,7 @@
 - **Cost Note**: Higher than other Spanish public universities
 - **Website**: https://www.uab.cat/
 
-### 19. TECNUN San Sebastián (University of Navarra)
+### 20. TECNUN San Sebastián (University of Navarra)
 - **Program**: BSc AI Engineering
 - **Language**: Bilingual (Spanish/English)
 - **Fit Score**: 4/5
@@ -219,7 +232,7 @@
 - **Challenge**: Private university, expensive
 - **Website**: https://www.tecnun.es/
 
-### 20. Universidad de Zaragoza
+### 21. Universidad de Zaragoza
 - **Program**: BSc Computer Science
 - **Language**: Spanish
 - **Fit Score**: 3.5/5
@@ -229,7 +242,7 @@
 - **Why Apply**: Affordable, solid program, less competitive
 - **Website**: https://www.unizar.es/
 
-### 21. Universitat Pompeu Fabra (UPF Barcelona)
+### 22. Universitat Pompeu Fabra (UPF Barcelona)
 - **Program**: BSc Data Science
 - **Language**: Spanish/English
 - **Fit Score**: 4/5
@@ -245,7 +258,7 @@
 **Tuition**: €2,314/year (EU rate) | **Total 4-Year Cost**: €39,000-€61,000
 **Language**: All English-taught, international environment
 
-### 22. Maastricht University
+### 23. Maastricht University
 - **Program**: BSc Data Science and Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 5/5
@@ -254,9 +267,9 @@
 - **City**: Maastricht (122K people, near Belgian/German borders)
 - **Why Apply**: Excellent program, problem-based learning, international atmosphere
 - **Application Deadline**: May 1, 2026 (EU students via Studielink)
-- **Website**: https://www.maastrichtuniversity.nl/
+- **Website**: https://www.maastrichtuniversity.nl/education/bachelor/programmes/data-science-and-artificial-intelligence
 
-### 23. VU Amsterdam (Vrije Universiteit)
+### 24. VU Amsterdam (Vrije Universiteit)
 - **Program**: BSc Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 5/5
@@ -267,7 +280,7 @@
 - **Challenge**: Higher cost, competitive admissions
 - **Website**: https://www.vu.nl/
 
-### 24. University of Groningen
+### 25. University of Groningen
 - **Program**: BSc Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 4/5
@@ -277,7 +290,7 @@
 - **Why Apply**: Good program quality, less competitive, strong student culture
 - **Website**: https://www.rug.nl/
 
-### 25. Leiden University
+### 26. Leiden University
 - **Program**: BSc Data Science and Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 5/5
@@ -287,7 +300,7 @@
 - **Why Apply**: Prestigious university, strong program, excellent location
 - **Website**: https://www.universiteitleiden.nl/
 
-### 26. Breda University of Applied Sciences
+### 27. Breda University of Applied Sciences
 - **Program**: BSc Applied Data Science and AI
 - **Language**: English
 - **Fit Score**: 4/5
@@ -297,7 +310,7 @@
 - **Why Apply**: Applied focus, industry partnerships, affordable
 - **Website**: https://www.buas.nl/
 
-### 27. Zuyd University of Applied Sciences
+### 28. Zuyd University of Applied Sciences
 - **Program**: BSc Applied Data Science and AI
 - **Language**: English
 - **Fit Score**: 4/5
@@ -312,7 +325,7 @@
 ## BELGIUM (1 University)
 **Tuition**: €1,157/year | **Total 4-Year Cost**: €42,000-€49,000
 
-### 28. Karel de Grote University College (KdG Antwerp)
+### 29. Karel de Grote University College (KdG Antwerp)
 - **Program**: BSc Applied Computer Science (AI Specialization)
 - **Language**: English
 - **Fit Score**: 5/5
@@ -327,7 +340,7 @@
 ## FRANCE (3 Universities)
 **Tuition**: €170-€13,000/year | **Total 4-Year Cost**: €44,000-€93,000
 
-### 29. PSL Paris (Paris Sciences et Lettres)
+### 30. PSL Paris (Paris Sciences et Lettres)
 - **Program**: International BSc in Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 5/5
@@ -338,7 +351,7 @@
 - **Challenge**: Very competitive, expensive
 - **Website**: https://www.psl.eu/
 
-### 30. Paris-Saclay University
+### 31. Paris-Saclay University
 - **Program**: BSc Computer Science (AI track)
 - **Language**: French/English mix
 - **Fit Score**: 4/5
@@ -349,7 +362,7 @@
 - **Challenge**: Some French language required
 - **Website**: https://www.universite-paris-saclay.fr/
 
-### 31. DSTI Paris
+### 32. DSTI Paris
 - **Program**: BSc Data Science and AI
 - **Language**: English
 - **Fit Score**: 3/5
@@ -365,23 +378,23 @@
 ## AUSTRIA (1 University)
 **Tuition**: €1,452/year | **Total 4-Year Cost**: €40,000-€44,000
 
-### 32. JKU Linz (Johannes Kepler University)
+### 33. JKU Linz (Johannes Kepler University)
 - **Program**: BSc Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 5/5
 - **Classification**: MATCH
 - **Total Cost**: €40,000-€44,000 (4 years)
 - **City**: Linz (206K people, Austria's third-largest city)
-- **Why Apply**: Excellent value, fully English-taught, modern program
+- **Why Apply**: Excellent value, fully English-taught, modern program, first AI bachelor in Europe
 - **Application**: Rolling admission for EU students
-- **Website**: https://www.jku.at/
+- **Website**: https://www.jku.at/en/degree-programs/types-of-degree-programs/bachelors-and-diploma-degree-programs/ba-artificial-intelligence/
 
 ---
 
 ## ITALY (3 Universities)
 **Tuition**: €1,500-€3,000/year (public) | **Total 4-Year Cost**: €33,000-€82,000
 
-### 33. University of Milan
+### 34. University of Milan
 - **Program**: BSc Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 4/5
@@ -391,7 +404,7 @@
 - **Why Apply**: Prestigious university, Milan location, English-taught
 - **Website**: https://www.unimi.it/
 
-### 34. University of Pavia
+### 35. University of Pavia
 - **Program**: BSc Artificial Intelligence
 - **Language**: English
 - **Fit Score**: 4/5
@@ -402,7 +415,7 @@
 - **Strong Safety**: Affordable and accessible
 - **Website**: https://www.unipv.it/
 
-### 35. H-FARM College (Treviso)
+### 36. H-FARM College (Treviso)
 - **Program**: BSc AI & Data Science
 - **Language**: English
 - **Fit Score**: 3/5
@@ -418,7 +431,7 @@
 ## SWEDEN (1 University)
 **Tuition**: €0/year (EU students) | **Total 4-Year Cost**: €36,000-€40,000
 
-### 36. Karlstad University
+### 37. Karlstad University
 - **Program**: BSc Computer Science (AI & Machine Learning track)
 - **Language**: English
 - **Fit Score**: 4/5
@@ -434,7 +447,7 @@
 ## PORTUGAL (1 University)
 **Tuition**: €697/year | **Total 4-Year Cost**: €24,000-€31,000
 
-### 37. NOVA IMS Lisbon (NOVA Information Management School)
+### 38. NOVA IMS Lisbon (NOVA Information Management School)
 - **Program**: BSc Data Science
 - **Language**: English
 - **Fit Score**: 5/5
