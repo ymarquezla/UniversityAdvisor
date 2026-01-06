@@ -196,6 +196,109 @@ function parseCSVLine(line) {
     return result;
 }
 
+// ===== APPLICATION TRACKER ENDPOINTS =====
+
+// Pull latest changes from Git
+app.post('/pull', async (req, res) => {
+    try {
+        await gitCommand('git pull origin main');
+        res.json({
+            success: true,
+            message: 'Git pull successful',
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Pull error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Git pull failed',
+            details: error.message
+        });
+    }
+});
+
+// Save file to repository
+app.post('/save', async (req, res) => {
+    try {
+        const { filePath, content } = req.body;
+
+        if (!filePath || !content) {
+            return res.status(400).json({
+                success: false,
+                message: 'Missing filePath or content'
+            });
+        }
+
+        // Security: Only allow saving to specific files
+        const allowedFiles = ['applications-data.json', 'scholarship-deadline-calendar.csv'];
+        if (!allowedFiles.includes(filePath)) {
+            return res.status(403).json({
+                success: false,
+                message: 'File not allowed'
+            });
+        }
+
+        const fullPath = path.join(REPO_PATH, filePath);
+        await fs.writeFile(fullPath, content, 'utf-8');
+
+        res.json({
+            success: true,
+            message: 'File saved successfully',
+            filePath,
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Save error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to save file',
+            details: error.message
+        });
+    }
+});
+
+// Commit and push changes
+app.post('/commit-push', async (req, res) => {
+    try {
+        const { message } = req.body;
+
+        if (!message) {
+            return res.status(400).json({
+                success: false,
+                message: 'Commit message required'
+            });
+        }
+
+        // Add all changes
+        await gitCommand('git add .');
+
+        // Commit
+        const commitMessage = `${message}
+
+🤖 Generated with [Claude Code](https://claude.com/claude-code)
+
+Co-Authored-By: Claude Sonnet 4.5 <noreply@anthropic.com>`;
+
+        await gitCommand(`git commit -m "${commitMessage.replace(/"/g, '\\"')}"`);
+
+        // Push
+        await gitCommand('git push origin main');
+
+        res.json({
+            success: true,
+            message: 'Changes committed and pushed',
+            timestamp: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error('Commit-push error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to commit and push',
+            details: error.message
+        });
+    }
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🚀 Scholarship Sync Server running on port ${PORT}`);
