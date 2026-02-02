@@ -1,13 +1,13 @@
 # Complete European University Database
 ## AI, Data Science & Data Engineering Programs for Sophia
 
-**Total Universities**: 39 programs across 9 European countries
+**Total Universities**: 40 programs across 9 European countries
 **Classification**: REACH (apply 2-3) | MATCH (apply 4-5) | SAFETY (apply 2-3)
 **Target Applications**: 9-11 universities total
 
 ---
 
-## GERMANY (10 Universities)
+## GERMANY (11 Universities)
 **Tuition**: €350/year (EU rate) | **Total 4-Year Cost**: €40,000-€45,000
 **Language**: Primarily English-taught programs available
 
@@ -114,6 +114,18 @@
 - **Why Apply**: TUM is Germany's #1 university, 100% English-taught, free tuition for EU students, combines data science with management, Erasmus+/TUMexchange study abroad in semester 3
 - **Application Period**: May 15 - July 15 (winter semester)
 - **Website**: https://chn.tum.de/study-programs/bachelor-in-management-and-data-science
+
+### 11. CODE University of Applied Sciences (Berlin)
+- **Program**: BSc Software Engineering
+- **Language**: English (100%)
+- **Fit Score**: 3/5
+- **Classification**: EXPENSIVE (PRIVATE)
+- **Total Cost**: €84,000-€92,000 (3 years - tuition €41,100 + living)
+- **City**: Berlin (3.6M people, startup capital of Europe)
+- **Why Consider**: Project-based learning, 100% English, Berlin startup ecosystem, industry partners (Porsche, Meta, AWS)
+- **Challenge**: Very expensive (€41,100 tuition, no EU discount), founded 2017 (newer institution)
+- **Application**: Winter 2026/2027 open, Spring 2026 deadline was Feb 1
+- **Website**: https://code.berlin/en/study/bachelor/software-engineering/
 
 ---
 
