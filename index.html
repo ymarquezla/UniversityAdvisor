@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>European AI/Data Science University Shortlist - 38 Universities (with Map)</title>
+    <title>European AI/Data Science University Shortlist - 39 Universities (with Map)</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css" />
@@ -55,7 +55,7 @@
 
         // Enhanced university database with detailed cost breakdowns
         const universities = [
-            // GERMANY (9 universities)
+            // GERMANY (10 universities)
             {
                 id: 0,
                 name: "Technical University of Berlin (TU Berlin)",
@@ -341,10 +341,43 @@
                 ],
                 url: "https://www.thi.de/en/study/bachelors-degree-programmes/artificial-intelligence"
             },
+            {
+                id: 9,
+                name: "TUM Campus Heilbronn",
+                country: "Germany",
+                program: "BSc Management & Data Science",
+                language: "English",
+                lat: 49.1427,
+                lng: 9.2109,
+                tuitionPerYear: "€0 (EU)",
+                livingPerYear: "€8,400-10,800",
+                duration: 3,
+                cost: "€25-33k total",
+                costMin: 25000,
+                costMax: 33000,
+                erasmusPlus: true,
+                erasmusPartners: "TUMexchange + Erasmus+",
+                classification: "Reach",
+                fitScore: 5,
+                citySize: "Mid-size city",
+                admissionsEmail: "admission_heilbronn@mgt.tum.de",
+                openHouseDates: "Application: May 15 - Jul 15",
+                visitInfo: "Campus tours available",
+                visitUrl: "https://chn.tum.de/",
+                highlights: [
+                    "TUM = #1 university in Germany!",
+                    "100% English-taught Data Science program",
+                    "FREE tuition for EU students (€97/semester fee only)",
+                    "Heilbronn much cheaper than Munich",
+                    "Study abroad in semester 3 (Erasmus+/TUMexchange)",
+                    "Combines management + data science"
+                ],
+                url: "https://chn.tum.de/study-programs/bachelor-in-management-and-data-science"
+            },
 
             // NETHERLANDS (6 universities)
             {
-                id: 9,
+                id: 10,
                 name: "Maastricht University",
                 country: "Netherlands",
                 program: "BSc Data Science & AI",
@@ -375,7 +408,7 @@
                 url: "https://www.maastrichtuniversity.nl/education/bachelor/data-science-and-artificial-intelligence"
             },
             {
-                id: 10,
+                id: 11,
                 name: "VU Amsterdam",
                 country: "Netherlands",
                 program: "BSc Artificial Intelligence",
@@ -406,7 +439,7 @@
                 url: "https://vu.nl/en/education/bachelor/artificial-intelligence"
             },
             {
-                id: 11,
+                id: 12,
                 name: "University of Groningen",
                 country: "Netherlands",
                 program: "BSc Artificial Intelligence",
@@ -437,7 +470,7 @@
                 url: "https://www.rug.nl/bachelors/artificial-intelligence/"
             },
             {
-                id: 12,
+                id: 13,
                 name: "Leiden University",
                 country: "Netherlands",
                 program: "BSc Data Science & AI",
@@ -468,7 +501,7 @@
                 url: "https://www.universiteitleiden.nl/en/education/study-programmes/bachelor/artificial-intelligence"
             },
             {
-                id: 13,
+                id: 14,
                 name: "Breda University",
                 country: "Netherlands",
                 program: "BSc Applied Data Science & AI",
@@ -499,7 +532,7 @@
                 url: "https://www.buas.nl/en/programmes/applied-data-science-and-artificial-intelligence"
             },
             {
-                id: 14,
+                id: 15,
                 name: "Zuyd University",
                 country: "Netherlands",
                 program: "BSc Applied Data Science & AI",
@@ -532,7 +565,7 @@
 
             // BELGIUM (1 university)
             {
-                id: 15,
+                id: 16,
                 name: "KdG Antwerp",
                 country: "Belgium",
                 program: "BSc Applied Computer Science (AI Specialization)",
@@ -568,9 +601,9 @@
                 url: "https://www.kdg.be/en/applied-computer-science"
             },
 
-            // SPAIN (12 universities)
+            // SPAIN (13 universities)
             {
-                id: 16,
+                id: 17,
                 name: "UPM Madrid",
                 country: "Spain",
                 program: "BSc Data Science & AI",
@@ -601,7 +634,7 @@
                 url: "https://www.upm.es/Estudiantes/Estudios_Titulaciones/EstudiosOficiales"
             },
             {
-                id: 17,
+                id: 18,
                 name: "UC3M Madrid",
                 country: "Spain",
                 program: "BSc Data Science & Engineering",
@@ -632,7 +665,7 @@
                 url: "https://www.uc3m.es/bachelor-degree/data-science"
             },
             {
-                id: 18,
+                id: 19,
                 name: "University of Barcelona",
                 country: "Spain",
                 program: "BSc Data Science",
@@ -663,7 +696,7 @@
                 url: "https://www.ub.edu/portal/web/mathematics-computer-science/bachelor-s-degrees/-/ensenyament/detallEnsenyament/1061205"
             },
             {
-                id: 19,
+                id: 20,
                 name: "University of Valencia",
                 country: "Spain",
                 program: "BSc Data Science",
@@ -694,7 +727,7 @@
                 url: "https://www.uv.es"
             },
             {
-                id: 20,
+                id: 21,
                 name: "UPC Barcelona",
                 country: "Spain",
                 program: "BSc Computer Science (AI/Data)",
@@ -725,7 +758,7 @@
                 url: "https://www.upc.edu/en/bachelors"
             },
             {
-                id: 21,
+                id: 22,
                 name: "IE University",
                 country: "Spain",
                 program: "BSc CS & AI (PRIVATE)",
@@ -756,7 +789,7 @@
                 url: "https://www.ie.edu/university/studies/academic-programs/bachelors-computer-science-artificial-intelligence/"
             },
             {
-                id: 22,
+                id: 23,
                 name: "CUNEF Universidad",
                 country: "Spain",
                 program: "BSc Computer Science/Math/Engineering",
@@ -788,7 +821,7 @@
                 url: "https://www.cunef.edu/en/"
             },
             {
-                id: 23,
+                id: 24,
                 name: "UPNA Pamplona",
                 country: "Spain",
                 program: "BSc Computer Science",
@@ -819,7 +852,7 @@
                 url: "https://www.unavarra.es/sites/grados/informatica/informatica-english.html"
             },
             {
-                id: 24,
+                id: 25,
                 name: "UPV Valencia",
                 country: "Spain",
                 program: "BSc Data Science",
@@ -850,7 +883,7 @@
                 url: "https://www.upv.es/titulaciones/GCIEDDATOS/indexi.html"
             },
             {
-                id: 25,
+                id: 26,
                 name: "UAB Barcelona",
                 country: "Spain",
                 program: "BSc Artificial Intelligence",
@@ -881,7 +914,7 @@
                 url: "https://www.uab.cat/web/estudiar/graus/artificial-intelligence-1345467812802.html"
             },
             {
-                id: 26,
+                id: 27,
                 name: "TECNUN San Sebastián",
                 country: "Spain",
                 program: "BSc AI Engineering",
@@ -912,7 +945,7 @@
                 url: "https://www.tecnun.es/en/ingenio/undergraduate-degrees/artificial-intelligence-engineering"
             },
             {
-                id: 27,
+                id: 28,
                 name: "Universidad de Zaragoza",
                 country: "Spain",
                 program: "BSc Computer Science",
@@ -944,7 +977,7 @@
             },
 
             {
-                id: 28,
+                id: 29,
                 name: "Universitat Pompeu Fabra (UPF)",
                 country: "Spain",
                 program: "BSc Data Science",
@@ -982,7 +1015,7 @@
 
             // FRANCE (3 universities)
             {
-                id: 29,
+                id: 30,
                 name: "PSL Paris",
                 country: "France",
                 program: "International BSc AI",
@@ -1013,7 +1046,7 @@
                 url: "https://www.psl.eu/en/education/bachelors-degree/psl-international-bachelors-degree-sciences"
             },
             {
-                id: 30,
+                id: 31,
                 name: "Paris-Saclay",
                 country: "France",
                 program: "BSc CS + AI track",
@@ -1044,7 +1077,7 @@
                 url: "https://www.universite-paris-saclay.fr/en"
             },
             {
-                id: 31,
+                id: 32,
                 name: "DSTI Paris",
                 country: "France",
                 program: "BSc Data Science & AI (PRIVATE)",
@@ -1075,9 +1108,9 @@
                 url: "https://www.datasciencetech.institute/"
             },
 
-            // AUSTRIA (2 universities)
+            // AUSTRIA (1 university)
             {
-                id: 32,
+                id: 33,
                 name: "JKU Linz",
                 country: "Austria",
                 program: "BSc Artificial Intelligence",
@@ -1110,7 +1143,7 @@
 
             // ITALY (3 universities)
             {
-                id: 33,
+                id: 34,
                 name: "University of Milan",
                 country: "Italy",
                 program: "BSc Artificial Intelligence",
@@ -1141,7 +1174,7 @@
                 url: "https://www.unimi.it/en/education/bachelor-programme/artificial-intelligence"
             },
             {
-                id: 34,
+                id: 35,
                 name: "University of Pavia",
                 country: "Italy",
                 program: "BSc Artificial Intelligence",
@@ -1172,7 +1205,7 @@
                 url: "https://web.unipv.it/artificial-intelligence/"
             },
             {
-                id: 35,
+                id: 36,
                 name: "H-FARM College",
                 country: "Italy",
                 program: "BSc AI & Data Science (PRIVATE)",
@@ -1205,7 +1238,7 @@
 
             // SWEDEN (1 university)
             {
-                id: 36,
+                id: 37,
                 name: "Karlstad University",
                 country: "Sweden",
                 program: "BSc CS (AI & ML track)",
@@ -1238,7 +1271,7 @@
 
             // PORTUGAL (1 university)
             {
-                id: 37,
+                id: 38,
                 name: "NOVA IMS Lisbon",
                 country: "Portugal",
                 program: "BSc Data Science",

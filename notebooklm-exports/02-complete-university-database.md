@@ -1,13 +1,13 @@
 # Complete European University Database
 ## AI, Data Science & Data Engineering Programs for Sophia
 
-**Total Universities**: 38 programs across 9 European countries
+**Total Universities**: 39 programs across 9 European countries
 **Classification**: REACH (apply 2-3) | MATCH (apply 4-5) | SAFETY (apply 2-3)
 **Target Applications**: 9-11 universities total
 
 ---
 
-## GERMANY (9 Universities)
+## GERMANY (10 Universities)
 **Tuition**: €350/year (EU rate) | **Total 4-Year Cost**: €40,000-€45,000
 **Language**: Primarily English-taught programs available
 
@@ -104,9 +104,20 @@
 - **Why Apply**: Industry partnerships (Audi, BMW), practical focus
 - **Website**: https://www.thi.de/en/
 
+### 10. TUM Campus Heilbronn (Technical University of Munich)
+- **Program**: BSc Management & Data Science
+- **Language**: English (100%)
+- **Fit Score**: 5/5
+- **Classification**: REACH
+- **Total Cost**: €25,000-€33,000 (3 years - free tuition for EU, only €97/semester fee)
+- **City**: Heilbronn (126K people, more affordable than Munich)
+- **Why Apply**: TUM is Germany's #1 university, 100% English-taught, free tuition for EU students, combines data science with management, Erasmus+/TUMexchange study abroad in semester 3
+- **Application Period**: May 15 - July 15 (winter semester)
+- **Website**: https://chn.tum.de/study-programs/bachelor-in-management-and-data-science
+
 ---
 
-## SPAIN (12 Universities)
+## SPAIN (13 Universities)
 **Tuition**: €1,200-€2,800/year (public), €13,000+/year (private)
 **Total 4-Year Cost**: €38,000-€160,000 (wide range)
 **C1 Spanish Advantage**: Major competitive edge for Spanish-taught programs
