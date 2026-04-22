@@ -1,0 +1,16 @@
+{
+  "name": "sophia-pitch-video",
+  "version": "1.0.0",
+  "description": "Sophia's SEAMIC Elevator Pitch Video",
+  "scripts": {
+    "start": "remotion studio",
+    "build": "remotion render SophiaPitch out/sophia-pitch.mp4",
+    "render": "remotion render SophiaPitch out/sophia-pitch.mp4"
+  },
+  "dependencies": {
+    "react": "18.3.1",
+    "react-dom": "18.3.1",
+    "remotion": "4.0.449",
+    "@remotion/cli": "4.0.449"
+  }
+}
